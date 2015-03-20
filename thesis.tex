@@ -2,6 +2,7 @@
 
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
+\usepackage[backend=biber,style=ieee]{biblatex}
 
 \author{Adam Wierzbicki}
 \nralbumu{306441}
@@ -22,6 +23,8 @@
 }
 \keywords{code history, defect, bug-proneness, prediction, repository, metrics, machine learning}
 
+\bibliography{bibliography}
+
 \renewcommand{\contentsname}{Table of Contents}
 \renewcommand{\chaptername}{Chapter}
 
@@ -40,6 +43,8 @@ Detection of software defects has become one of the major challenges in the fiel
 
 \section{Topic Choice Rationale}
 [\textit{In this section I will present reasons for exploring the topic of bug prediction and argue for the practical value of such research.}]
+
+Ever since the legendary first bug in 1947\footnote{According to \cite{first_bug} on 9th of September, 1947 an investigation of malfunctioning Harvard University Mark II Aiken Relay Calculator revealed a moth trapped between the points of relay \#70 in panel F. This event was reported in a log with the following statement: \textit{"First actual case of bug being found."}}, the detection of software faults has been a crucial part of the quality assurance process. Undiscovered bugs were the cause of many misfortunes with the crash of the \$500-million space rocket Ariane 5 being the most spectacular example.\footnote{On 4th of June, 1996 the rocket was launched by the European Space Agency from Kourou in French Guyana. It exploded only about 40 seconds after take-off due an error in the inertial reference system -- conversion of a 64-bit float to a 16-bit signed integer failed, because the number was larger than the largest storable value. \cite{ariane}}
 
 \section{Document Structure}
 [\textit{This section will describe briefly the contents of all chapters.}]
@@ -120,5 +125,7 @@ Detection of software defects has become one of the major challenges in the fiel
 
 \section{Possible Further Work}
 [\textit{In this section I will outline the possibilities of continuing my work.}]
+
+\printbibliography[heading=bibintoc]
 
 \end{document}
