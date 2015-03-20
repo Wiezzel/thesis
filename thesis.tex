@@ -22,14 +22,103 @@
 }
 \keywords{code history, defect, bug-proneness, prediction, repository, metrics, machine learning}
 
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\chaptername}{Chapter}
+
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-T.B.A.
+Detection of software defects has become one of the major challenges in the field of automated software engineering. Numerous studies have revealed that mining data from repositories could provide a substantial basis for defect prediction. In this thesis I introduce my approach towards this problem relying on the analysis of source code history and machine learning algorithms. I describe in detail the proposed computational procedures and explain their underlying assumptions. Following the theoretical basis, I  present the results of performed experiments which serve as an empirical assessment of the effectiveness of my methods.
 \end{abstract}
 
 \tableofcontents
+
+\chapter{Introduction}
+[\textit{This chapter will contain general introductory information about the thesis.}]
+
+\section{Topic Choice Rationale}
+[\textit{In this section I will present reasons for exploring the topic of bug prediction and argue for the practical value of such research.}]
+
+\section{Document Structure}
+[\textit{This section will describe briefly the contents of all chapters.}]
+
+\chapter{Problem Overview}
+[\textit{This chapter will contain a broad, comprehensive description of the problem of bug prediction.}]
+
+\section{Terminology}
+[\textit{In this section I will define all terms specific to the problem, e.g. repository, revision, bug etc.}]
+
+\section{Description}
+[\textit{In this section I will present the goals of bug detection and possible problems.}]
+
+\section{Related Work}
+[\textit{This section will present a possibly broad overview of different approaches towards the problem and their concise assessment.}]
+
+\chapter{The Proposed Approach}
+[\textit{In this chapter I will present my approach to the problem.}]
+
+\section{The Model}
+[\textit{This section will contain details about the model of changing method which underlies the approach.}]
+
+\section{Feature Extraction}
+[\textit{In this section I will describe in detail all the features of the model}]
+
+\subsection{Fine-grained Changes}
+[\textit{In this subsection I will present the idea of fine-grained source code changes identified by ChangeDistiller tool and argue for their usefulness for bug prediction.}]
+
+\subsection{Proposed Features}
+[\textit{In this subsection I will enumerate all the model's features (based on fine-grained changes described in the previous subsection)}]
+
+\section{Identification of Bug-fixes}
+[\textit{In this section I will present the process of identification of bug-fixing commits.}]
+
+\section{Bug-proneness}
+[\textit{In this section I will describe methods of approximating the bug-proneness parameter.}]
+
+\section{Machine Learning}
+[\textit{This section will contain brief descriptions of all machine learning algorithms tested during the development of my program.}]
+
+\subsection{Decision Tree}
+
+\subsection{Random Forest}
+
+\subsection{Supporting Vector Machine}
+
+\subsection{Neural Network}
+
+\chapter{Implementation}
+[\textit{In this chapter I will provide detailed information about the implementation of the ideas presented in the previous chapter.}]
+
+\section{Languages and Tools}
+[\textit{This section will contain brief description of all used programming languages, tools and libraries along with reasons for choosing this particular ones.}]
+
+\section{ChangeAnalyzer Architecture}
+[\textit{In this section I will present the architecture of the implemented tool - ChangeAnalyzer.}]
+
+\section{Experimental Set-up}
+[\textit{In this section I will describe the configuration of the ChangeAnalyzer used for performing experiments described in the next section.}]
+
+\chapter{Experiments}
+[\textit{This chapter will contain information about performed experiments which use the ChangeAnalyzer tool and serve as a basis for the evaluation of the proposed approach.}]
+
+\section{Methodology}
+[\textit{In this section I will describe the experimental methods used.}]
+
+\section{Results}
+[\textit{This section will present the results of the experiments in form of tables and charts.}]
+
+\chapter{Conclusions}
+[\textit{This chapter will contain the final conclusions of my thesis.}]
+
+\section{Commentary of Experimental Results}
+[\textit{In this section I will comment the experimental results.}]
+
+\section{Assessment of the Approach}
+[\textit{In this section I will extend the commentary presented in the previous section into a more general judgement of the proposed approach.}]
+
+\section{Possible Further Work}
+[\textit{In this section I will outline the possibilities of continuing my work.}]
 
 \end{document}
