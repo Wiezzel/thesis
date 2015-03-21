@@ -2,7 +2,7 @@
 
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
-\usepackage[backend=biber,style=ieee]{biblatex}
+\usepackage[backend=biber,style=numeric]{biblatex}
 
 \author{Adam Wierzbicki}
 \nralbumu{306441}
@@ -39,12 +39,14 @@ Detection of software defects has become one of the major challenges in the fiel
 \tableofcontents
 
 \chapter{Introduction}
-[\textit{This chapter will contain general introductory information about the thesis.}]
+Ever since the legendary first bug in 1947\footnote{According to \cite{first_bug} on 9th of September, 1947 an investigation of malfunctioning Harvard University Mark II Aiken Relay Calculator revealed a moth trapped between the points of relay \#70 in panel F. This event was reported in a log with the following statement: \textit{"First actual case of bug being found."}}, the detection of software faults has been a crucial part of the quality assurance process. Undiscovered bugs were the cause of many misfortunes with the crash of the \$500-million space rocket Ariane 5 being the most spectacular example.\footnote{On 4th of June, 1996 the rocket was launched by the European Space Agency from Kourou in French Guyana. It exploded only about 40 seconds after take-off due an error in the inertial reference system -- conversion of a 64-bit float to a 16-bit signed integer failed, because the number was larger than the largest storable value. \cite{ariane}} This work aims to contribute to the general improvement of software quality by investigating certain error identification methods.
 
 \section{Topic Choice Rationale}
-[\textit{In this section I will present reasons for exploring the topic of bug prediction and argue for the practical value of such research.}]
+Various procedures have been applied to track down software defects before they would cause any problems. Most widely used techniques are testing and code reviewing. Both of them are quite successful, but unfortunately also very arduous. In order to improve the performance of these methods and reduce the programmers' effort needed to conduct them, automatic debugging programs are developed.
 
-Ever since the legendary first bug in 1947\footnote{According to \cite{first_bug} on 9th of September, 1947 an investigation of malfunctioning Harvard University Mark II Aiken Relay Calculator revealed a moth trapped between the points of relay \#70 in panel F. This event was reported in a log with the following statement: \textit{"First actual case of bug being found."}}, the detection of software faults has been a crucial part of the quality assurance process. Undiscovered bugs were the cause of many misfortunes with the crash of the \$500-million space rocket Ariane 5 being the most spectacular example.\footnote{On 4th of June, 1996 the rocket was launched by the European Space Agency from Kourou in French Guyana. It exploded only about 40 seconds after take-off due an error in the inertial reference system -- conversion of a 64-bit float to a 16-bit signed integer failed, because the number was larger than the largest storable value. \cite{ariane}}
+Such programs include a broad range of approaches towards detecting bugs. Some of them are run-time debuggers which help programmers analyse the execution of a program (either standalone as GDB \cite{gdb} or integrated with IDEs as Microsoft Visual Studio Debugger \cite{vs_debugger}). Others generate test cases using randomization and symbolic execution \cite{symbolic, puzzle}. Others support the reviewing process by highlighting potentially dangerous program parts.
+
+Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. FindBugs \cite{findbugs}). Other ones incorporate statistical analysis and machine learning using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, using historical metrics\footnote{Software metrics based on its change history, called also \textit{repository metrics} or \textit{process metrics}.} which have proven to be very effective for this task \cite{merits, comparative, how_and_why}.
 
 \section{Document Structure}
 [\textit{This section will describe briefly the contents of all chapters.}]
