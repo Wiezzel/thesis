@@ -39,93 +39,147 @@ Detection of software defects has become one of the major challenges in the fiel
 \tableofcontents
 
 \chapter{Introduction}
-Ever since the legendary first bug in 1947\footnote{According to \cite{first_bug} on 9th of September, 1947 an investigation of malfunctioning Harvard University Mark II Aiken Relay Calculator revealed a moth trapped between the points of relay \#70 in panel F. This event was reported in a log with the following statement: \textit{"First actual case of bug being found."}}, the detection of software faults has been a crucial part of the quality assurance process. Undiscovered bugs were the cause of many misfortunes with the crash of the \$500-million space rocket Ariane 5 being the most spectacular example.\footnote{On 4th of June, 1996 the rocket was launched by the European Space Agency from Kourou in French Guyana. It exploded only about 40 seconds after take-off due an error in the inertial reference system -- conversion of a 64-bit float to a 16-bit signed integer failed, because the number was larger than the largest storable value. \cite{ariane}} This work aims to contribute to the general improvement of software quality by investigating certain error identification methods.
+\label{cha:introduction}
+Ever since the legendary first bug in 1947\footnote{According to \cite{first_bug} on 9th of September, 1947 an investigation of malfunctioning Harvard University Mark II Aiken Relay Calculator revealed a moth trapped between the points of relay \#70 in panel F. This event was reported in a log with the following statement: \textit{"First actual case of bug being found."}}, the detection of software faults has been a crucial part of the quality assurance process. Undiscovered bugs were the cause of many misfortunes with the crash of the \$500-million space rocket Ariane 5 being the most spectacular example.\footnote{On 4th of June, 1996 the rocket was launched by the European Space Agency from Kourou in French Guyana. It exploded only about 40 seconds after take-off due an error in the inertial reference system -- conversion of a 64-bit float to a 16-bit signed integer failed, because the number was larger than the largest storable value. \cite{ariane}} This work aims to contribute to the general improvement of software quality by investigating certain methods of error identification.
 
-\section{Topic Choice Rationale}
+\section{Topic choice rationale}
+\label{sec:topic_choice}
 Various procedures have been applied to track down software defects before they would cause any problems. Most widely used techniques are testing and code reviewing. Both of them are quite successful, but unfortunately also very arduous. In order to improve the performance of these methods and reduce the programmers' effort needed to conduct them, automatic debugging programs are developed.
 
 Such programs include a broad range of approaches towards detecting bugs. Some of them are run-time debuggers which help programmers analyse the execution of a program (either standalone as GDB \cite{gdb} or integrated with IDEs as Microsoft Visual Studio Debugger \cite{vs_debugger}). Others generate test cases using randomization and symbolic execution \cite{symbolic, puzzle}. Others support the reviewing process by highlighting potentially dangerous program parts.
 
-Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. FindBugs \cite{findbugs}). Other ones incorporate statistical analysis and machine learning using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, using historical metrics\footnote{Software metrics based on its change history, called also \textit{repository metrics} or \textit{process metrics}.} which have proven to be very effective for this task \cite{merits, comparative, how_and_why}.
+Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. FindBugs \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \textit{repository metrics} or \textit{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value.
 
-\section{Document Structure}
-[\textit{This section will describe briefly the contents of all chapters.}]
+\section{Document structure}
+\label{sec:structure}
 
-\chapter{Problem Overview}
+\textbf{Chapter \ref{cha:introduction}} includes general introductory information for the thesis, topic choice rationale, and a sketch of the document structure. 
+
+\medskip \noindent
+\textbf{Chapter \ref{cha:overview}} contains a broad and comprehensive description of the problem of bug prediction. I try to define in a possibly precise manner all terms relevant to this topic. Then I present the general goals of the prediction process and its consecutive phases. I describe several kinds of sub-problems which have to be solved in order to successfully develop an error detection instrument.
+
+\medskip \noindent
+\textbf{Chapter \ref{cha:approach}} presents my approach towards the problem. The proposed method is based on extraction of historical information from a version control system and application of a machine learning algorithm. I describe the general model of a changing method\footnote{In the object oriented programming sense}, which is the principal element of the whole procedure, as well as successive phases such as feature extraction, identification of bug-fixes, assignment of bug-proneness scores and training a regressor. In the last section of this chapter, I list four different machine learning algorithms which are evaluated in chapter \ref{cha:experiments}.
+
+\medskip \noindent
+\textbf{Chapter \ref{cha:implementation}} ...
+
+\medskip \noindent
+\textbf{Chapter \ref{cha:experiments}} ...
+
+\medskip \noindent
+\textbf{Chapter \ref{cha:conclusions}} ...
+
+\chapter{Problem overview}
+\label{cha:overview}
 [\textit{This chapter will contain a broad, comprehensive description of the problem of bug prediction.}]
 
 \section{Terminology}
+\label{sec:terminology}
 [\textit{In this section I will define all terms specific to the problem, e.g. repository, revision, bug etc.}]
 
-\section{Description}
+\section{Goals and sub-problems}
+\label{sec:goals_and_subproblems}
 [\textit{In this section I will present the goals of bug detection and possible problems.}]
 
-\section{Related Work}
+\section{Related work}
+\label{sec:realted_work}
 [\textit{This section will present a possibly broad overview of different approaches towards the problem and their concise assessment.}]
 
-\chapter{The Proposed Approach}
+\chapter{The proposed approach}
+\label{cha:approach}
 [\textit{In this chapter I will present my approach to the problem.}]
 
-\section{The Model}
+\section{The model}
+\label{sec:model}
 [\textit{This section will contain details about the model of changing method which underlies the approach.}]
 
-\section{Feature Extraction}
+\section{Feature extraction}
+\label{sec:feature_extraction}
 [\textit{In this section I will describe in detail all the features of the model}]
 
-\subsection{Fine-grained Changes}
+\subsection{Fine-grained changes}
+\label{sec:fine-grained_changes}
 [\textit{In this subsection I will present the idea of fine-grained source code changes identified by ChangeDistiller tool and argue for their usefulness for bug prediction.}]
 
-\subsection{Proposed Features}
+\subsection{Features}
+\label{sec:features}
 [\textit{In this subsection I will enumerate all the model's features (based on fine-grained changes described in the previous subsection)}]
 
-\section{Identification of Bug-fixes}
+\section{Identification of bug-fixes}
+\label{sec:identification}
 [\textit{In this section I will present the process of identification of bug-fixing commits.}]
 
 \section{Bug-proneness}
+\label{sec:bug-proneness}
 [\textit{In this section I will describe methods of approximating the bug-proneness parameter.}]
 
-\section{Machine Learning}
+\section{Machine learning}
+\label{sec:machine_learning}
 [\textit{This section will contain brief descriptions of all machine learning algorithms tested during the development of my program.}]
 
-\subsection{Decision Tree}
+\subsection{Decision tree}
+\label{sec:decision_tree}
 
-\subsection{Random Forest}
+\subsection{Random forest}
+\label{sec:random_forest}
 
-\subsection{Supporting Vector Machine}
+\subsection{Support vector machine}
+\label{sec:svm}
 
-\subsection{Neural Network}
+\subsection{Neural network}
+\label{sec:neural_net}
 
 \chapter{Implementation}
+\label{cha:implementation}
 [\textit{In this chapter I will provide detailed information about the implementation of the ideas presented in the previous chapter.}]
 
-\section{Languages and Tools}
+\section{Languages and tools}
+\label{sec:languagess}
 [\textit{This section will contain brief description of all used programming languages, tools and libraries along with reasons for choosing this particular ones.}]
 
-\section{ChangeAnalyzer Architecture}
-[\textit{In this section I will present the architecture of the implemented tool - ChangeAnalyzer.}]
+\section{Interface}
+\label{sec:interface}
+[\textit{In this section I will describe functions provided by the implemented tool - ChangeAnalyzer.}]
 
-\section{Experimental Set-up}
-[\textit{In this section I will describe the configuration of the ChangeAnalyzer used for performing experiments described in the next section.}]
+\section{Architecture}
+\label{sec:architecture}
+[\textit{In this section I will present the architecture of ChangeAnalyzer.}]
 
 \chapter{Experiments}
-[\textit{This chapter will contain information about performed experiments which use the ChangeAnalyzer tool and serve as a basis for the evaluation of the proposed approach.}]
+\label{cha:experiments}
+[\textit{This chapter will contain information about performed experiments which use ChangeAnalyzer and serve as a basis for the evaluation of the proposed approach.}]
 
 \section{Methodology}
+\label{sec:methodology}
 [\textit{In this section I will describe the experimental methods used.}]
 
+\section{Experimental set-up}
+\label{sec:set-up}
+[\textit{In this section I will describe the configuration of ChangeAnalyzer used for performing experiments described in the next section.}]
+
 \section{Results}
+\label{sec:results}
 [\textit{This section will present the results of the experiments in form of tables and charts.}]
 
 \chapter{Conclusions}
+\label{cha:conclusions}
 [\textit{This chapter will contain the final conclusions of my thesis.}]
 
-\section{Commentary of Experimental Results}
+\section{Commentary of experimental results}
+\label{sec:commentary}
 [\textit{In this section I will comment the experimental results.}]
 
-\section{Assessment of the Approach}
+\section{Threats to validity}
+\label{sec:threats}
+[\textit{In this section I will describe possible threats to the validity of my experiments.}]
+
+\section{Assessment of the approach}
+\label{sec:assessment}
 [\textit{In this section I will extend the commentary presented in the previous section into a more general judgement of the proposed approach.}]
 
-\section{Possible Further Work}
+\section{Possible further work}
+\label{sec:further_work}
 [\textit{In this section I will outline the possibilities of continuing my work.}]
 
 \printbibliography[heading=bibintoc]
