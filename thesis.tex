@@ -3,6 +3,7 @@
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
 \usepackage[backend=biber,style=numeric]{biblatex}
+\usepackage{changepage}
 
 \author{Adam Wierzbicki}
 \nralbumu{306441}
@@ -76,7 +77,20 @@ Identification of such fault-prone elements could be performed using many differ
 
 \section{Terminology}
 \label{sec:terminology}
-[\textit{In this section I will define all terms specific to the problem, e.g. repository, revision, bug etc.}]
+
+\textbf{Version control system}
+\begin{adjustwidth}{\parindent}{}
+``A system capable of recording the changes made to a file or a set of files over a time period in such a way that it allows us to get back in time from the future to recall a specific version of that file" \cite[p. 8]{git_book}. Usually, such system is used to manage the source code of a software project. Examples of VCSs are: Apache\textsuperscript{TM} Subversion\textsuperscript{\textregistered} \cite{subversion}, Git \cite{git}, or Mercurial \cite{mercurial}.
+\end{adjustwidth}
+
+\medskip \noindent
+\textbf{Commit} 
+
+\medskip \noindent
+\textbf{Bug} 
+
+\medskip \noindent
+\textbf{Bug-fix} 
 
 \section{Goals and sub-problems}
 \label{sec:goals_and_subproblems}
