@@ -59,16 +59,16 @@ Identification of such fault-prone elements could be performed using many differ
 \textbf{Chapter \ref{cha:overview}} contains a broad and comprehensive description of the problem of bug prediction. I try to define in a possibly precise manner all terms relevant to this topic. Then I present the general goals of the prediction process and its consecutive phases. I describe several kinds of sub-problems which have to be solved in order to successfully develop an error detection instrument.
 
 \medskip \noindent
-\textbf{Chapter \ref{cha:approach}} presents my approach towards the problem. The proposed method is based on extraction of historical information from a version control system and application of a machine learning algorithm. I describe the general model of a changing method\footnote{In the object oriented programming sense}, which is the principal element of the whole procedure, as well as successive phases such as feature extraction, identification of bug-fixes, assignment of bug-proneness scores and training a regressor. In the last section of this chapter, I list four different machine learning algorithms which are evaluated in chapter \ref{cha:experiments}.
+\textbf{Chapter \ref{cha:approach}} presents my approach towards the problem. The proposed method is based on extraction of historical information from a version control system and application of a machine learning algorithm. I describe the general model of a changing method\footnote{In the object-oriented-programming sense}, which is the principal element of the whole procedure, as well as successive phases such as feature extraction, identification of bug-fixes, assignment of bug-proneness scores and training a regressor. In the last section of this chapter, I list four different machine learning algorithms which are evaluated in chapter \ref{cha:experiments}.
 
 \medskip \noindent
-\textbf{Chapter \ref{cha:implementation}} ...
+\textbf{Chapter \ref{cha:implementation}} describes the ChangeAnalyzer tool -- an implementation of the approach proposed in chapter \ref{cha:approach}. I present all used technologies (languages and libraries), software architecture and the interface.
 
 \medskip \noindent
-\textbf{Chapter \ref{cha:experiments}} ...
+\textbf{Chapter \ref{cha:experiments}} contains a description of experiments which were performed to evaluate the proposed approach and compare the performance of different algorithms listed in section \ref{sec:machine_learning}. I explain the methodology of these experiments and software configuration necessary to conduct them. Then I give an overview of the experimental data and finally present the results in form of tables and plots.
 
 \medskip \noindent
-\textbf{Chapter \ref{cha:conclusions}} ...
+\textbf{Chapter \ref{cha:conclusions}} includes a commentary of the experimental results and possible threats to the validity of my research. After these, I try to fairly asses in general my approach towards the problem of bug prediction. In the last section I propose possible ways of continuation of my work on this topic.
 
 \chapter{Problem overview}
 \label{cha:overview}
