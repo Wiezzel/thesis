@@ -77,20 +77,31 @@ Identification of such fault-prone elements could be performed using many differ
 
 \section{Terminology}
 \label{sec:terminology}
+Before referring the topic, I would like to define some concepts of major importance, namely: \textit{version control system}, \textit{software repository}, \textit{commit}, and \textit{bug-fix}. Below are given brief explications of how I understand these terms.
 
+\bigskip \noindent
 \textbf{Version control system}
 \begin{adjustwidth}{\parindent}{}
 ``A system capable of recording the changes made to a file or a set of files over a time period in such a way that it allows us to get back in time from the future to recall a specific version of that file" \cite[p. 8]{git_book}. Usually, such system is used to manage the source code of a software project. Examples of VCSs are: Apache\textsuperscript{TM} Subversion\textsuperscript{\textregistered} \cite{subversion}, Git \cite{git}, or Mercurial \cite{mercurial}.
 \end{adjustwidth}
 
 \medskip \noindent
-\textbf{Commit} 
+\textbf{Software repository}
+\begin{adjustwidth}{\parindent}{}
+A directory containing the source code of a software project, which is managed by a version control system. It could be either local or remote (accessed via HTTPS or SSH protocol).
+\end{adjustwidth}
 
 \medskip \noindent
-\textbf{Bug} 
+\textbf{Commit}
+\begin{adjustwidth}{\parindent}{}
+``An atomic collection of changes to files in a repository. It contains all recorded local modifications that lead to a new revision of the repository" \cite{mercurial_wiki}. Apart from file changes, a commit contains meta-information such as: committer's name and e-mail address, date and time, and a description of changes. A commit is also often called a \textit{changeset}.
+\end{adjustwidth}
 
 \medskip \noindent
-\textbf{Bug-fix} 
+\textbf{Bug-fix}
+\begin{adjustwidth}{\parindent}{}
+A commit created in order to repair any kind of software defect. It is usually distinguished by an appropriate commit message describing the fixed error.
+\end{adjustwidth}
 
 \section{Goals and sub-problems}
 \label{sec:goals_and_subproblems}
