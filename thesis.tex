@@ -49,7 +49,12 @@ Various procedures have been applied to track down software defects before they 
 
 Such programs include a broad range of approaches towards detecting bugs. Some of them are run-time debuggers which help programmers analyse the execution of a program (either standalone as GDB \cite{gdb} or integrated with IDEs as Microsoft Visual Studio Debugger \cite{vs_debugger}). Others generate test cases using randomization and symbolic execution \cite{symbolic, puzzle}. Others support the reviewing process by highlighting potentially dangerous program parts.
 
-Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. FindBugs \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \textit{repository metrics} or \textit{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value.
+Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. FindBugs \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \textit{repository metrics} or \textit{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
+\begin{itemize}
+	\item Proposal of a novel method for bug prediction,
+	\item Prototype implementation of the proposed method,
+	\item Experimental evaluation of the implemented tool.
+\end{itemize}
 
 \section{Document structure}
 \label{sec:structure}
@@ -73,7 +78,6 @@ Identification of such fault-prone elements could be performed using many differ
 
 \chapter{Problem overview}
 \label{cha:overview}
-[\textit{This chapter will contain a broad, comprehensive description of the problem of bug prediction.}]
 
 \section{Terminology}
 \label{sec:terminology}
@@ -105,7 +109,23 @@ A commit created in order to repair any kind of software defect. It is usually d
 
 \section{Goals and sub-problems}
 \label{sec:goals_and_subproblems}
-[\textit{In this section I will present the goals of bug detection and possible problems.}]
+Simply speaking, bug prediction is a procedure aimed at automatic detection of faults in an unreviewed and untested code, basing on reports about previously discovered bugs. However, this deceptively plain definition hides a very convoluted and problematical process. In this section I would like to explore its meanders and formulate a more precise description by answering questions such as: \textit{\textbf{What is it} exactly that we are predicting?} (\ref{sec:dependent_variable}) \textit{What is \textbf{the scope} of our prediction?} (\ref{sec:unit_of_analysis}) \textit{How do we learn about \textbf{former defects}?} (\ref{sec:identification}) and \textit{What \textbf{kinds of information} can we utilize in our prediction?} (\ref{sec:observable_variables})
+
+\subsection{Dependent variable}
+\label{sec:dependent_variable}
+[\textit{This section will contain information about possible ways of defining the dependent variable of a bug-predictions process, e.g. number of bugs, frequency of bugs, etc.}]
+
+\subsection{Unit of analysis}
+\label{sec:unit_of_analysis}
+[\textit{In this section I will list different levels of granularity which may be considered in a prediction process, such as: package, class, method, etc.}]
+
+\subsection{Identification of bugs}
+\label{sec:identification}
+[\textit{In this section I will describe difficulties connected with identifying former bugs.}]
+
+\subsection{Observable variables}
+\label{sec:observable_variables}
+[\textit{This section will contain a listing of possible features which may be used for the prediction.}]
 
 \section{Related work}
 \label{sec:realted_work}
@@ -131,13 +151,9 @@ A commit created in order to repair any kind of software defect. It is usually d
 \label{sec:features}
 [\textit{In this subsection I will enumerate all the model's features (based on fine-grained changes described in the previous subsection)}]
 
-\section{Identification of bug-fixes}
-\label{sec:identification}
-[\textit{In this section I will present the process of identification of bug-fixing commits.}]
-
-\section{Bug-proneness}
+\section{Bug-proneness approximation}
 \label{sec:bug-proneness}
-[\textit{In this section I will describe methods of approximating the bug-proneness parameter.}]
+[\textit{In this section I will present the process of identification of bug-fixing commits and approximating the bug-proneness parameter.}]
 
 \section{Machine learning}
 \label{sec:machine_learning}
