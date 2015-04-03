@@ -113,11 +113,16 @@ Simply speaking, bug prediction is a procedure aimed at automatic detection of f
 
 \subsection{Dependent variable}
 \label{sec:dependent_variable}
-[\textit{This section will contain information about possible ways of defining the dependent variable of a bug-predictions process, e.g. number of bugs, frequency of bugs, etc.}]
+Prediction in general may be described as discovering a relation between several observable variables and a dependent variable (which may also be called \textit{target variable}). The discovered relation allows for estimating values of the target variable by analysing the observables. Trying to conform \textit{defect prediction} to this description seems problematic, because ``defect" doesn't name any well-defined variable. Therefore, the first fundamental concern of bug prediction is specifying a variable which will both suit our theoretical framework and embrace the common-sense intuitions.
+
+The most obvious candidate (used e.g. by Janes \textit{et al.} \cite{Janes}) is the number of defects per software unit (for possible units see \ref{sec:unit_of_analysis}). However, as in many cases the numbers of bugs in software components are relatively small, a dichotomous boolean variable (indicating bug presence or absence) is used more often (e.g. by Moser \textit{et al.} \cite{comparative} or Giger \textit{et al.} \cite{method-level}). More complex examples include \textit{fault density} -- number of faults divided by a code size measure (Tomaszewski \textit{et al.} \cite{Tomaszewski}), or expected number of repairs in some period of time (Hassan~\textit{et~al.}~\cite{complexity}).
+
+As \cite[p. 5]{systematic} reasonably states, the choice of dependent variable should be determined by the further usage of the developed model. For assigning a software component for a detailed examination by a reviewer, a boolean variable is probably sufficient. On the other hand, creating a ranking or visualisation of the software quality requires numeric values.
 
 \subsection{Unit of analysis}
 \label{sec:unit_of_analysis}
 [\textit{In this section I will list different levels of granularity which may be considered in a prediction process, such as: package, class, method, etc.}]
+As nine of ten most popular programming languages are object-oriented\cite{popularity1,popularity2}...
 
 \subsection{Identification of bugs}
 \label{sec:identification}
