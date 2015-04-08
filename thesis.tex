@@ -49,7 +49,7 @@ Various procedures have been applied to track down software defects before they 
 
 Such programs include a broad range of approaches towards detecting bugs. Some of them are run-time debuggers which help programmers analyse the execution of a program (either standalone as GDB \cite{gdb} or integrated with IDEs as Microsoft Visual Studio Debugger \cite{vs_debugger}). Others generate test cases using randomization and symbolic execution \cite{symbolic, puzzle}. Others support the reviewing process by highlighting potentially dangerous program parts.
 
-Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. FindBugs \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \textit{repository metrics} or \textit{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
+Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. FindBugs \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \emph{repository metrics} or \emph{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
 \begin{itemize}
 	\item Proposal of a novel method for bug prediction,
 	\item Prototype implementation of the proposed method,
@@ -81,7 +81,7 @@ Identification of such fault-prone elements could be performed using many differ
 
 \section{Terminology}
 \label{sec:terminology}
-Before referring the topic, I would like to define some concepts of major importance, namely: \textit{version control system}, \textit{software repository}, \textit{commit}, and \textit{bug-fix}. Below are given brief explications of how I understand these terms.
+Before referring the topic, I would like to define some concepts of major importance, namely: \emph{version control system}, \emph{software repository}, \emph{commit}, and \emph{bug-fix}. Below are given brief explications of how I understand these terms.
 
 \bigskip \noindent
 \textbf{Version control system}
@@ -98,7 +98,7 @@ A directory containing the source code of a software project, which is managed b
 \medskip \noindent
 \textbf{Commit}
 \begin{adjustwidth}{\parindent}{}
-``An atomic collection of changes to files in a repository. It contains all recorded local modifications that lead to a new revision of the repository" \cite{mercurial_wiki}. Apart from file changes, a commit contains meta-information such as: committer's name and e-mail address, date and time, and a description of changes. A commit is also often called a \textit{changeset}.
+``An atomic collection of changes to files in a repository. It contains all recorded local modifications that lead to a new revision of the repository" \cite{mercurial_wiki}. Apart from file changes, a commit contains meta-information such as: committer's name and e-mail address, date and time, and a description of changes. A commit is also often called a \emph{changeset}.
 \end{adjustwidth}
 
 \medskip \noindent
@@ -109,20 +109,25 @@ A commit created in order to repair any kind of software defect. It is usually d
 
 \section{Goals and sub-problems}
 \label{sec:goals_and_subproblems}
-Simply speaking, bug prediction is a procedure aimed at automatic detection of faults in an unreviewed and untested code, basing on reports about previously discovered bugs. However, this deceptively plain definition hides a very convoluted and problematical process. In this section I would like to explore its meanders and formulate a more precise description by answering questions such as: \textit{\textbf{What is it} exactly that we are predicting?} (\ref{sec:dependent_variable}) \textit{What is \textbf{the scope} of our prediction?} (\ref{sec:unit_of_analysis}) \textit{How do we learn about \textbf{former defects}?} (\ref{sec:identification}) and \textit{What \textbf{kinds of information} can we utilize in our prediction?} (\ref{sec:observable_variables})
+Simply speaking, bug prediction is a procedure aimed at automatic detection of faults in an unreviewed and untested code, basing on reports about previously discovered bugs. However, this deceptively plain definition hides a very convoluted and problematical process. In this section I would like to explore its meanders and formulate a more precise description by answering questions such as: \emph{\textbf{What is it} exactly that we are predicting?} (\ref{sec:dependent_variable}) \emph{What is \textbf{the scope} of our prediction?} (\ref{sec:unit_of_analysis}) \emph{How do we learn about \textbf{former defects}?} (\ref{sec:identification}) and \textit{What \emph{kinds of information} can we utilize in our prediction?} (\ref{sec:observable_variables})
 
 \subsection{Dependent variable}
 \label{sec:dependent_variable}
 Prediction in general may be described as discovering a relation between several observable variables and a dependent variable (which may also be called \textit{target variable}). The discovered relation allows for estimating values of the target variable by analysing the observables. Trying to conform \textit{defect prediction} to this description seems problematic, because ``defect" doesn't name any well-defined variable. Therefore, the first fundamental concern of bug prediction is specifying a variable which will both suit our theoretical framework and embrace the common-sense intuitions.
 
-The most obvious candidate (used e.g. by Janes \textit{et al.} \cite{Janes}) is the number of defects per software unit (for possible units see \ref{sec:unit_of_analysis}). However, as in many cases the numbers of bugs in software components are relatively small, a dichotomous boolean variable (indicating bug presence or absence) is used more often (e.g. by Moser \textit{et al.} \cite{comparative} or Giger \textit{et al.} \cite{method-level}). More complex examples include \textit{fault density} -- number of faults divided by a code size measure (Tomaszewski \textit{et al.} \cite{Tomaszewski}), or expected number of repairs in some period of time (Hassan~\textit{et~al.}~\cite{complexity}).
+The most obvious candidate (used e.g. by Janes \textit{et al.} in \cite{Janes}) is the number of defects per software unit (for possible units see \ref{sec:unit_of_analysis}). However, as in many cases the numbers of bugs in software components are relatively small, a dichotomous boolean variable (indicating bug presence or absence) is used more often (e.g. by Moser \textit{et al.} in \cite{comparative} or Giger \textit{et al.} in \cite{method-level}). More complex examples include \emph{fault density} -- number of faults divided by a code size measure (Tomaszewski \textit{et al.} \cite{Tomaszewski}), or expected number of repairs in some period of time (Hassan~\textit{et~al.}~\cite{complexity}).
 
-As \cite[p. 5]{systematic} reasonably states, the choice of dependent variable should be determined by the further usage of the developed model. For assigning a software component for a detailed examination by a reviewer, a boolean variable is probably sufficient. On the other hand, creating a ranking or visualisation of the software quality requires numeric values.
+As \cite[p. 5]{systematic} reasonably states, the choice of dependent variable should be determined by the further usage of the developed model. For assigning a software component for a detailed examination by a reviewer, a boolean variable is probably sufficient. On the other hand, creating a ranking or visualisation of the software quality requires numeric values, so number of defects or fault density would suit these purposes much better.
 
 \subsection{Unit of analysis}
 \label{sec:unit_of_analysis}
-[\textit{In this section I will list different levels of granularity which may be considered in a prediction process, such as: package, class, method, etc.}]
-As nine of ten most popular programming languages are object-oriented\cite{popularity1,popularity2}...
+All of the variables defined in the above section are relative to some code segment. Size of such segment can span from a single function up to a whole project -- every possibility has its advantages and drawbacks. As nine of ten most popular programming languages are object-oriented \cite{popularity1,popularity2}, also the most commonly encountered units of analysis are related to OOP paradigm: module/package, class, or method/function. 
+
+Package-level prediction (used e.g. by Jin \textit{et al.} in \cite{Jin}) can make use of structural software properties which cannot be computed for smaller units. However, the typical size of a package in some languages would make the corresponding fault-proneness value of very little value for practical application. Therefore, module- or package-level prediction is usually restricted to languages to which the class level does not apply, e.g. Fortran, Pascal or Ada. 
+
+Class level (used e.g. by Tomaszewski \textit{et al.} in \cite{Tomaszewski}) is the most popular choice among defect prediction studies. Probably, the reason for this popularity is the fact that class is the most natural and accustomed part of an object-oriented software. In case of non-object-oriented languages, the middle-sized unit of analysis is file, which is easily separable and trackable with a VCS machinery. Class shares the advantages of file, since numerous software projects obey, either by virtue of conventional guidelines or due to language constraints, the \emph{one class per file} rule. The scope of a class or a file is also usually narrow enough to serve as an object of manual inspection in case of high bug-proneness score.
+
+Using method or function as the unit of analysis is a more complicated task, but it has been also successfully accomplished (e.g. by Giger \textit{et al.} in \cite{method-level}). Contrary to higher-level units described above, which can be identified using solely lists of files, ascribing faults to certain methods requires examining detailed information about code changes. The results of method-level prediction could be considered most useful for debugging due to their fine granularity.
 
 \subsection{Identification of bugs}
 \label{sec:identification}
