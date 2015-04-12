@@ -1,9 +1,9 @@
 \documentclass{pracamgr}
 
-\usepackage{polski}
-\usepackage[utf8]{inputenc}
 \usepackage[backend=biber,style=numeric]{biblatex}
 \usepackage{changepage}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
 \usepackage{soul}
 
 \author{Adam Wierzbicki}
@@ -55,9 +55,9 @@ Ever since the legendary first bug in 1947\footnote{According to \cite{first_bug
 \label{sec:topic_choice}
 Various procedures have been applied to track down software defects before they would cause any problems. Most widely used techniques are testing and code reviewing. Both of them are quite successful, but unfortunately also very arduous. In order to improve the performance of these methods and reduce the programmers' effort needed to conduct them, automatic debugging programs are developed.
 
-Such programs include a broad range of approaches towards detecting bugs. Some of them are run-time debuggers which help programmers analyse the execution of a program (either standalone as GDB \cite{gdb} or integrated with IDEs as Microsoft Visual Studio Debugger \cite{vs_debugger}). Others generate test cases using randomization and symbolic execution \cite{symbolic, puzzle}. Others support the reviewing process by highlighting potentially dangerous program parts.
+Such programs include a broad range of approaches towards detecting bugs. Some of them are run-time debuggers which help programmers analyse the execution of a program (either standalone as GDB \cite{gdb} or integrated with IDEs as \textsc{Microsoft Visual Studio Debugger} \cite{vs_debugger}). Others generate test cases using randomization and symbolic execution \cite{symbolic, puzzle}. Others support the reviewing process by highlighting potentially dangerous program parts.
 
-Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. FindBugs \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \emph{repository metrics} or \emph{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
+Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. \textsc{FindBugs} \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \emph{repository metrics} or \emph{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
 \begin{itemize}
 	\item Proposal of a novel method for bug prediction,
 	\item Prototype implementation of the proposed method,
@@ -76,7 +76,7 @@ Identification of such fault-prone elements could be performed using many differ
 \textbf{Chapter \ref{cha:approach}} presents my approach towards the problem. The proposed method is based on extraction of historical information from a version control system and application of a machine learning algorithm. I describe the general model of a changing method\footnote{In the object-oriented-programming sense}, which is the principal element of the whole procedure, as well as successive phases such as feature extraction, identification of bug-fixes, assignment of bug-proneness scores and training a regressor. In the last section of this chapter, I list four different machine learning algorithms which are evaluated in chapter \ref{cha:experiments}.
 
 \medskip \noindent
-\textbf{Chapter \ref{cha:implementation}} describes the ChangeAnalyzer tool -- an implementation of the approach proposed in chapter \ref{cha:approach}. I present all used technologies (languages and libraries), software architecture and the interface.
+\textbf{Chapter \ref{cha:implementation}} describes the \textsc{ChangeAnalyzer} tool -- an implementation of the approach proposed in chapter \ref{cha:approach}. I present all used technologies (languages and libraries), software architecture and the interface.
 
 \medskip \noindent
 \textbf{Chapter \ref{cha:experiments}} contains a description of experiments which were performed to evaluate the proposed approach and compare the performance of different algorithms listed in section \ref{sec:machine_learning}. I explain the methodology of these experiments and software configuration necessary to conduct them. Then I give an overview of the experimental data and finally present the results in form of tables and plots.
@@ -94,7 +94,7 @@ Before referring the topic, I would like to define some concepts of major import
 
 \medskip
 \begin{definition}{Version control system}
-``A system capable of recording the changes made to a file or a set of files over a time period in such a way that it allows us to get back in time from the future to recall a specific version of that file" \cite[p. 8]{git_book}. Usually, such system is used to manage the source code of a software project. Examples of VCSs are: Apache\textsuperscript{TM} Subversion\textsuperscript{\textregistered} \cite{subversion}, Git \cite{git}, or Mercurial \cite{mercurial}.
+``A system capable of recording the changes made to a file or a set of files over a time period in such a way that it allows us to get back in time from the future to recall a specific version of that file" \cite[p. 8]{git_book}. Usually, such system is used to manage the source code of a software project. Examples of VCSs are: \textsc{Apache}\textsuperscript{TM} \textsc{Subversion}\textsuperscript{\textregistered} \cite{subversion}, \textsc{Git} \cite{git}, or \textsc{Mercurial} \cite{mercurial}.
 \end{definition}
 
 \begin{definition}{Software repository}
@@ -114,7 +114,7 @@ A commit created in order to repair a software defect. It is usually distinguish
 \end{definition}
 
 \begin{definition}{Bug tracking system}
-A system that ``stores and manages all bug status and information such as the module where a bug occurred, when a bug was found, the severity of a bug, comments describing a bug’s effect on the software, instructions on replicating a bug, who reported the bug, and whether the bug has been fixed yet" \cite{adaptive}. Also called simply \emph{bug-tracker}. Examples of bug-trackers are: Bugzilla \cite{bugzilla} and Jira \cite{jira}.
+A system that ``stores and manages all bug status and information such as the module where a bug occurred, when a bug was found, the severity of a bug, comments describing a bug’s effect on the software, instructions on replicating a bug, who reported the bug, and whether the bug has been fixed yet" \cite{adaptive}. Also called simply \emph{bug-tracker}. Examples of bug-trackers are: \textsc{Bugzilla} \cite{bugzilla} and \textsc{Jira} \cite{jira}.
 \end{definition}
 
 \begin{definition}{Error model}
@@ -153,15 +153,17 @@ Unfortunately, research has shown that the aforementioned methods are not quite 
 	\item ``33.8\% of all bug reports do not refer to corrective code maintenance",
 	\item ``Due to misclassifications, 39\% of files marked as defective actually have never had a bug".
 \end{itemize}
-Bachmann \textit{et. al} in \cite{Bachmann} confirm the deficient quality of error reporting (particularly in Apache project), by declaring that ``only 47.6\% of bug fix related commits are documented in the bug tracking database". Human failure and negligence makes the error data obtained from repositories highly biased an untrustworthy.
+Bachmann \textit{et. al} in \cite{Bachmann} confirm the poor quality of error reporting (particularly in \textsc{Apache} project), by declaring that ``only 47.6\% of bug fix related commits are documented in the bug tracking database". Human failure and negligence makes the error data obtained from repositories highly biased an untrustworthy. Which in turn negatively affects bug localization and prediction \cites{Herzig, dealing, Kochnar}.
 
-In order to improve the efficiency of fault detection, Wu \textit{et al.} have developed ReLink -- an automatic link\footnote{The term ``link" refers here to the links between bug reports and code changes.} recovery algorithm \cite{ReLink}. It uses machine learning approach with features such as:
+In order to improve the efficiency of fault detection, Wu \textit{et al.} have developed \textsc{ReLink} -- an automatic link\footnote{The term ``link" refers here to the links between bug reports and code changes.} recovery algorithm \cite{ReLink}. It uses machine learning approach with features such as:
 \begin{itemize}
 	\item The interval between the bug-fixing time and the change-commit time,
 	\item Mapping between bug owners and change committers,
 	\item The similarity between bug reports and change logs.
 \end{itemize}
-Evaluated on five open-source projects, ReLink achieved up to 26.6\% more recall\footnote{[\textit{Recall definition here.}]} than the traditional heuristics.
+Evaluated on five open-source projects, \textsc{ReLink} achieved up to 26.6\% more recall than the traditional heuristics.
+
+The next stage, after identifying bug-fixes, is linking them with \emph{bug-introducing changes}. No earlier than this is achieved, one can give the precise temporal location of an error. Several algorithms have been developed for this purpose. Probably the most popular one (used e.g. by Kim \cite{adaptive} and Fukushima \textit{et al.} \cite{Fukushima}) is the SZZ algorithm developed by Śliwerski, Zimmermann \& Zeller in \cite{SZZ}. It relies on annotation graphs produced by CVS\footnote{\textsc{Concurrent Versions System} is an open-source version control system \cite{CVS}.} \emph{annotate}\footnote{The \emph{annotate} command allows to ``print the head revision of the trunk, together with information on the last modification for each line" \cite{CVS_annotate}. Its counterpart in \textsc{Git} and SVN is \emph{blame}.} command. This approach was criticised by in \cite{SZZ_revisited} by Williams \& Spacco, who propose a different technique using line-number maps and \textsc{DiffJ} -- a Java syntax-aware diff tool. Application of such algorithms allows to conclude with high certainty, which parts of software at which point of time are to be considered fault-prone.
 
 \section{Observable variables}
 \label{sec:observable_variables}
