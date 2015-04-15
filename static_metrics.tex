@@ -1,0 +1,31 @@
+\begin{longtable}{c X c}
+\caption{Static code metrics} 
+\label{tab:static_metrics}\\
+\toprule
+\textbf{Level} & \multicolumn{1}{C}{\textbf{Variable}} & \textbf{Used by} \\
+\midrule
+\multirow{7}{*}{\pbox{5cm}{Method/ \\ function}}
+& Maximum depth of nested control sequences & \cite{method-level, how_and_why} \\
+& Number of local variables & \cite{method-level} \\
+& Number of methods referenced by a given method & \cite{method-level, how_and_why} \\
+& Number of methods referencing a given method & \cite{method-level, how_and_why} \\
+& Number of parameters & \cite{method-level} \\
+& Number of possible paths in the method body & \cite{method-level, how_and_why} \\
+& Number of statements & \cite{method-level} \\
+\midrule
+\multirow{6}{*}{Class}
+& Lack of cohesion of methods\footnote{LCOM = $ max\left(|P| - |Q|, 0\right) $, where $P$ is the set of all pairs of methods which do not share any fields and $Q$ is the set of all pairs of methods sharing least one field \cite[p. 488]{metrics_suite}.} & \cite{systematic, how_and_why} \\
+& Message passing coupling\footnote{``The MPC measures the number of method calls defined in methods of a class to methods in other classes, and therefore the dependency of local methods to methods implemented by other classes" \cite{MPC}.} & \cite{systematic} \\
+& Number of attributes & \cite{systematic} \\
+& Number of methods & \cite{systematic} \\
+& Number of subclasses & \cite{systematic, how_and_why} \\
+& Number of superclasses & \cite{systematic, how_and_why} \\
+\midrule
+\multirow{5}{*}{Universal}
+& Halstead effort\footnote{[\textit{definition to be added}] \cite{Halstead}.} & \cite{systematic} \\
+& Lines of code & \cite{systematic, how_and_why} \\
+& McCabe cyclomatic complexity\footnote{CC = $ E - N + P $, where $E$ is the number of edges in a \emph{program control graph}, $N$ is the number of nodes and $P$ is the number of connected components \cite{McCabe}.} & \cite{systematic, method-level, how_and_why} \\
+& Number of statements & \cite{systematic, method-level, how_and_why} \\
+& Ratio of comments to source code & \cite{method-level, how_and_why} \\
+\bottomrule
+\end{longtable}

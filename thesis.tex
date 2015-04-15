@@ -1,8 +1,15 @@
 \documentclass{pracamgr}
 
 \usepackage[backend=biber,style=numeric]{biblatex}
+\usepackage{booktabs}
+\usepackage{caption}
 \usepackage{changepage}
+\usepackage{chngcntr}
+\usepackage{float}
 \usepackage[utf8]{inputenc}
+\usepackage{ltxtable}
+\usepackage{multirow}
+\usepackage{pbox}
 \usepackage{polski}
 \usepackage{soul}
 
@@ -29,6 +36,15 @@
 
 \renewcommand{\contentsname}{Table of Contents}
 \renewcommand{\chaptername}{Chapter}
+\renewcommand{\tablename}{Table}
+
+\counterwithout{table}{chapter}
+\captionsetup[table]{labelfont=bf}
+
+\newcolumntype{C}{>{\hsize=\hsize\centering\arraybackslash}X}
+\renewcommand{\arraystretch}{1.5}
+
+\captionsetup{belowskip=12pt,aboveskip=8pt}
 
 \newenvironment{definition}[1]%
   {\medskip
@@ -90,7 +106,7 @@ Simply speaking, bug prediction is a procedure aimed at automatic detection of f
 
 \section{Terminology}
 \label{sec:terminology}
-Before referring the topic, I would like to define some concepts of major importance, namely: \emph{version control system}, \emph{software repository}, \emph{commit}, \emph{error}, \emph{bug-fix}, \emph{bug-tracker}, and \emph{error model}. Below are given brief explications of how I understand these terms.
+Before referring the topic, I would like to define some concepts of major importance, namely: \emph{version control system}, \emph{software repository}, \emph{commit}, \emph{error}, \emph{bug-fix}, \emph{bug-tracker}, \emph{software metric}, and \emph{error model}. Below are given brief explications of how I understand these terms.
 
 \medskip
 \begin{definition}{Version control system}
@@ -115,6 +131,10 @@ A commit created in order to repair a software defect. It is usually distinguish
 
 \begin{definition}{Bug tracking system}
 A system that ``stores and manages all bug status and information such as the module where a bug occurred, when a bug was found, the severity of a bug, comments describing a bug’s effect on the software, instructions on replicating a bug, who reported the bug, and whether the bug has been fixed yet" \cite{adaptive}. Also called simply \emph{bug-tracker}. Examples of bug-trackers are: \textsc{Bugzilla} \cite{bugzilla} and \textsc{Jira} \cite{jira}.
+\end{definition}
+
+\begin{definition}{Software metric\footnote{I prefer the term ``measure" to be used in this context instead of ``metric", because it is more consistent with the mathematical understanding of measure and metric. However, ``software metric" has become a widely used phrase in software engineering, so I will incline to this tendency.}}
+``A quantitative measure of the degree to which a system, component, or process possesses a given attribute" \cite[p. 47-48]{glossary}.
 \end{definition}
 
 \begin{definition}{Error model}
@@ -145,8 +165,12 @@ The scope of prediction is limited not only \emph{spatially} (by which I underst
 \label{sec:identification}
 Prediction of new bugs has to be based on historical data about the heretofore detected ones. However, identification of these is not a trivial task. It has become one of the major challenges in the discipline of \emph{mining software repositories}.
 
+\subsection{Bug-fixes}
+\label{sec:bug-fixes}
 First step towards identification of bugs is the recognition of bug-fixing commits. Traditionally used heuristic (e.g. by Kim in \cite{adaptive}) involves searching for keywords such as ``bug", ``issue" or ``fix" in commit messages. A more refined approach (used in \cite{Ekanayake, method-level, adaptive}), instead of relying on hard-coded patterns, utilizes information obtained from a bug-tracking system. Bug-trackers assign IDs to the tracked issues, which could be later referenced in change logs. As the vast majority of contemporary software projects uses bug-trackers, searching for these IDs in commit messages could therefore constitute a reliable method for detecting bug-fixes.
 
+\subsection{Noise in error data}
+\label{sec:noise}
 Unfortunately, research has shown that the aforementioned methods are not quite successful. Herzig \textit{et al.} \cite{Herzig}, after analysing over 7,000 error reports, make the following statements:
 \begin{itemize}
 	\item ``More than 40\% of issue reports are inaccurately classified",
@@ -163,11 +187,35 @@ In order to improve the efficiency of fault detection, Wu \textit{et al.} have d
 \end{itemize}
 Evaluated on five open-source projects, \textsc{ReLink} achieved up to 26.6\% more recall than the traditional heuristics.
 
+\subsection{Bug-introducing changes}
+\label{sec:bug-introducing}
 The next stage, after identifying bug-fixes, is linking them with \emph{bug-introducing changes}. No earlier than this is achieved, one can give the precise temporal location of an error. Several algorithms have been developed for this purpose. Probably the most popular one (used e.g. by Kim \cite{adaptive} and Fukushima \textit{et al.} \cite{Fukushima}) is the SZZ algorithm developed by Śliwerski, Zimmermann \& Zeller in \cite{SZZ}. It relies on annotation graphs produced by CVS\footnote{\textsc{Concurrent Versions System} is an open-source version control system \cite{CVS}.} \emph{annotate}\footnote{The \emph{annotate} command allows to ``print the head revision of the trunk, together with information on the last modification for each line" \cite{CVS_annotate}. Its counterpart in \textsc{Git} and SVN is \emph{blame}.} command. This approach was criticised by in \cite{SZZ_revisited} by Williams \& Spacco, who propose a different technique using line-number maps and \textsc{DiffJ} -- a Java syntax-aware diff tool. Application of such algorithms allows to conclude with high certainty, which parts of software at which point of time are to be considered fault-prone.
 
 \section{Observable variables}
 \label{sec:observable_variables}
-[\textit{This section will contain a listing of possible features which may be used for the prediction.}]
+Prediction of the target variable has to be done through a measurement of some observable variables. A multitude of software metrics has been applied for this purpose. In this section I will present a condensed survey of the most common ones (and some less common, but interesting).
+
+\subsection{Static metrics}
+\label{sec:static}
+Static metrics are ``measures of structural properties derived from the source code" \cite[p.~5]{systematic}. Their essential property (responsible for the name) is that they can be computed using only a snapshot (revision) of the code. Some of static metrics are specific to object-oriented software, other are more universal (e.g. LOC or complexity). Examples of static metrics are listed in table \ref{tab:static_metrics}. Please note, that metrics presented as low-level could be also used on higher levels by aggregation operations (e.g. minimum, maximum or average).
+
+\LTXtable{\textwidth}{static_metrics.tex}
+
+\subsection{Historical metrics}
+\label{sec:historical}
+%Arisholm et al.
+%Caglayan et al.
+%Giger et al.
+%Moser et al.
+%Rahman et al.
+
+%\subsection{Change metrics}
+%\label{sec:change}
+%Fukushima et al.
+
+\subsection{Micro-interaction metrics}
+\label{sec:micro-interaction}
+%Lee et al.
 
 \section{Related work}
 \label{sec:realted_work}
