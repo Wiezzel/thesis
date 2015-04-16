@@ -7,3 +7,5 @@
 *.bbl
 *.bcf
 *.blg
+*.lot
+*.lof

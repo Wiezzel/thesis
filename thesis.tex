@@ -34,7 +34,8 @@
 
 \bibliography{bibliography}
 
-\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\contentsname}{Table of contents}
+\renewcommand{\listtablename}{List of tables}
 \renewcommand{\chaptername}{Chapter}
 \renewcommand{\tablename}{Table}
 
@@ -43,6 +44,7 @@
 
 \newcolumntype{C}{>{\hsize=\hsize\centering\arraybackslash}X}
 \renewcommand{\arraystretch}{1.5}
+\newcommand{\cpbox}[2]{\pbox{#1}{\relax\ifvmode\centering\fi #2}}
 
 \captionsetup{belowskip=12pt,aboveskip=8pt}
 
@@ -63,6 +65,11 @@ Detection of software defects has become one of the major challenges in the fiel
 
 \tableofcontents
 
+\begingroup
+  \let\cleardoublepage\relax
+  \listoftables
+\endgroup
+
 \chapter{Introduction}
 \label{cha:introduction}
 Ever since the legendary first bug in 1947\footnote{According to \cite{first_bug} on 9th of September, 1947 an investigation of malfunctioning Harvard University Mark II Aiken Relay Calculator revealed a moth trapped between the points of relay \#70 in panel F. This event was reported in a log with the following statement: \textit{"First actual case of bug being found."}}, the detection of software faults has been a crucial part of the quality assurance process. Undiscovered bugs were the cause of many misfortunes with the crash of the \$500-million space rocket Ariane 5 being the most spectacular example.\footnote{On 4th of June, 1996 the rocket was launched by the European Space Agency from Kourou in French Guyana. It exploded only about 40 seconds after take-off due an error in the inertial reference system -- conversion of a 64-bit float to a 16-bit signed integer failed, because the number was larger than the largest storable value. \cite{ariane}} This work aims to contribute to the general improvement of software quality by investigating certain methods of error identification.
@@ -73,7 +80,7 @@ Various procedures have been applied to track down software defects before they 
 
 Such programs include a broad range of approaches towards detecting bugs. Some of them are run-time debuggers which help programmers analyse the execution of a program (either standalone as GDB \cite{gdb} or integrated with IDEs as \textsc{Microsoft Visual Studio Debugger} \cite{vs_debugger}). Others generate test cases using randomization and symbolic execution \cite{symbolic, puzzle}. Others support the reviewing process by highlighting potentially dangerous program parts.
 
-Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (e.g. \textsc{FindBugs} \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (e.g. HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \emph{repository metrics} or \emph{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
+Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (\textit{e.g.} \textsc{FindBugs} \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (\textit{e.g.} HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \emph{repository metrics} or \emph{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
 \begin{itemize}
 	\item Proposal of a novel method for bug prediction,
 	\item Prototype implementation of the proposed method,
@@ -145,7 +152,7 @@ A system that ``stores and manages all bug status and information such as the mo
 \label{sec:dependent_variable}
 Prediction in general may be described as discovering a relation between several observable variables and a dependent variable (which may also be called \textit{target variable}). The discovered relation allows for estimating values of the target variable by analysing the observables. Trying to conform \textit{defect prediction} to this description seems problematic, because ``defect" doesn't name any well-defined variable. Therefore, the first fundamental concern of bug prediction is specifying a variable which will both suit our theoretical framework and embrace the common-sense intuitions.
 
-The most obvious candidate (used e.g. by Janes \textit{et al.} in \cite{Janes}) is the number of defects per software unit\footnote{\cite[p. 31]{glossary} endorses the choice of this kind of variables by defining error prediction as ``a quantitative statement about \textbf{the expected number} or nature of faults in a system or component" (emphasis added).} (for possible units see \ref{sec:unit_of_analysis}). However, as in many cases the numbers of bugs in software components are relatively small, a dichotomous boolean variable (indicating bug presence or absence) is used more often (e.g. by Moser \textit{et al.} in \cite{comparative} or Giger \textit{et al.} in \cite{method-level}). More complex examples include \emph{fault density} -- number of faults divided by a code size measure (Tomaszewski \textit{et al.} \cite{Tomaszewski}), or expected number of repairs in some period of time (Hassan~\cite{complexity}).
+The most obvious candidate (used \textit{e.g.} by Janes \textit{et al.} in \cite{Janes}) is the number of defects per software unit\footnote{\cite[p. 31]{glossary} endorses the choice of this kind of variables by defining error prediction as ``a quantitative statement about \textbf{the expected number} or nature of faults in a system or component" (emphasis added).} (for possible units see \ref{sec:unit_of_analysis}). However, as in many cases the numbers of bugs in software components are relatively small, a dichotomous boolean variable (indicating bug presence or absence) is used more often (\textit{e.g.} by Moser \textit{et al.} in \cite{comparative} or Giger \textit{et al.} in \cite{method-level}). More complex examples include \emph{fault density} -- number of faults divided by a code size measure (Tomaszewski \textit{et al.} \cite{Tomaszewski}), or expected number of repairs in some period of time (Hassan~\cite{complexity}).
 
 As Arisholm \textit{et al.} reasonably state in \cite[p. 5]{systematic}, the choice of dependent variable should be determined by the further usage of the developed model. For assigning a software component for a detailed examination by a reviewer, a boolean variable is probably sufficient. On the other hand, creating a ranking or visualisation of the software quality requires numeric values, so number of defects or fault density would suit these purposes much better.
 
@@ -153,11 +160,11 @@ As Arisholm \textit{et al.} reasonably state in \cite[p. 5]{systematic}, the cho
 \label{sec:unit_of_analysis}
 All of the variables defined in the above section are relative to some code segment. Size of such segment can span from a single function up to a whole project -- every possibility has its advantages and drawbacks. As nine of ten most popular programming languages are object-oriented \cite{popularity1,popularity2}, also the most commonly encountered units of analysis are related to OOP paradigm: module/package, class, or method/function.
 
-Package-level prediction (used e.g. by Jin \textit{et al.} in \cite{Jin}) can make use of structural software properties which cannot be computed for smaller units. However, the typical size of a package in some languages would make the corresponding fault-proneness value of very little value for practical application. Therefore, module- or package-level prediction is usually restricted to languages to which the class level does not apply, e.g. Fortran, Pascal or Ada.
+Package-level prediction (used \textit{e.g.} by Jin \textit{et al.} in \cite{Jin}) can make use of structural software properties which cannot be computed for smaller units. However, the typical size of a package in some languages would make the corresponding fault-proneness value of very little value for practical application. Therefore, module- or package-level prediction is usually restricted to languages to which the class level does not apply, \textit{e.g.} Fortran, Pascal or Ada.
 
-Class level (used e.g. by Tomaszewski \textit{et al.} in \cite{Tomaszewski}) is the most popular choice among defect prediction studies. Probably, the reason for this popularity is the fact that class is the most natural and accustomed part of object-oriented software. In case of non-object-oriented languages, the middle-sized unit of analysis is file, which is easily separable and trackable with a VCS machinery. Class shares the advantages of file, since numerous software projects obey, either by virtue of conventional guidelines or due to language constraints, the \emph{one class per file} rule. The scope of a class or a file is also usually narrow enough to serve as an object of manual inspection in case of high bug-proneness score.
+Class level (used \textit{e.g.} by Tomaszewski \textit{et al.} in \cite{Tomaszewski}) is the most popular choice among defect prediction studies. Probably, the reason for this popularity is the fact that class is the most natural and accustomed part of object-oriented software. In case of non-object-oriented languages, the middle-sized unit of analysis is file, which is easily separable and trackable with a VCS machinery. Class shares the advantages of file, since numerous software projects obey, either by virtue of conventional guidelines or due to language constraints, the \emph{one class per file} rule. The scope of a class or a file is also usually narrow enough to serve as an object of manual inspection in case of high bug-proneness score.
 
-Using method or function as the unit of analysis is a more complicated task, but it has been also successfully accomplished (e.g. by Giger \textit{et al.} in \cite{method-level}). Contrary to higher-level units described above, which can be identified using solely lists of files, ascribing faults to certain methods requires examining detailed information about code changes. I consider the results of method-level prediction most useful for debugging due to their fine granularity.
+Using method or function as the unit of analysis is a more complicated task, but it has been also successfully accomplished (\textit{e.g.} by Giger \textit{et al.} in \cite{method-level}). Contrary to higher-level units described above, which can be identified using solely lists of files, ascribing faults to certain methods requires examining detailed information about code changes. I consider the results of method-level prediction most useful for debugging due to their fine granularity.
 
 The scope of prediction is limited not only \emph{spatially} (by which I understand focusing on particular software components, as described above in this section), but also \emph{temporally}. One may predict the number (or presence) of bugs in a software release, over some fixed period of time, or in a single commit. This choice should also be affected by the later utilisation of predicted values.
 
@@ -167,7 +174,7 @@ Prediction of new bugs has to be based on historical data about the heretofore d
 
 \subsection{Bug-fixes}
 \label{sec:bug-fixes}
-First step towards identification of bugs is the recognition of bug-fixing commits. Traditionally used heuristic (e.g. by Kim in \cite{adaptive}) involves searching for keywords such as ``bug", ``issue" or ``fix" in commit messages. A more refined approach (used in \cite{Ekanayake, method-level, adaptive}), instead of relying on hard-coded patterns, utilizes information obtained from a bug-tracking system. Bug-trackers assign IDs to the tracked issues, which could be later referenced in change logs. As the vast majority of contemporary software projects uses bug-trackers, searching for these IDs in commit messages could therefore constitute a reliable method for detecting bug-fixes.
+First step towards identification of bugs is the recognition of bug-fixing commits. Traditionally used heuristic (\textit{e.g.} by Kim in \cite{adaptive}) involves searching for keywords such as ``bug", ``issue" or ``fix" in commit messages. A more refined approach (used in \cite{Ekanayake, method-level, adaptive}), instead of relying on hard-coded patterns, utilizes information obtained from a bug-tracking system. Bug-trackers assign IDs to the tracked issues, which could be later referenced in change logs. As the vast majority of contemporary software projects uses bug-trackers, searching for these IDs in commit messages could therefore constitute a reliable method for detecting bug-fixes.
 
 \subsection{Noise in error data}
 \label{sec:noise}
@@ -189,7 +196,7 @@ Evaluated on five open-source projects, \textsc{ReLink} achieved up to 26.6\% mo
 
 \subsection{Bug-introducing changes}
 \label{sec:bug-introducing}
-The next stage, after identifying bug-fixes, is linking them with \emph{bug-introducing changes}. No earlier than this is achieved, one can give the precise temporal location of an error. Several algorithms have been developed for this purpose. Probably the most popular one (used e.g. by Kim \cite{adaptive} and Fukushima \textit{et al.} \cite{Fukushima}) is the SZZ algorithm developed by Śliwerski, Zimmermann \& Zeller in \cite{SZZ}. It relies on annotation graphs produced by CVS\footnote{\textsc{Concurrent Versions System} is an open-source version control system \cite{CVS}.} \emph{annotate}\footnote{The \emph{annotate} command allows to ``print the head revision of the trunk, together with information on the last modification for each line" \cite{CVS_annotate}. Its counterpart in \textsc{Git} and SVN is \emph{blame}.} command. This approach was criticised by in \cite{SZZ_revisited} by Williams \& Spacco, who propose a different technique using line-number maps and \textsc{DiffJ} -- a Java syntax-aware diff tool. Application of such algorithms allows to conclude with high certainty, which parts of software at which point of time are to be considered fault-prone.
+The next stage, after identifying bug-fixes, is linking them with \emph{bug-introducing changes}. No earlier than this is achieved, one can give the precise temporal location of an error. Several algorithms have been developed for this purpose. Probably the most popular one (used \textit{e.g.} by Kim \cite{adaptive} and Fukushima \textit{et al.} \cite{Fukushima}) is the SZZ algorithm developed by Śliwerski, Zimmermann \& Zeller in \cite{SZZ}. It relies on annotation graphs produced by CVS\footnote{\textsc{Concurrent Versions System} is an open-source version control system \cite{CVS}.} \emph{annotate}\footnote{The \emph{annotate} command allows to ``print the head revision of the trunk, together with information on the last modification for each line" \cite{CVS_annotate}. Its counterpart in \textsc{Git} and SVN is \emph{blame}.} command. This approach was criticised by in \cite{SZZ_revisited} by Williams \& Spacco, who propose a different technique using line-number maps and \textsc{DiffJ} -- a Java syntax-aware diff tool. Application of such algorithms allows to conclude with high certainty, which parts of software at which point of time are to be considered fault-prone.
 
 \section{Observable variables}
 \label{sec:observable_variables}
@@ -197,12 +204,16 @@ Prediction of the target variable has to be done through a measurement of some o
 
 \subsection{Static metrics}
 \label{sec:static}
-Static metrics are ``measures of structural properties derived from the source code" \cite[p.~5]{systematic}. Their essential property (responsible for the name) is that they can be computed using only a snapshot (revision) of the code. Some of static metrics are specific to object-oriented software, other are more universal (e.g. LOC or complexity). Examples of static metrics are listed in table \ref{tab:static_metrics}. Please note, that metrics presented as low-level could be also used on higher levels by aggregation operations (e.g. minimum, maximum or average).
+Static metrics are ``measures of structural properties derived from the source code" \cite[p.~5]{systematic}. Their essential property (responsible for the name) is that they can be computed using only a snapshot (revision) of the code. Some of static metrics are specific to object-oriented software, other are more universal (\textit{e.g.} LOC or complexity). Examples of static metrics are listed in table \ref{tab:static_metrics}. Please note, that metrics presented as low-level could be also used on higher levels by aggregation operations (\textit{e.g.} minimum, maximum or average).
 
 \LTXtable{\textwidth}{static_metrics.tex}
 
 \subsection{Historical metrics}
 \label{sec:historical}
+As the name suggests, historical metric are obtained through the analysis of software history, which is stored in a version control system. Some of them are computed from raw change data (that is a series of code revisions), while others rely on meta-information stored by VCS such as commit times, authors, and descriptions. Historical metrics are also called \emph{process metrics} or \emph{change metrics}\footnote{However, this name is used in \cite{Fukushima} for metrics which can be attributed to a \textit{change itself}, not a software component.}.
+
+\LTXtable{\textwidth}{historical_metrics.tex}
+
 %Arisholm et al.
 %Caglayan et al.
 %Giger et al.
