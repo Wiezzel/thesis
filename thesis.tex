@@ -42,7 +42,8 @@
 \counterwithout{table}{chapter}
 \captionsetup[table]{labelfont=bf}
 
-\newcolumntype{C}{>{\hsize=\hsize\centering\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{D}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}
 \renewcommand{\arraystretch}{1.5}
 \newcommand{\cpbox}[2]{\pbox{#1}{\relax\ifvmode\centering\fi #2}}
 
@@ -80,7 +81,7 @@ Various procedures have been applied to track down software defects before they 
 
 Such programs include a broad range of approaches towards detecting bugs. Some of them are run-time debuggers which help programmers analyse the execution of a program (either standalone as GDB \cite{gdb} or integrated with IDEs as \textsc{Microsoft Visual Studio Debugger} \cite{vs_debugger}). Others generate test cases using randomization and symbolic execution \cite{symbolic, puzzle}. Others support the reviewing process by highlighting potentially dangerous program parts.
 
-Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (\textit{e.g.} \textsc{FindBugs} \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (\textit{e.g.} HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on change history, called also \emph{repository metrics} or \emph{process metrics}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
+Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells" (\textit{e.g.} \textsc{FindBugs} \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (\textit{e.g.} HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on code change history. For details see section \ref{sec:historical}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
 \begin{itemize}
 	\item Proposal of a novel method for bug prediction,
 	\item Prototype implementation of the proposed method,
@@ -210,27 +211,15 @@ Static metrics are ``measures of structural properties derived from the source c
 
 \subsection{Historical metrics}
 \label{sec:historical}
-As the name suggests, historical metric are obtained through the analysis of software history, which is stored in a version control system. Some of them are computed from raw change data (that is a series of code revisions), while others rely on meta-information stored by VCS such as commit times, authors, and descriptions. Historical metrics are also called \emph{process metrics} or \emph{change metrics}\footnote{However, this name is used in \cite{Fukushima} for metrics which can be attributed to a \textit{change itself}, not a software component.}.
+As the name suggests, historical metric are obtained through the analysis of software history, which is stored in a version control system. Some of them are computed from raw change data (that is a series of code revisions), while others rely on meta-information stored by VCS such as commit times, authors, and descriptions. Historical metrics are also called \emph{process metrics} or \emph{change metrics}\footnote{However, in \cite{Fukushima} this last name is used for metrics which can be attributed to a \textit{change itself}, not to a software component.}. Table \ref{tab:historical_metrics} contains examples of such metrics.
 
 \LTXtable{\textwidth}{historical_metrics.tex}
 
-%Arisholm et al.
-%Caglayan et al.
-%Giger et al.
-%Moser et al.
-%Rahman et al.
-
-%\subsection{Change metrics}
-%\label{sec:change}
-%Fukushima et al.
-
 \subsection{Micro-interaction metrics}
 \label{sec:micro-interaction}
-%Lee et al.
+Micro-interaction metrics, proposed by Lee \textit{et al.} in \cite{micro_interaction}, are tracking behavioural interaction patterns of software developers. Usage of such metrics is motivated by research showing correlations between work habits and productivity \cite{LaToza}. They can be obtained from systems tracking developers' activities, such as \textsc{Mylyn} \cite{mylyn}, a task management plug-in for \textsc{Eclipse IDE}. Experimental results presented in \cite{micro_interaction} show that micro-interaction metrics outperform both static and historical metrics. However, the scope of their usage is very limited, due to requirement for programmers' activities registration, which is not so common in software projects. Examples of micro-interaction metrics are presented in table \ref{tab:micro_interaction_metrics}.
 
-\section{Related work}
-\label{sec:realted_work}
-[\textit{This section will present a possibly broad overview of different approaches towards the problem and their concise assessment.}]
+\LTXtable{\textwidth}{micro_interaction_metrics.tex}
 
 \chapter{The proposed approach}
 \label{cha:approach}

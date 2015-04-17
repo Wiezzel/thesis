@@ -4,16 +4,21 @@
 \toprule
 \textbf{Type} & \multicolumn{1}{C}{\textbf{Variable}} & \textbf{Used by} \\
 \midrule
-\multirow{5}{*}{Raw changes}
-& Number of commits & \cite{systematic, merits, method-level, comparative, how_and_why} \\
-& Sum/average/maximum number of added lines & \cite{systematic, merits, comparative, how_and_why} \\
-& Sum/average/maximum number of deleted lines & \cite{systematic, merits, comparative, how_and_why} \\
-& Sum/average/maximum number of added statements & \cite{method-level} \\
-& Sum/average/maximum number of deleted statements & \cite{method-level} \\
+\multirow{6}{*}{Raw changes}
+& Number of commits & \cite{systematic, merits, method-level, micro_interaction, comparative, how_and_why} \\
+& Total/average/max number of added lines & \cite{systematic, merits, micro_interaction, comparative, how_and_why} \\
+& Total/average/max number of deleted lines & \cite{systematic, merits, micro_interaction, comparative, how_and_why} \\
+& Total/average/max number of added statements & \cite{method-level} \\
+& Total/average/max number of deleted statements & \cite{method-level} \\
+& Total/average/max \emph{code churn}\footnote{The difference between numbers of added and deleted lines \cite{comparative} or statements \cite{method-level}.} & \cite{method-level, micro_interaction, comparative} \\
 \midrule
-\multirow{3}{*}{\cpbox{5cm}{ Meta- \\ -information}}
-& Number of distinct authors & \cite{systematic, merits, method-level, comparative, how_and_why} \\
-& Number of bug-fixes & \cite{systematic, comparative} \\
-& Number of refactorings & \cite{systematic, comparative} \\
+\multirow{7}{*}{\cpbox{5cm}{ Meta- \\ -information}}
+& Number of bug-fixes & \cite{systematic, micro_interaction, comparative} \\
+& Number of refactorings & \cite{systematic, micro_interaction, comparative} \\
+& Number of distinct authors & \cite{systematic, merits, method-level, micro_interaction, comparative, how_and_why} \\
+& Number of lines added by file owner & \cite{how_and_why} \\
+& File owner's experience & \cite{how_and_why} \\
+& File age & \cite{micro_interaction, comparative} \\
+& Weighted file age\footnote{It is the weighted arithmetic mean of commit ages, where weights are proportional to the numbers of added lines in corresponding commits.} &  \cite{micro_interaction, comparative} \\
 \bottomrule
 \end{longtable}

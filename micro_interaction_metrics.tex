@@ -1,0 +1,44 @@
+\begin{longtable}{D{0.2} c X}
+\caption{Micro-interaction metrics} 
+\label{tab:micro_interaction_metrics}\\
+\toprule
+\textbf{Level} & \textbf{Category} & \multicolumn{1}{C}{\textbf{Variable}} \\
+\midrule
+\multirow{6}{*}{File}
+& \multirow{2}{*}{Effort}
+& Number of selection events of the file\\
+& & Number of edit events of the file \\
+\cline{2-3}
+& \multirow{2}{*}{Interest}
+& Average \emph{degree of interest}\footnote{\emph{Degree of interest} (DOI) is a parameter increasing on programmer's interactions and decreasing with time, thus measuring the interest in a particular file or code element. It was introduced by Kersten \& Murhpy in \cite{mylar} together with an implementation named \textsc{Mylar}.} for the file\\
+& & Variance of \emph{degree of interest} for the file\\
+\cline{2-3}
+& \multirow{2}{*}{Intervals}
+& Average time interval between edit events  of the file\\
+& & Average time interval between selection events of the file \\
+\midrule
+\multirow{13}{*}{Task}
+& \multirow{3}{*}{Effort}
+& Total time spent on the task \\
+& & Number of unique selected files during the task \\
+& & Number of unique edited files during the task \\
+\cline{2-3}
+& \multirow{2}{*}{Distraction}
+& Number of selection events with low \emph{degree of interest} \\
+& & Number of edit events with low \emph{degree of interest} \\
+\cline{2-3}
+& \multirow{4}{*}{\cpbox{5cm}{Work \\ portion}}
+& Ratio of time spent (out of total time) before the first edit \\
+& & Ratio of time spent (out of total time) after the last edit \\
+& & Number of unique selections before the first edit \\
+& & Number of unique selections after the last edit \\
+\cline{2-3}
+& \multirow{2}{*}{Repetition}
+& Number of files selected more than once in the task \\
+& & Number of files edited more than once in the task \\
+\cline{2-3}
+& \multirow{2}{*}{Task load}
+& Number of ongoing tasks at the same time \\
+& & Average depth of the file hierarchy \\
+\bottomrule
+\end{longtable}
