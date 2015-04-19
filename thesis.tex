@@ -12,6 +12,7 @@
 \usepackage{pbox}
 \usepackage{polski}
 \usepackage{soul}
+\usepackage{tikz}
 
 \author{Adam Wierzbicki}
 \nralbumu{306441}
@@ -36,11 +37,16 @@
 
 \renewcommand{\contentsname}{Table of contents}
 \renewcommand{\listtablename}{List of tables}
+\renewcommand{\listfigurename}{List of figures}
 \renewcommand{\chaptername}{Chapter}
 \renewcommand{\tablename}{Table}
+\renewcommand{\figurename}{Figure}
 
 \counterwithout{table}{chapter}
+\counterwithout{figure}{chapter}
 \captionsetup[table]{labelfont=bf}
+\captionsetup[figure]{labelfont=bf}
+
 
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \newcolumntype{D}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}
@@ -69,6 +75,7 @@ Detection of software defects has become one of the major challenges in the fiel
 \begingroup
   \let\cleardoublepage\relax
   \listoftables
+  \listoffigures
 \endgroup
 
 \chapter{Introduction}
@@ -110,7 +117,7 @@ Identification of such fault-prone elements could be performed using many differ
 
 \chapter{Problem overview}
 \label{cha:overview}
-Simply speaking, bug prediction is a procedure aimed at automatic detection of faults in an unreviewed and untested code, basing on reports about previously discovered bugs. However, this deceptively plain definition hides a very convoluted and problematical process. In this section I would like to explore its meanders and formulate a more precise description by answering questions such as: \emph{\textbf{What is it} exactly that we are predicting?} (\ref{sec:dependent_variable}) \emph{What is \textbf{the scope} of our prediction?} (\ref{sec:unit_of_analysis}) \emph{How do we learn about \textbf{former defects}?} (\ref{sec:identification}) and \emph{What \textbf{kinds of information} can we utilize in our prediction?} (\ref{sec:observable_variables})
+Simply speaking, bug prediction is a procedure aimed at automatic detection of faults in an unreviewed and untested code, basing on reports about previously discovered bugs. However, this deceptively plain definition hides a very convoluted and problematical process. In this chapter I would like to explore its meanders and formulate a more precise description by answering questions such as: \emph{\textbf{What is it} exactly that we are predicting?} (section \ref{sec:dependent_variable}) \emph{What is \textbf{the scope} of our prediction?} (section \ref{sec:unit_of_analysis}) \emph{How do we learn about \textbf{former defects}?} (section \ref{sec:identification}) and \emph{What \textbf{kinds of information} can we utilize in our prediction?} (section \ref{sec:observable_variables})
 
 \section{Terminology}
 \label{sec:terminology}
@@ -151,9 +158,9 @@ A system that ``stores and manages all bug status and information such as the mo
 
 \section{Dependent variable}
 \label{sec:dependent_variable}
-Prediction in general may be described as discovering a relation between several observable variables and a dependent variable (which may also be called \textit{target variable}). The discovered relation allows for estimating values of the target variable by analysing the observables. Trying to conform \textit{defect prediction} to this description seems problematic, because ``defect" doesn't name any well-defined variable. Therefore, the first fundamental concern of bug prediction is specifying a variable which will both suit our theoretical framework and embrace the common-sense intuitions.
+Prediction in general may be described as discovering a relation between several observable variables and a dependent variable (which may also be called \textit{target variable}). The discovered relation allows for estimating values of the target variable by analysing the observables. Trying to conform \textit{defect prediction} to this description seems problematic, because ``defect" does not name any well-defined variable. Therefore, the first fundamental concern of bug prediction is specifying a variable which will both suit our theoretical framework and embrace the common-sense intuitions.
 
-The most obvious candidate (used \textit{e.g.} by Janes \textit{et al.} in \cite{Janes}) is the number of defects per software unit\footnote{\cite[p. 31]{glossary} endorses the choice of this kind of variables by defining error prediction as ``a quantitative statement about \textbf{the expected number} or nature of faults in a system or component" (emphasis added).} (for possible units see \ref{sec:unit_of_analysis}). However, as in many cases the numbers of bugs in software components are relatively small, a dichotomous boolean variable (indicating bug presence or absence) is used more often (\textit{e.g.} by Moser \textit{et al.} in \cite{comparative} or Giger \textit{et al.} in \cite{method-level}). More complex examples include \emph{fault density} -- number of faults divided by a code size measure (Tomaszewski \textit{et al.} \cite{Tomaszewski}), or expected number of repairs in some period of time (Hassan~\cite{complexity}).
+The most obvious candidate (used \textit{e.g.} by Janes \textit{et al.} in \cite{Janes}) is the number of defects per software unit\footnote{\cite[p. 31]{glossary} endorses the choice of this kind of variables by defining error prediction as ``a quantitative statement about \textbf{the expected number} or nature of faults in a system or component" (emphasis added).} (for possible units see section \ref{sec:unit_of_analysis}). However, as in many cases the numbers of bugs in software components are relatively small, a dichotomous boolean variable (indicating bug presence or absence) is used more often (\textit{e.g.} by Moser \textit{et al.} in \cite{comparative} or Giger \textit{et al.} in \cite{method-level}). More complex examples include \emph{fault density} -- number of faults divided by a code size measure (Tomaszewski \textit{et al.} \cite{Tomaszewski}), or expected number of repairs in some period of time (Hassan~\cite{complexity}).
 
 As Arisholm \textit{et al.} reasonably state in \cite[p. 5]{systematic}, the choice of dependent variable should be determined by the further usage of the developed model. For assigning a software component for a detailed examination by a reviewer, a boolean variable is probably sufficient. On the other hand, creating a ranking or visualisation of the software quality requires numeric values, so number of defects or fault density would suit these purposes much better.
 
@@ -223,11 +230,19 @@ Micro-interaction metrics, proposed by Lee \textit{et al.} in \cite{micro_intera
 
 \chapter{The proposed approach}
 \label{cha:approach}
-[\textit{In this chapter I will present my approach to the problem.}]
+Having referred the general goals and issues connected with defect prediction, I would like to present my own approach towards this problem. I decided to perform the prediction on method level, which is the finest granularity reached by state-of-the-art algorithms. Similarly to \cite{method-level}, I chose to use historical metrics based on fine-grained source code changes. However, instead of relying on sparse software releases as time scope boundaries, I developed a model allowing for a more continuous prediction.
+
+
 
 \section{The model}
 \label{sec:model}
 [\textit{This section will contain details about the model of changing method which underlies the approach.}]
+
+\begin{figure}[H]
+\centering
+\input{bug_proneness.tex}
+\caption{Bug-proneness example}
+\end{figure}
 
 \section{Feature extraction}
 \label{sec:feature_extraction}
