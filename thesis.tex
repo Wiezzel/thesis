@@ -232,17 +232,30 @@ Micro-interaction metrics, proposed by Lee \textit{et al.} in \cite{micro_intera
 \label{cha:approach}
 Having referred the general goals and issues connected with defect prediction, I would like to present my own approach towards this problem. I decided to perform the prediction on method level, which is the finest granularity reached by state-of-the-art algorithms. Similarly to \cite{method-level}, I chose to use historical metrics based on fine-grained source code changes. However, instead of relying on sparse software releases as time scope boundaries, I developed a model allowing for a more continuous prediction.
 
-
+Underlying assumptions and a general outline of the model is presented in section \ref{sec:model}. Then, in section \ref{sec:feature_extraction}, a detailed summary of the model's observable variables is given. Section \ref{sec:bug-proneness}, on the other hand, describes the hidden (target) variable. Section \ref{sec:machine_learning} explains four different machine learning algorithms which can be applied to the model.
 
 \section{The model}
 \label{sec:model}
-[\textit{This section will contain details about the model of changing method which underlies the approach.}]
 
-\begin{figure}[H]
+\subsection{General assumptions}
+\label{sec:general_assumptions}
+Design of the further described model relies on the following fundamental assumptions:
+\begin{enumerate}
+	\item Every method, in every moment can be assigned a certain \textbf{\emph{bug-proneness}} level ranging between 0.0 and 1.0 (these values are arbitrary and do not denote any units).
+	\item \textbf{Immediately before a bug-fix}, the method to be fixed is \textbf{undoubtedly deficient}, therefore its bug-proneness equals 1.0.
+	\item \textbf{Immediately after a bug-fix}, the fixed method is \textbf{perfectly correct}, therefore its bug-proneness equals 0.0. 
+\end{enumerate}
+The bug-proneness parameter constitutes the target variable in my approach. As it is not precisely defined, one could use different methods of measuring this value. These are described later, in section \ref{sec:bug-proneness}. An example of how bug-proneness score can change with succeeding commits is presented in figure \ref{fig:bug_proneness}.
+
+\begin{figure}[h]
 \centering
 \input{bug_proneness.tex}
 \caption{Bug-proneness example}
+\label{fig:bug_proneness}
 \end{figure}
+
+\subsection{Instance construction}
+\label{sec:instance_construction}
 
 \section{Feature extraction}
 \label{sec:feature_extraction}
