@@ -1,0 +1,45 @@
+\begin{tikzpicture}[x=1pt,y=-1pt,scale=36]
+	\draw [thick, ->] (0,0) -- (10,0);
+	\node [below] at (10,0) {time};
+	\draw [thick, dashed, ->] (0,3) -- (10,3);
+
+	\begin{scope}[xshift=2pt,y=-3pt]
+		\draw [thick,pattern=dots] (0,0) rectangle (1,1);
+		\draw [thick] (1,0) rectangle (2,1);
+		\draw [thick] (2,0) rectangle (3,1);
+		\draw [thick] (3,0) rectangle (4,1);
+		\draw [thick] (4,0) rectangle (5,1);
+		\draw [thick,pattern=dots] (5,0) rectangle (6,1);
+		
+		\node [rotate=90.00] at (0.5,0.5) {\textbf{bug-fix 1}};
+		\node [rotate=90.00] at (1.5,0.5) {commit 1};
+		\node [rotate=90.00] at (2.5,0.5) {commit 2};
+		\node [rotate=90.00] at (3.5,0.5) {commit 3};
+		\node [rotate=90.00] at (4.5,0.5) {commit 4};
+		\node [rotate=90.00] at (5.5,0.5) {\textbf{bug-fix 2}};
+	\end{scope}
+
+	\begin{scope}[xshift=2pt,yshift=-3pt]
+		\draw [thick,decorate,decoration={brace,amplitude=8pt,mirror}](1,0) -- (2,0);
+		\draw [thick,->] (1.5,0.22) -- (1.5,1.25);
+		\node [rotate=90.00] at (1.5, 1.25) [left] {instance 1};
+		
+		\draw [thick,decorate,decoration={brace,amplitude=8pt,aspect=0.75,mirror}](1,0.25) -- (3,0.25);
+		\draw [thick] (1,0) -- (1,0.25);
+		\draw [thick] (3,0) -- (3,0.25);
+		\draw [thick,->] (2.5,0.47) -- (2.5,1.25);
+		\node [rotate=90.00] at (2.5, 1.25) [left] {instance 2};
+		
+		\draw [thick,decorate,decoration={brace,amplitude=8pt,aspect=0.8333333,mirror}](1,0.5) -- (4,0.5);
+		\draw [thick] (1,0) -- (1,0.5);
+		\draw [thick] (4,0) -- (4,0.5);
+		\draw [thick,->] (3.5,0.72) -- (3.5,1.25);
+		\node [rotate=90.00] at (3.5, 1.25) [left] {instance 3};
+		
+		\draw [thick,decorate,decoration={brace,amplitude=8pt,aspect=0.875,mirror}](1,0.75) -- (5,0.75);
+		\draw [thick] (1,0) -- (1,0.75);
+		\draw [thick] (5,0) -- (5,0.75);
+		\draw [thick,->] (4.5,0.97) -- (4.5,1.25);
+		\node [rotate=90.00] at (4.5, 1.25) [left] {instance 4};
+	\end{scope}
+\end{tikzpicture}

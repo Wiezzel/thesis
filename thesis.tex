@@ -5,6 +5,7 @@
 \usepackage{caption}
 \usepackage{changepage}
 \usepackage{chngcntr}
+\usepackage{enumitem}
 \usepackage{float}
 \usepackage[utf8]{inputenc}
 \usepackage{ltxtable}
@@ -13,6 +14,10 @@
 \usepackage{polski}
 \usepackage{soul}
 \usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
 
 \author{Adam Wierzbicki}
 \nralbumu{306441}
@@ -240,22 +245,33 @@ Underlying assumptions and a general outline of the model is presented in sectio
 \subsection{General assumptions}
 \label{sec:general_assumptions}
 Design of the further described model relies on the following fundamental assumptions:
-\begin{enumerate}
+\begin{enumerate}[label=(A\arabic*)]
 	\item Every method, in every moment can be assigned a certain \textbf{\emph{bug-proneness}} level ranging between 0.0 and 1.0 (these values are arbitrary and do not denote any units).
 	\item \textbf{Immediately before a bug-fix}, the method to be fixed is \textbf{undoubtedly deficient}, therefore its bug-proneness equals 1.0.
 	\item \textbf{Immediately after a bug-fix}, the fixed method is \textbf{perfectly correct}, therefore its bug-proneness equals 0.0. 
 \end{enumerate}
+The above presumptions may be criticized as not accurately reflecting the reality for many reasons. However, they were not intended to do so, but rather to form an idealization which would allow for a possibly simple modelling of the quality of software methods.
+
 The bug-proneness parameter constitutes the target variable in my approach. As it is not precisely defined, one could use different methods of measuring this value. These are described later, in section \ref{sec:bug-proneness}. An example of how bug-proneness score can change with succeeding commits is presented in figure \ref{fig:bug_proneness}.
 
 \begin{figure}[h]
 \centering
 \input{bug_proneness.tex}
-\caption{Bug-proneness example}
+\caption{Bug-proneness alteration}
 \label{fig:bug_proneness}
 \end{figure}
 
 \subsection{Instance construction}
 \label{sec:instance_construction}
+
+Since my aim is to follow changes affecting the analysed method, model instances are constructed from succeeding commits. However, as the mentioned changes are \emph{cumulative}, each instance corresponds to a whole \emph{chunk} of commits, rather than to singular one. In virtue of assumptions A2 and A3, the maximal time scope of an instance is bounded by two adjacent bug-fixes. This means that instances range in size from single commits to continuous groups delimited by bug-fixes. Example of instance construction is presented in figure \ref{fig:instance_construction}.
+
+\begin{figure}[h]
+\centering
+\input{instance_construction.tex}
+\caption{Instance construction}
+\label{fig:instance_construction}
+\end{figure}
 
 \section{Feature extraction}
 \label{sec:feature_extraction}
