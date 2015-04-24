@@ -237,7 +237,7 @@ Micro-interaction metrics, proposed by Lee \textit{et al.} in \cite{micro_intera
 \label{cha:approach}
 Having referred the general goals and issues connected with defect prediction, I would like to present my own approach towards this problem. I decided to perform the prediction on method level, which is the finest granularity reached by state-of-the-art algorithms. Similarly to \cite{method-level}, I chose to use historical metrics based on fine-grained source code changes. However, instead of relying on sparse software releases as time scope boundaries, I developed a model allowing for a more continuous prediction.
 
-Underlying assumptions and a general outline of the model is presented in section \ref{sec:model}. Then, in section \ref{sec:feature_extraction}, a detailed summary of the model's observable variables is given. Section \ref{sec:bug-proneness}, on the other hand, describes the hidden (target) variable. Section \ref{sec:machine_learning} explains four different machine learning algorithms which can be applied to the model.
+Underlying assumptions and a general outline of the model is presented in section \ref{sec:model}. Then, in section \ref{sec:features}, a detailed summary of the model's observable variables is given. Section \ref{sec:bug-proneness}, on the other hand, describes the hidden (target) variable. Section \ref{sec:machine_learning} explains four different machine learning algorithms which can be applied to the model.
 
 \section{The model}
 \label{sec:model}
@@ -250,7 +250,7 @@ Design of the further described model relies on the following fundamental assump
 	\item \textbf{Immediately before a bug-fix}, the method to be fixed is \textbf{undoubtedly deficient}, therefore its bug-proneness equals 1.0.
 	\item \textbf{Immediately after a bug-fix}, the fixed method is \textbf{perfectly correct}, therefore its bug-proneness equals 0.0. 
 \end{enumerate}
-The above presumptions may be criticized as not accurately reflecting the reality for many reasons. However, they were not intended to do so, but rather to form an idealization which would allow for a possibly simple modelling of the quality of software methods.
+The above presumptions may be criticized in many ways as not accurately reflecting the reality. However, they were not intended to do so, but rather to form an idealization which would allow for a possibly simple modelling of the quality of software methods.
 
 The bug-proneness parameter constitutes the target variable in my approach. As it is not precisely defined, one could use different methods of measuring this value. These are described later, in section \ref{sec:bug-proneness}. An example of how bug-proneness score can change with succeeding commits is presented in figure \ref{fig:bug_proneness}.
 
@@ -264,7 +264,7 @@ The bug-proneness parameter constitutes the target variable in my approach. As i
 \subsection{Instance construction}
 \label{sec:instance_construction}
 
-Since my aim is to follow changes affecting the analysed method, model instances are constructed from succeeding commits. However, as the mentioned changes are \emph{cumulative}, each instance corresponds to a whole \emph{chunk} of commits, rather than to singular one. In virtue of assumptions A2 and A3, the maximal time scope of an instance is bounded by two adjacent bug-fixes. This means that instances range in size from single commits to continuous groups delimited by bug-fixes. Example of instance construction is presented in figure \ref{fig:instance_construction}.
+Since my aim is to follow changes affecting the analysed method, model instances are constructed from succeeding commits. However, as the mentioned changes are \emph{cumulative}, each instance corresponds to a whole \emph{chunk} of commits, rather than to single one. In virtue of assumptions A2 and A3, the maximal time scope of an instance is bounded by two adjacent bug-fixes. This means that instances range in size from single commits to continuous groups delimited by bug-fixes. Example of instance construction is presented in figure \ref{fig:instance_construction}.
 
 \begin{figure}[h]
 \centering
@@ -273,16 +273,18 @@ Since my aim is to follow changes affecting the analysed method, model instances
 \label{fig:instance_construction}
 \end{figure}
 
-\section{Feature extraction}
-\label{sec:feature_extraction}
-[\textit{In this section I will describe in detail all the features of the model}]
+\section{Features}
+\label{sec:features}
+In order to be useful for prediction of the target variable (bug-proneness), the model incorporates several observable variables. I decided to use historical metrics (described in section \ref{sec:historical}), which are considered superior to static measures (section \ref{sec:static}) by many researchers \cite{merits, comparative, how_and_why} and at the same time are more widely applicable than micro-interaction metrics (section \ref{sec:micro-interaction}).
 
-\subsection{Fine-grained changes}
-\label{sec:fine-grained_changes}
+Opposed to most works using historical metrics (\textit{e.g.} \cite{systematic, merits, micro_interaction, comparative, how_and_why}), which rely on standard source code differencing utilities\footnote{Such as \texttt{diff} and \texttt{diff3} provided by \textsc{GNU diffutils} package \cite{diffutils}.}, I employ a syntax-aware \emph{change distilling} algorithm developed by Fluri \textit{et al.} in \cite{change_distilling}, described in more detail in the next section. A similar approach was taken by Giger \textit{et al.} in \cite{method-level}.
+
+\subsection{Change distilling}
+\label{sec:change_distilling}
 [\textit{In this subsection I will present the idea of fine-grained source code changes identified by ChangeDistiller tool and argue for their usefulness for bug prediction.}]
 
-\subsection{Features}
-\label{sec:features}
+\subsection{Feature engineering}
+\label{sec:feature_engineering}
 [\textit{In this subsection I will enumerate all the model's features (based on fine-grained changes described in the previous subsection)}]
 
 \section{Bug-proneness approximation}
