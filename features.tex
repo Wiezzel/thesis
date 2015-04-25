@@ -1,0 +1,32 @@
+\begin{longtable}{D{0.3} X}
+\caption{The model's features} 
+\label{tab:features}\\
+\toprule
+\textbf{Type} & \multicolumn{1}{C}{\textbf{Feature}} \\
+\midrule
+\multirow{8}{*}{Raw changes}
+& Total number of condition expression changes \\
+& Total number of else-part deletes \\
+& Total number of else-part inserts \\
+& Total number of statement deletes \\
+& Total number of statement inserts \\
+& Total number of statement ordering changes \\
+& Total number of statement parent changes \\
+& Total number of statement updates \\
+\midrule
+\multirow{6}{*}{\cpbox{5cm}{Processed \\ changes}}
+& Total number of header changes\footnote{Sum of the numbers of the following changes: decreasing accessibility change, increasing accessibility change, method renaming, return type change, return type delete, return type insert.} \\
+& Total number of parameter changes\footnote{Sum of the number of the following changes: parameter delete, parameter insert, parameter ordering change, parameter type change, parameter renaming.} \\
+& Average number of changes \\
+& Average number of changed methods in a commit \\
+& Average \emph{change ratio}\footnote{Ratio of the number of changes to the modelled method to the total number of changes in the commit.} \\
+& Change \emph{Gini index}\footnote{Gini index, developed by Gini in \cite{Gini}, is a measure of statistical dispersion, most commonly used as a scale of income inequality. It is also called \emph{Gini coefficient} or \emph{Gini ratio}. Here, it is applied to the sizes (in number of changes) of all commits composing the instance.} \\
+\midrule
+\multirow{5}{*}{\cpbox{5cm}{Meta- \\ -information}}
+& Total number of commits \\
+& Total number of authors \\
+& Average number of commits made by an author \\
+& Average number of changes made by an author \\
+& Time in seconds since the last bug-fix to the latest commit \\
+\bottomrule
+\end{longtable}

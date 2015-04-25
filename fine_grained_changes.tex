@@ -1,0 +1,52 @@
+\begin{longtable}{D{0.4} X c}
+\caption{Fine-grained source code changes} 
+\label{tab:fine_grained_changes}\\
+\toprule
+\textbf{Location} & \multicolumn{1}{C}{\textbf{Change type}} & \textbf{Significance\footnotemark} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Location} & \multicolumn{1}{C}{\textbf{Change type}} & \textbf{Significance} \\
+\midrule
+\endhead
+\multirow{9}{*}{Body}
+& Additional functionality & low \\
+& Additional object state & low \\
+& Condition expression change & medium \\
+& Decreasing statement delete & high \\
+& Decreasing statement parent change & high \\
+& Else-part delete & medium \\
+& Else-part insert & medium \\
+& Increasing statement insert & high \\
+& Increasing statement parent change & high \\
+\multirow{7}{*}{Body}
+& Removed functionality & crucial \\
+& Removed object state & crucial \\
+& Statement delete & medium \\
+& Statement insert & medium \\
+& Statement ordering change & low \\
+& Statement parent change & medium \\
+& Statement update & low \\
+\midrule
+\multirow{19}{*}{Declaration}
+& Attribute renaming & high \\
+& Attribute type change & crucial \\
+& Class renaming & high \\
+& Decreasing accessibility change & crucial \\
+& Final modifier insert & crucial \\
+& Final modifier delete & low \\
+& Increasing accessibility change & medium \\
+& Method renaming & high \\
+& Parameter delete & crucial \\
+& Parameter insert & crucial \\
+& Parameter ordering change & crucial \\
+& Parameter type change & crucial \\
+& Parameter renaming & medium \\
+& Parent class delete & crucial \\
+& Parent class insert & crucial \\
+& Parent class update & crucial \\
+& Return type delete & crucial \\
+& Return type insert & crucial \\
+& Return type update & crucial \\
+\bottomrule
+\end{longtable}
