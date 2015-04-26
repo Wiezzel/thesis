@@ -293,13 +293,20 @@ Leaves of the ASTs are matched using the \emph{bi-gram Dice coefficient} -- an a
 
 \subsection{Feature engineering}
 \label{sec:feature_engineering}
-Basing on fined-grained code changes (extracted by the algorithm described in previous section) as well as commit meta-information, each instance of my model is ascribed a number of features. These features are presented in table \ref{tab:features}.
+Basing on fined-grained code changes (extracted by the algorithm described in previous section) as well as commit meta-information, each instance of my model is ascribed a number of features. As instances represent groups of commits, most features are computed by an aggregation of parameters of single commits (\textit{e.g. via} averaging or summing). Some attributes, related to commits' authors, utilize not only local, but also global information. They require an evaluation of the authors' experience, which cannot be computed using only data related to a single method. All the features are presented in table \ref{tab:features}.
 
 \LTXtable{\textwidth}{features.tex}
 
-\section{Bug-proneness approximation}
+\section{Bug-proneness estimation}
 \label{sec:bug-proneness}
-[\textit{In this section I will present the process of identification of bug-fixing commits and approximating the bug-proneness parameter.}]
+For the sake of simplicity, I decided to use a plain textual match to identify the bug-fixing commits. Log messages are searched for one of the following strings: \texttt{"bug"}, \texttt{"fix"}, or \texttt{"issue"} (the matching is case-insensitive).
+
+After identifying the bug-fixes, defect-proneness has to be estimated for the other commits. As the assumptions put forward in section \ref{sec:general_assumptions} do not impose any particular method of the estimation, I propose three different strategies which could be used fo this purpose:
+\begin{enumerate}[label=(S\arabic*)]
+	\item \textbf{Linear} -- ...
+	\item \textbf{Geometric} -- ...
+	\item \textbf{Weighted} -- ...
+\end{enumerate}
 
 \section{Machine learning}
 \label{sec:machine_learning}
