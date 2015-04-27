@@ -1,0 +1,19 @@
+\begin{longtable}{X C C C C}
+\caption{Bug-proneness estimation strategies} 
+\label{tab:bug_proneness_strategies}\\
+\toprule
+\multicolumn{1}{C}{\multirow{2}{*}{\textbf{Commit}}} & \multirow{2}{*}{\textbf{Size}} & \multicolumn{3}{c}{\textbf{Bug-proneness}} \\
+\cline{3-5}
+& & \textbf{Linear} & \textbf{Geometric} & \textbf{Weighted} \\
+\midrule
+commit 1 & 35 & 0.25 & 0.13 & 0.29 \\
+commit 2 & 56 & 0.50 & 0.25 & 0.75 \\
+commit 3 & 13 & 0.75 & 0.50 & 0.83 \\
+commit 4 & 11 & 1.00 & 1.00 & 1.00 \\
+\textbf{bug-fix 1} & -- & 0.00 & 0.00 & 0.00 \\
+commit 6 & 34 & 0.33 & 0.25 & 0.11 \\
+commit 7 & 28 & 0.67 & 0.50 & 0.74 \\
+commit 8 & 16 & 1.00 & 1.00 & 1.00 \\
+\textbf{bug-fix 2} & -- & 0.00 & 0.00 & 0.00 \\
+\bottomrule
+\end{longtable}
