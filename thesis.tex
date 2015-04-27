@@ -1,11 +1,14 @@
 \documentclass{pracamgr}
 
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage[backend=biber,style=numeric]{biblatex}
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{changepage}
 \usepackage{chngcntr}
 \usepackage{enumitem}
+\usepackage{fixltx2e}
 \usepackage{float}
 \usepackage[utf8]{inputenc}
 \usepackage{ltxtable}
@@ -303,10 +306,15 @@ For the sake of simplicity, I decided to use a plain textual match to identify t
 
 After identifying the bug-fixes, defect-proneness has to be estimated for the other commits. As the assumptions put forward in section \ref{sec:general_assumptions} do not impose any particular method of the estimation, I propose three different strategies which could be used fo this purpose:
 \begin{enumerate}[label=(S\arabic*)]
-	\item \textbf{Linear} -- ...
-	\item \textbf{Geometric} -- ...
-	\item \textbf{Weighted} -- ...
+	\item \textbf{Linear} -- It is the simplest method, which assigns linearly ascending scores to successive commits. The common difference of this sequence is determined by the number of commits in a chunk ($n$).
+	\[ \underset{1 \leqslant i \leqslant n}{\forall} lin(i) = \frac{i}{n} \]
+	\item \textbf{Geometric} -- This strategy uses geometric progression of bug-proneness. As it is impossible for this kind of sequence to advance so ``smoothly" from 0.0 to 1.0 as the arithmetic sequence, the common ratio needs to be specified by an additional parameter $\alpha$.
+	\[ \underset{1 \leqslant i \leqslant n}{\forall} geom(i) = \alpha^{n - i} \]
+	\item \textbf{Weighted} -- This method, based on sizes of commits (expressed in numbers of fine-grained changes), assigns higher bug-proneness increases to big commits and lower increases to smaller ones.
+	\[ \underset{1 \leqslant i \leqslant n}{\forall} wght(i) =  \underset{1 \leqslant j \leqslant i}{\sum} size(j) \Biggm/ \underset{1 \leqslant j \leqslant n}{\sum} size(j) 	 \]
 \end{enumerate}
+
+Table \ref{tab:bug_proneness_strategies} and corresponding figure \ref{fig:bug_proneness_strategies} present examples of using all of the above strategies.
 
 \LTXtable{\textwidth}{tables/bug_proneness_strategies.tex}
 
