@@ -219,19 +219,19 @@ Prediction of the target variable has to be done through a measurement of some o
 \label{sec:static}
 Static metrics are ``measures of structural properties derived from the source code" \cite[p.~5]{systematic}. Their essential property (responsible for the name) is that they can be computed using only a snapshot (revision) of the code. Some of static metrics are specific to object-oriented software, other are more universal (\textit{e.g.} LOC or complexity). Examples of static metrics are listed in table \ref{tab:static_metrics}. Please note, that metrics presented as low-level could be also used on higher levels by aggregation operations (\textit{e.g.} minimum, maximum or average).
 
-\LTXtable{\textwidth}{static_metrics.tex}
+\LTXtable{\textwidth}{tables/static_metrics.tex}
 
 \subsection{Historical metrics}
 \label{sec:historical}
 As the name suggests, historical metric are obtained through the analysis of software history, which is stored in a version control system. Some of them are computed from raw change data (that is a series of code revisions), while others rely on meta-information stored by VCS such as commit times, authors, and descriptions. Historical metrics are also called \emph{process metrics} or \emph{change metrics}\footnote{However, in \cite{Fukushima} this last name is used for metrics which can be attributed to a \textit{change itself}, not to a software component.}. Table \ref{tab:historical_metrics} contains examples of such metrics.
 
-\LTXtable{\textwidth}{historical_metrics.tex}
+\LTXtable{\textwidth}{tables/historical_metrics.tex}
 
 \subsection{Micro-interaction metrics}
 \label{sec:micro-interaction}
 Micro-interaction metrics, proposed by Lee \textit{et al.} in \cite{micro_interaction}, are tracking behavioural interaction patterns of software developers. Usage of such metrics is motivated by research showing correlations between work habits and productivity \cite{LaToza}. They can be obtained from systems tracking developers' activities, such as \textsc{Mylyn} \cite{mylyn}, a task management plug-in for \textsc{Eclipse IDE}. Experimental results presented in \cite{micro_interaction} show that micro-interaction metrics outperform both static and historical metrics. However, the scope of their usage is very limited, due to requirement for programmers' activities registration, which is not so common in software projects. Examples of micro-interaction metrics are presented in table \ref{tab:micro_interaction_metrics}.
 
-\LTXtable{\textwidth}{micro_interaction_metrics.tex}
+\LTXtable{\textwidth}{tables/micro_interaction_metrics.tex}
 
 \chapter{The proposed approach}
 \label{cha:approach}
@@ -256,7 +256,7 @@ The bug-proneness parameter constitutes the target variable in my approach. As i
 
 \begin{figure}[h]
 \centering
-\input{bug_proneness.tex}
+\input{figures/bug_proneness.tex}
 \caption{Bug-proneness alteration}
 \label{fig:bug_proneness}
 \end{figure}
@@ -268,7 +268,7 @@ Since my aim is to follow changes affecting the analysed method, model instances
 
 \begin{figure}[h]
 \centering
-\input{instance_construction.tex}
+\input{figures/instance_construction.tex}
 \caption{Instance construction}
 \label{fig:instance_construction}
 \end{figure}
@@ -289,13 +289,13 @@ Leaves of the ASTs are matched using the \emph{bi-gram Dice coefficient} -- an a
 \footnotetext{``The significance level of a change is defined as the impact of the change on other source code entities, i.e., how likely is it that other source code entities have to be changed, when a certain change is applied." \cite{classifying}}
 \addtocounter{footnote}{-1}
 
-\LTXtable{\textwidth}{fine_grained_changes.tex}
+\LTXtable{\textwidth}{tables/fine_grained_changes.tex}
 
 \subsection{Feature engineering}
 \label{sec:feature_engineering}
 Basing on fined-grained code changes (extracted by the algorithm described in previous section) as well as commit meta-information, each instance of my model is ascribed a number of features. As instances represent groups of commits, most features are computed by an aggregation of parameters of single commits (\textit{e.g. via} averaging or summing). Some attributes, related to commits' authors, utilize not only local, but also global information. They require an evaluation of the authors' experience, which cannot be computed using only data related to a single method. All the features are presented in table \ref{tab:features}.
 
-\LTXtable{\textwidth}{features.tex}
+\LTXtable{\textwidth}{tables/features.tex}
 
 \section{Bug-proneness estimation}
 \label{sec:bug-proneness}
