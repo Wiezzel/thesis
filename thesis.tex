@@ -327,10 +327,11 @@ Table \ref{tab:bug_proneness_strategies} and corresponding figure \ref{fig:bug_p
 
 \section{Machine learning}
 \label{sec:machine_learning}
-[\textit{This section will contain brief descriptions of all machine learning algorithms tested during the development of my program.}]
+The final step of the development of a defect prediction tool is training a classifier (which in our case should be called a \emph{regressor} for the continuous character of the bug-proneness parameter) that later would be used for the classification of new instances. My approach incorporates four machine learning algorithms, described in the following sections (and evaluated and compared in chapter~\ref{cha:experiments}).
 
 \subsection{Decision tree}
 \label{sec:decision_tree}
+According to \cite[p. 263]{encyclopedia}, decision tree is a simple, tree-structured classification model. Its inner nodes represent tests, edges correspond to possible test outputs, while leaves contain potential values of the target variable. For each test, the outcomes are both exhaustive and mutually exclusive. Classification of a new case proceeds in a top-down manner. Starting from the tree root, the classified instance is checked against successive conditions (progressing according to the results) until a leaf is reached, from which the result value is retrieved.
 
 \subsection{Random forest}
 \label{sec:random_forest}
