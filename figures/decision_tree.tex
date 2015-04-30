@@ -1,0 +1,24 @@
+\begin{tikzpicture}[x=1pt,y=-1pt,scale=36]
+	\tikzset{test/.style={rectangle with rounded corners,draw,minimum height=27pt,minimum width=60pt,anchor=base}}
+	\tikzset{leaf/.style={circle,draw,minimum height=27pt,anchor=base}}
+	
+	\node [test] (outlook) {\adjbl{outlook}};
+	\node [leaf] (yes1) [below=35pt of outlook] {\adjbl{yes}};
+	\node [test] (humidity) [left=30pt of yes1] {\adjbl{humidity}};
+	\node [test] (windy) [right=30pt of yes1] {\adjbl{windy}};
+	\node [] (dummy1) [below=45pt of humidity] {};
+	\node [] (dummy2) [below=45pt of windy] {};
+	\node [leaf] (yes2) [left=20 pt of dummy1] {\adjbl{yes}};
+	\node [leaf] (yes3) [left=20 pt of dummy2] {\adjbl{yes}};
+	\node [leaf] (no1) [right=20pt of dummy1] {\adjbl{no}};
+	\node [leaf] (no2) [right=20pt of dummy2] {\adjbl{no}};
+	
+	\path[every node/.style={font=\small}]
+    	(outlook.south west) edge [shorten >= 5pt,shorten <= 3pt,thick,->] node [left] {sunny} (humidity.north)
+    	(outlook.south) edge [shorten >= 3pt,shorten <= 4pt,thick,->] node [right] {overcast} (yes1)
+    	(outlook.south east) edge [shorten >= 5pt,shorten <= 3pt,thick,->] node [right] {rain} (windy.north)
+    	(humidity) edge [shorten >= 2pt,shorten <= 4pt,thick,->] node [left] {normal} (yes2)
+    	(humidity) edge [shorten >= 2pt,shorten <= 4pt,thick,->] node [right] {high} (no1)
+    	(windy) edge [shorten >= 2pt,shorten <= 4pt,thick,->] node [left] {false} (yes3)
+    	(windy) edge [shorten >= 2pt,shorten <= 4pt,thick,->] node [right] {true} (no2);
+\end{tikzpicture}

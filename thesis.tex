@@ -20,7 +20,10 @@
 
 \usetikzlibrary{arrows}
 \usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{intersections}
 \usetikzlibrary{patterns}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes}
 
 \author{Adam Wierzbicki}
 \nralbumu{306441}
@@ -59,7 +62,9 @@
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \newcolumntype{D}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}
 \renewcommand{\arraystretch}{1.5}
+
 \newcommand{\cpbox}[2]{\pbox{#1}{\relax\ifvmode\centering\fi #2}}
+\newcommand{\adjbl}[1]{\raisebox{0pt}[\height][0pt]{#1}}
 
 \captionsetup{belowskip=12pt,aboveskip=8pt}
 
@@ -71,6 +76,8 @@
   {\end{adjustwidth}}
 
 \begin{document}
+
+\input{rectangle.tex}
 
 \maketitle
 
@@ -332,6 +339,13 @@ The final step of the development of a defect prediction tool is training a clas
 \subsection{Decision tree}
 \label{sec:decision_tree}
 According to \cite[p. 263]{encyclopedia}, decision tree is a simple, tree-structured classification model. Its inner nodes represent tests, edges correspond to possible test outputs, while leaves contain potential values of the target variable. For each test, the outcomes are both exhaustive and mutually exclusive. Classification of a new case proceeds in a top-down manner. Starting from the tree root, the classified instance is checked against successive conditions (progressing according to the results) until a leaf is reached, from which the result value is retrieved.
+
+\begin{figure}[h]
+\centering
+\input{figures/decision_tree.tex}
+\caption{A decision tree for the golf data set \cite{decision_trees}}
+\label{fig:decision_tree}
+\end{figure}
 
 \subsection{Random forest}
 \label{sec:random_forest}
