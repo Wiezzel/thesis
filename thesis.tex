@@ -345,7 +345,7 @@ The learning algorithm for decision trees, called \emph{recursive splitting} (de
 \begin{figure}[h]
 \centering
 \input{figures/decision_tree.tex}
-\caption[An example of decision tree]{An example of decision tree\footnotemark}
+\caption[Decision tree example]{Decision tree example\footnotemark}
 \label{fig:decision_tree}
 \end{figure}
 \footnotetext{This tree describes the \emph{Play Golf} data set. ``P" labels indicate weather suitable for playing golf, while ``N" means unsuitable weather. This figure was copied from \cite{decision_trees}.}
@@ -355,12 +355,20 @@ The learning algorithm for decision trees, called \emph{recursive splitting} (de
 
 Random forest, introduced by Breiman in \cite{random_forests}, is an \emph{ensemble learning algorithm}, using the decision tree (see section \ref{sec:decision_tree}) as the base classifier. It combines two important techniques: \emph{bagging} and \emph{random subspace method}.
 
-Basically, a random forest is a set of decision trees. Each one of them is trained using another random sample of an input training set. The output of such ensemble for test instances is obtained from individual responses by taking their mode (in case of classification) or average (regression). This method, called \emph{bagging} or \emph{bootstrap aggregating}, reduces the instability of the base classifier and improves its accuracy \cite{bagging}.
+Basically, a random forest is a set of decision trees. Each one of them is trained using a separate random sample of an input training set. The output of such ensemble for test instances is obtained from individual responses by computing their mode (in case of classification) or average (regression). This method, called \emph{bagging} or \emph{bootstrap aggregating}, reduces the instability of the base classifier and improves its accuracy \cite{bagging}.
 
 \emph{Random subspace method} increases the diversity between members of the ensemble by choosing random subspaces of the features space to be used \cite[p.~828]{encyclopedia}. In case of random forests, this means that each choice of a data split is restricted to a subset\footnote{Typically of size $\sqrt{n}$ where $n$ is the total number of features.} of features (not all possibilities are taken into account) \cite{random_forests}.
  
 \subsection{Support vector machine}
 \label{sec:svm}
+Support vector machine is a classification model based on the construction of a hyperplane or a set of hyperplanes dividing the feature space of the data. The original form of the algorithm, proposed by Vapnik and Lerner in \cite{svm}, assumes linear separability of classes. The hyperplane is constructed in a way which minimizes the distance between the hyperplane and the closest points from both classes.
+
+\begin{figure}[h]
+\centering
+\input{figures/svm.tex}
+\caption{SVM example}
+\label{fig:svm}
+\end{figure}
 
 \subsection{Neural network}
 \label{sec:neural_net}
