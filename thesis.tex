@@ -340,16 +340,25 @@ The final step of the development of a defect prediction tool is training a clas
 \label{sec:decision_tree}
 According to \cite[p. 263]{encyclopedia}, decision tree is a simple, tree-structured classification model. Its inner nodes represent tests, edges correspond to possible test outputs, while leaves contain potential values of the target variable. For each test, the outcomes are both exhaustive and mutually exclusive. Classification of a new case proceeds in a top-down manner. Starting from the tree root, the classified instance is checked against successive conditions (progressing according to the results) until a leaf is reached, from which the result value is retrieved.
 
+The learning algorithm for decision trees, called \emph{recursive splitting} (described in \cite[p.~264]{encyclopedia}) also takes a top-down approach. Beginning with a set of training instances, the best possible split of this set is chosen. Candidates for this choice are all values of attributes appearing in the training dataset. For a discrete attribute, the split has a trivial form -- one subset corresponding to one value. For a numerical one, an inequality test or some kind of discretization is required. Quality of the possible splits (or, more precisely, its reciprocal called \emph{impurity}) is evaluated with measures such as \emph{information entropy} \cite{Shannon} or \emph{Gini index} \cite{Gini}. After choosing the best parameter, the training set is appropriately divided and the algorithm proceeds recursively for each subset. The procedure terminates when the processed subset can no longer be split (either because all instances belong to one class, or due to their inseparability), or when the predefined maximum tree depth is reached.
+
 \begin{figure}[h]
 \centering
 \input{figures/decision_tree.tex}
-\caption{A decision tree for the golf data set \cite{decision_trees}}
+\caption[An example of decision tree]{An example of decision tree\footnotemark}
 \label{fig:decision_tree}
 \end{figure}
+\footnotetext{This tree describes the \emph{Play Golf} data set. ``P" labels indicate weather suitable for playing golf, while ``N" means unsuitable weather. This figure was copied from \cite{decision_trees}.}
 
 \subsection{Random forest}
 \label{sec:random_forest}
 
+Random forest, introduced by Breiman in \cite{random_forests}, is an \emph{ensemble learning algorithm}, using the decision tree (see section \ref{sec:decision_tree}) as the base classifier. It combines two important techniques: \emph{bagging} and \emph{random subspace method}.
+
+Basically, a random forest is a set of decision trees. Each one of them is trained using another random sample of an input training set. The output of such ensemble for test instances is obtained from individual responses by taking their mode (in case of classification) or average (regression). This method, called \emph{bagging} or \emph{bootstrap aggregating}, reduces the instability of the base classifier and improves its accuracy \cite{bagging}.
+
+\emph{Random subspace method} increases the diversity between members of the ensemble by choosing random subspaces of the features space to be used \cite[p.~828]{encyclopedia}. In case of random forests, this means that each choice of a data split is restricted to a subset\footnote{Typically of size $\sqrt{n}$ where $n$ is the total number of features.} of features (not all possibilities are taken into account) \cite{random_forests}.
+ 
 \subsection{Support vector machine}
 \label{sec:svm}
 

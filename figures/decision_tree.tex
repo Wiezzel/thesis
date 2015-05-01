@@ -3,15 +3,15 @@
 	\tikzset{leaf/.style={circle,draw,minimum height=27pt,anchor=base}}
 	
 	\node [test] (outlook) {\adjbl{outlook}};
-	\node [leaf] (yes1) [below=35pt of outlook] {\adjbl{yes}};
+	\node [leaf] (yes1) [below=35pt of outlook] {\adjbl{P}};
 	\node [test] (humidity) [left=30pt of yes1] {\adjbl{humidity}};
 	\node [test] (windy) [right=30pt of yes1] {\adjbl{windy}};
 	\node [] (dummy1) [below=45pt of humidity] {};
 	\node [] (dummy2) [below=45pt of windy] {};
-	\node [leaf] (yes2) [left=20 pt of dummy1] {\adjbl{yes}};
-	\node [leaf] (yes3) [left=20 pt of dummy2] {\adjbl{yes}};
-	\node [leaf] (no1) [right=20pt of dummy1] {\adjbl{no}};
-	\node [leaf] (no2) [right=20pt of dummy2] {\adjbl{no}};
+	\node [leaf] (yes2) [left=20 pt of dummy1] {\adjbl{P}};
+	\node [leaf] (yes3) [left=20 pt of dummy2] {\adjbl{P}};
+	\node [leaf] (no1) [right=20pt of dummy1] {\adjbl{N}};
+	\node [leaf] (no2) [right=20pt of dummy2] {\adjbl{N}};
 	
 	\path[every node/.style={font=\small}]
     	(outlook.south west) edge [shorten >= 5pt,shorten <= 3pt,thick,->] node [left] {sunny} (humidity.north)
