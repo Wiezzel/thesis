@@ -58,6 +58,9 @@
 \captionsetup[table]{labelfont=bf}
 \captionsetup[figure]{labelfont=bf}
 
+\newcommand*{\noaddvspace}{\renewcommand*{\addvspace}[1]{}}
+\addtocontents{lot}{\protect\noaddvspace}
+\addtocontents{lof}{\protect\noaddvspace}
 
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \newcolumntype{D}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}
@@ -363,6 +366,8 @@ Basically, a random forest is a set of decision trees. Each one of them is train
 \label{sec:svm}
 Support vector machine is a classification model based on the construction of a hyperplane or a set of hyperplanes dividing the feature space of the data. The original form of the algorithm, proposed by Vapnik and Lerner in \cite{svm}, assumes linear separability of classes. The hyperplane is constructed in a way which minimizes the distance between the hyperplane and the closest points from both classes.
 
+Figure \ref{fig:svm} shows two examples of separation of the same set of instances in a two-dimensional space. While both lines separate the classes properly, only \textbf{A} is optimal in the aforementioned sense. The \emph{support vectors} (marked with larger points) are those which are placed closest to the separation line. By a formalization of the maximum-margin hyperplane problem and its transformation to the dual form, one can show that the result classifier relies only on these vectors \cite[pp. 942--944]{encyclopedia}.
+
 \begin{figure}[h]
 \centering
 \input{figures/svm.tex}
@@ -370,8 +375,16 @@ Support vector machine is a classification model based on the construction of a 
 \label{fig:svm}
 \end{figure}
 
+The original version of SVM is a linear classifier, which is a significant disadvantage when dealing with non-linearly separable classes. This issue was addressed by Boser \emph{et al.} in \cite{Boser} through the incorporation of \emph{kernel functions} to the model. This technique allows for a transformation of feature vectors into a high-dimensional space. However, by using the \emph{kernel trick}, no explicit representation of the transformed vectors is created. Another improvement to the algorithm, which enables SVM to handle mislabeled cases, is the \emph{soft margin} introduced by Cortes and Vapnik in \cite{Cortes}.
+
 \subsection{Neural network}
 \label{sec:neural_net}
+
+(Artificial) neural network is a learning algorithm based on the structure of neural connections in the human brain. A neural network is composed of simple nodes, known as \emph{neurons}, connected by edges. A neuron is a ``nonlinear, parameterized, bounded function" \cite[p. 2]{neural_networks}. It has several inputs (variables) and exactly one output (value). Typical neuron can be described with the following equation:
+\[y(x) = f\left(w_0 + \sum\limits_{i = 1}^{n} (x_i \cdot w_i) \right)\]
+where $x_i$ are variables, $w_i$ are appropriate weights, $w_0$ is an additional constant called \emph{bias}, and $f$ is an \emph{activation function} (usually a $sigmoid$ function).
+
+A neural net consists of several layers of neurons. Attribute values of classified instances are fed to the first layer. Then, successively, outputs of lower layers are propagated along the edges to the higher ones, up to the classifier output. Learning of a network is performed via adjustment of weights associated with the edges by the \emph{backpropagation} algorithm \cite[p. 31]{neural_networks}.
 
 \chapter{Implementation}
 \label{cha:implementation}
