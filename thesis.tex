@@ -73,6 +73,7 @@
 \newcommand{\adjbl}[1]{\raisebox{0pt}[\height][0pt]{#1}}
 \newcommand{\bpar}[1]{\medskip\noindent\textbf{#1}}
 \newcommand{\bparsc}[1]{\medskip\noindent\textbf{\textsc{#1}}}
+\newcommand{\bpartt}[1]{\medskip\noindent\textbf{\texttt{#1}}}
 
 \captionsetup{belowskip=12pt,aboveskip=8pt}
 
@@ -393,15 +394,40 @@ The defect prediction method described in chapter \ref{cha:approach} has been im
 \section{Languages and tools}
 \label{sec:languagess}
 
-\bparsc{Java} \cite{java} ...
+\subsection{Java} 
 
-\bparsc{JGit} \cite{jgit} ...
+Java \cite{java} is an object-oriented programming language, developed by James Gosling at \textsc{Sun Microsystems}, currently supported by \textsc{Oracle Corporation}. It has been chosen as the implementation language of \textsc{ChangeAnalyzer} due to its portability, wide availability of useful libraries (described further), and author's experience in Java programming.
 
-\bparsc{ChangeDistiller} \cite{change_distilling} ...
+\subsubsection*{JGit}
+\textsc{JGit} \cite{jgit} is an implementation of \textsc{Git} \cite{git} version control system in Java. It allows for programmatically performing such operations as inspecting a repository, tracking commits affecting a given file, or retrieving particular file revisions. \textsc{JGit} is used at the very beginning of the feature extraction process to obtain consecutive revisions of a source file, which are later compared by \textsc{ChangeDistiller}.
 
-\bparsc{Weka} \cite{weka} ...
+\subsubsection*{ChangeDistiller}
+The \textsc{ChangeDistiller} \cite{change_distilling} is an \textsc{Eclipse} plugin (also available as a stand-alone library), developed in order to extract fine-grained source code changes by syntax-aware file differentiation (for details see section \ref{sec:change_distilling}). \textsc{ChangeDistiller} is incorporated in \textsc{ChangeAnalyzer} to compare abstract syntax trees of successive file versions provided by \textsc{JGit} and compute the numbers of changes of particular types (see table \ref{tab:fine_grained_changes}).
 
-\bparsc{R} \cite{r} ...
+\subsubsection*{Weka}
+The \textsc{Waikato Environment for Knowledge Analysis} (WEKA) \cite{weka} is an open source data mining software suite written in Java. It contains a broad collection of state-of-the-art machine learning algorithms and can be used either as a stand-alone application, or as a library. \textsc{ChangeAnalyzer} utilizes WEKA to train various predictive models (described in section \ref{sec:machine_learning}) and predict the defect-proneness of unclassified methods.
+
+\subsection{R}
+
+R \cite{r} ...
+
+\subsubsection*{foreign}
+\texttt{foreign} \cite{foreign} ...
+
+\subsubsection*{cvTools}
+\texttt{cvTools} \cite{cvTools} ...
+
+\subsubsection*{randomForest}
+\texttt{randomForest} \cite{randomForest} ...
+
+\subsubsection*{rpart}
+\texttt{rpart} \cite{rpart} ...
+
+\subsubsection*{e1071}
+\texttt{e1071} \cite{e1071} ...
+
+\subsubsection*{nnet}
+\texttt{nnet} \cite{nnet} ...
 
 \section{Interface}
 \label{sec:interface}
