@@ -1,0 +1,43 @@
+\definecolor{light-gray}{gray}{0.95}
+
+\makeatletter
+
+\newcount\bt@rangea
+\newcount\bt@rangeb
+
+\newcommand\btIfInRange[2]{%
+    \global\let\bt@inrange\@secondoftwo%
+    \edef\bt@rangelist{#2}%
+    \foreach \range in \bt@rangelist {%
+        \afterassignment\bt@getrangeb%
+        \bt@rangea=0\range\relax%
+        \pgfmathtruncatemacro\result{ ( #1 >= \bt@rangea) && (#1 <= \bt@rangeb) }%
+        \ifnum\result=1\relax%
+            \breakforeach%
+            \global\let\bt@inrange\@firstoftwo%
+        \fi%
+    }%
+    \bt@inrange%
+}
+
+\newcommand\bt@getrangeb{%
+    \@ifnextchar\relax%
+    {\bt@rangeb=\bt@rangea}%
+    {\@getrangeb}%
+}
+
+\def\@getrangeb-#1\relax{%
+    \ifx\relax#1\relax%
+        \bt@rangeb=100000%   \maxdimen is too large for pgfmath
+    \else%
+        \bt@rangeb=#1\relax%
+    \fi%
+}
+
+\newcommand{\btLstHL}[1]{%
+    \btIfInRange{\value{lstnumber}}{#1}%
+    {\color{light-gray}}%
+    {\def\lst@linebgrd}%
+}%
+
+\makeatother
