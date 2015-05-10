@@ -9,28 +9,28 @@
 \textbf{Location} & \multicolumn{1}{C}{\textbf{Change type}} & \textbf{Significance} \\
 \midrule
 \endhead
-\multirow{9}{*}{Body}
+\multirow{8}{*}{Body}
 & Additional functionality & low \\
 & Additional object state & low \\
-& Condition expression change & medium \\
-& Decreasing statement delete & high \\
-& Decreasing statement parent change & high \\
+& Condition expression change (Snippet \ref{lst:condition_expression_change}) & medium \\
+& Decreasing statement delete\footnote{\label{not:decr_incr} \emph{Decreasing} and \emph{increasing} refers here to the change of the \emph{overall nested depth} of a method.} & high \\
+& Decreasing statement parent change\footnoteref{not:decr_incr} & high \\
 & Else-part delete & medium \\
-& Else-part insert & medium \\
-& Increasing statement insert & high \\
-& Increasing statement parent change & high \\
-\multirow{7}{*}{Body}
+& Else-part insert (Snippet \ref{lst:else_part_insert})& medium \\
+& Increasing statement insert\footnoteref{not:decr_incr} & high \\
+\multirow{8}{*}{Body}
+& Increasing statement parent change\footnoteref{not:decr_incr} & high \\
 & Removed functionality & crucial \\
 & Removed object state & crucial \\
 & Statement delete & medium \\
 & Statement insert & medium \\
 & Statement ordering change & low \\
-& Statement parent change & medium \\
+& Statement parent change (Snippet \ref{lst:statement_parent_change}) & medium \\
 & Statement update & low \\
 \midrule
 \multirow{19}{*}{Declaration}
 & Attribute renaming & high \\
-& Attribute type change & crucial \\
+& Attribute type change (Snippet \ref{lst:attribute_type_change})& crucial \\
 & Class renaming & high \\
 & Decreasing accessibility change & crucial \\
 & Final modifier insert & crucial \\
@@ -39,14 +39,14 @@
 & Method renaming & high \\
 & Parameter delete & crucial \\
 & Parameter insert & crucial \\
-& Parameter ordering change & crucial \\
+& Parameter ordering change (Snippet \ref{lst:parameter_ordering_change})& crucial \\
 & Parameter type change & crucial \\
 & Parameter renaming & medium \\
 & Parent class delete & crucial \\
 & Parent class insert & crucial \\
 & Parent class update & crucial \\
 & Return type delete & crucial \\
-& Return type insert & crucial \\
+& Return type insert (Snippet \ref{lst:return_type_insert})& crucial \\
 & Return type update & crucial \\
 \bottomrule
 \end{longtable}
