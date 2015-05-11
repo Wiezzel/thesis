@@ -1,0 +1,35 @@
+\tikzumlset{fill package=gray!10,fill class=white,font=\footnotesize}
+\begin{tikzpicture}
+\begin{umlpackage}{pl{.}edu{.}mimuw{.}changeanalyzer}
+\umlsimpleclass[x=1ex,y=1ex]{ChangeAnalyzer}
+\umlsimpleclass[right=0.35em of ChangeAnalyzer]{ChangeAnalyzerOptionParser}
+\umlsimpleclass[right=0.35em of ChangeAnalyzerOptionParser]{ExtractAndSave}
+
+\begin{umlpackage}{extraction}
+\umlsimpleclass[below right=25pt and 0.35em of ChangeAnalyzer.south west,anchor=north west]{RepoHistoryExtractor}
+\umlsimpleclass[right=0.35em of RepoHistoryExtractor]{CommitInfoExtractor}
+\umlsimpleclass[right=0.35em of CommitInfoExtractor]{CommitInfo}
+
+\umlsimpleclass[below=0.35em of RepoHistoryExtractor.south west,anchor=north west]{ClassHistoryExtractor}
+\umlsimpleclass[right=0.35em of ClassHistoryExtractor]{AuthorInfoExtractor}
+\umlsimpleclass[right=0.35em of AuthorInfoExtractor]{AuthorInfo}
+
+\umlsimpleclass[below=0.35em of ClassHistoryExtractor.south west,anchor=north west]{ClassHistoryWrapper}
+\umlsimpleclass[right=0.35em of ClassHistoryWrapper]{MethodHistoryIterator}
+\umlsimpleclass[right=0.35em of MethodHistoryIterator]{ExtractionUtils}
+\end{umlpackage}
+
+\begin{umlpackage}{models}
+\umlsimpleclass[below=30pt of ClassHistoryWrapper.south west,anchor=north west]{DataSetBuilder}
+\umlsimpleclass[right=0.35em of DataSetBuilder]{ChunkDataSetBuilder}
+
+\umlsimpleclass[below=0.35em of DataSetBuilder.south west,anchor=north west]{DataSetProvider}
+\umlsimpleclass[right=0.35em of DataSetProvider]{ReadOnlyDataSetProvider}
+
+\umlsimpleclass[below=0.35em of DataSetProvider.south west,anchor=north west]{DataSetProcessor}
+\umlsimpleclass[right=0.35em of DataSetProcessor]{DefaultDataSetProcessor}
+\end{umlpackage}
+
+\end{umlpackage}
+
+\end{tikzpicture}

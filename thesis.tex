@@ -26,7 +26,9 @@
 \usepackage{polski}
 \usepackage{soul}
 \usepackage{tikz}
+\usepackage{tikz-uml}
 \usepackage{xcolor}
+\usepackage{xspace}
 
 \usetikzlibrary{arrows}
 \usetikzlibrary{decorations.pathreplacing}
@@ -86,6 +88,7 @@
 \newcommand{\bparsc}[1]{\medskip\noindent\textbf{\textsc{#1}}}
 \newcommand{\bpartt}[1]{\medskip\noindent\textbf{\texttt{#1}}}
 \newcommand{\clopt}[1]{\texttt{\textbf{-{}-#1}}}
+\newcommand{\ca}{\textsc{ChangeAnalyzer}\xspace}
 
 \captionsetup{belowskip=12pt,aboveskip=8pt}
 
@@ -166,7 +169,7 @@ Identification of such fault-prone elements could be performed using many differ
 
 \bpar{Chapter \ref{cha:approach}} presents my approach towards the problem. The proposed method is based on extraction of historical information from a version control system and application of a machine learning algorithm. I describe the general model of a changing method\footnote{In the object-oriented-programming sense}, which is the principal element of the whole procedure, as well as successive phases such as feature extraction, identification of bug-fixes, assignment of bug-proneness scores and training a regressor. In the last section of this chapter, I list four different machine learning algorithms which are evaluated in Chapter \ref{cha:experiments}.
 
-\bpar{Chapter \ref{cha:implementation}} describes the \textsc{ChangeAnalyzer} tool -- an implementation of the approach proposed in Chapter \ref{cha:approach}. I present all used technologies (languages and libraries), software architecture and the interface.
+\bpar{Chapter \ref{cha:implementation}} describes the \ca tool -- an implementation of the approach proposed in Chapter \ref{cha:approach}. I present all used technologies (languages and libraries), software architecture and the interface.
 
 \bpar{Chapter \ref{cha:experiments}} contains a description of experiments which were performed to evaluate the proposed approach and compare the performance of different algorithms listed in Section \ref{sec:machine_learning}. I explain the methodology of these experiments and software configuration necessary to conduct them. Then I give an overview of the experimental data and finally present the results in form of tables and plots.
 
@@ -525,31 +528,31 @@ A neural net consists of several layers of neurons. Attribute values of classifi
 
 \chapter{Implementation}
 \label{cha:implementation}
-The defect prediction method described in Chapter \ref{cha:approach} has been implemented in form of an integrated tool -- \textsc{ChangeAnalyzer}. It is an open source Java software, licensed under Apache License 2.0 \cite{apache}. The code repository can be found on \textsc{GitHub}: \url{https://github.com/Wiezzel/changeanalyzer}. The following sections describe the languages and tools used for the development (Section \ref{sec:languagess}), interface (Section \ref{sec:interface}), and architecture (Section \ref{sec:architecture}) of the program.
+The defect prediction method described in Chapter \ref{cha:approach} has been implemented in form of an integrated tool -- \ca. It is an open source Java software, licensed under Apache License 2.0 \cite{apache}. The code repository can be found on \textsc{GitHub}: \url{https://github.com/Wiezzel/changeanalyzer}. The following sections describe the languages and tools used for the development (Section \ref{sec:languagess}), interface (Section \ref{sec:interface}), and architecture (Section \ref{sec:architecture}) of the program.
 
 \section{Languages and tools}
 \label{sec:languagess}
 
 \subsection{Java} 
 
-Java \cite{java} is an object-oriented programming language, developed by James Gosling at \textsc{Sun Microsystems}, currently supported by \textsc{Oracle Corporation}. It has been chosen as the implementation language of \textsc{ChangeAnalyzer} due to its portability, wide availability of useful libraries (described further), and author's experience in Java programming.
+Java \cite{java} is an object-oriented programming language, developed by James Gosling at \textsc{Sun Microsystems}, currently supported by \textsc{Oracle Corporation}. It has been chosen as the implementation language of \ca due to its portability, wide availability of useful libraries (described further), and author's experience in Java programming.
 
 \subsubsection*{JGit}
 \textsc{JGit} \cite{jgit} is an implementation of \textsc{Git} \cite{git} version control system in Java. It allows for programmatically performing such operations as inspecting a repository, tracking commits affecting a given file, or retrieving particular file revisions. \textsc{JGit} is used at the very beginning of the feature extraction process to obtain consecutive revisions of a source file, which are later compared by \textsc{ChangeDistiller}.
 
 \subsubsection*{ChangeDistiller}
-The \textsc{ChangeDistiller} \cite{change_distilling} is an \textsc{Eclipse} plugin (also available as a stand-alone library), developed in order to extract fine-grained source code changes by syntax-aware file differentiation (for details see Section \ref{sec:change_distilling}). \textsc{ChangeDistiller} is incorporated in \textsc{ChangeAnalyzer} to compare abstract syntax trees of successive file versions provided by \textsc{JGit} and compute the numbers of changes of particular types (see Table \ref{tab:fine_grained_changes}).
+The \textsc{ChangeDistiller} \cite{change_distilling} is an \textsc{Eclipse} plugin (also available as a stand-alone library), developed in order to extract fine-grained source code changes by syntax-aware file differentiation (for details see Section \ref{sec:change_distilling}). \textsc{ChangeDistiller} is incorporated in \ca to compare abstract syntax trees of successive file versions provided by \textsc{JGit} and compute the numbers of changes of particular types (see Table \ref{tab:fine_grained_changes}).
 
 \subsubsection*{Weka}
-The \textsc{Waikato Environment for Knowledge Analysis} (WEKA) \cite{weka} is an open source data mining software suite written in Java. It contains a broad collection of state-of-the-art machine learning algorithms and can be used either as a stand-alone application, or as a library. \textsc{ChangeAnalyzer} utilizes \textsc{Weka} to train various predictive models (described in Section \ref{sec:machine_learning}) and predict the defect-proneness of unclassified methods.
+The \textsc{Waikato Environment for Knowledge Analysis} (WEKA) \cite{weka} is an open source data mining software suite written in Java. It contains a broad collection of state-of-the-art machine learning algorithms and can be used either as a stand-alone application, or as a library. \ca utilizes \textsc{Weka} to train various predictive models (described in Section \ref{sec:machine_learning}) and predict the defect-proneness of unclassified methods.
 
 \subsection*{LIBSVM}
 
-LIBSVM \cite{libsvm} is a library for \emph{support vector machines} (see Section \ref{sec:svm}) in C++ and Java. It supports classification (C-SVC, $\nu$-SVC), regression ($\varepsilon$-SVR, $\nu$-SVR) and distribution estimation (one-class SVM). LIBSVM bindings are provided for many languages and frameworks (\textit{e.g.} Python, R, Ruby). \textsc{ChangeAnalyzer} uses a wrapper interface compatible with \textsc{Weka}~\cite{weka_libsvm}.
+LIBSVM \cite{libsvm} is a library for \emph{support vector machines} (see Section \ref{sec:svm}) in C++ and Java. It supports classification (C-SVC, $\nu$-SVC), regression ($\varepsilon$-SVR, $\nu$-SVR) and distribution estimation (one-class SVM). LIBSVM bindings are provided for many languages and frameworks (\textit{e.g.} Python, R, Ruby). \ca uses a wrapper interface compatible with \textsc{Weka}~\cite{weka_libsvm}.
 
 \subsection{R}
 
-R \cite{r} is a free, cross-platform software environment for statistical computations. It is not used for the implementation of \textsc{ChangeAnalyzer} itself, but of auxiliary scripts (see Section \ref{sec:set-up}) developed for the evaluation of the algorithms presented in Section \ref{sec:machine_learning}.
+R \cite{r} is a free, cross-platform software environment for statistical computations. It is not used for the implementation of \ca itself, but of auxiliary scripts (see Section \ref{sec:set-up}) developed for the evaluation of the algorithms presented in Section \ref{sec:machine_learning}.
 
 \subsubsection*{foreign}
 \textsc{foreign} \cite{foreign} is an R package containing functions for reading and writing data in formats specific to other software. It is used to import ARFF\footnote{\label{not:arff}\emph{Attribute-Relation File Format}. For details see \cite{arff}.} files generated by \textsc{Weka} library.
@@ -572,12 +575,12 @@ R \cite{r} is a free, cross-platform software environment for statistical comput
 \section{Interface}
 \label{sec:interface}
 
-\textsc{ChangeAnalyzer} includes a command-line interface for users. Section \ref{sec:main_interface} presents the main functionalities offered by \textsc{ChangeAnalyzer} as an integrated tool. Section \ref{sec:test_interface} describes a test interface, which provides more limited capabilities and was employed during system development and testing.
+\ca includes a command-line interface for users. Section \ref{sec:main_interface} presents the main functionalities offered by \ca as an integrated tool. Section \ref{sec:test_interface} describes a test interface, which provides more limited capabilities and was employed during system development and testing.
 
 \subsection{Main interface}
 \label{sec:main_interface}
 
-The main interface is provided by the main class of the \textsc{ChangeAnalyzer} runnable JAR. In order to use it, one must simply run the following command:
+The main interface is provided by the main class of the \ca runnable JAR. In order to use it, one must simply run the following command:
 \begin{verbatim}
 java -jar ChangeAnalyzer.jar <options>
 \end{verbatim}
@@ -608,10 +611,10 @@ From the options described below exactly one input (\texttt{extract} or \texttt{
 \item[\clopt{classify <path>}] Predict the bug-proneness of all changed\footnote{By \emph{changed} I mean methods which have been affected by at least one code change since their last bug-fix.} methods and save classification results under the given \texttt{<path>} in CSV\footnote{\emph{Comma-Separated Values}. For details see \cite{csv}} format.
 
 	\begin{itemize}[leftmargin=0.5in]
-	\item[\clopt{--decision-tree}] Use the \emph{decision tree} classifier (see Section \ref{sec:decision_tree}).
-	\item[\clopt{--random-forest}] Use the \emph{random forest} classifier (see Section \ref{sec:random_forest}).
-	\item[\clopt{--svm}] Use the \emph{support vector machine} classifier (see Section \ref{sec:svm}).
-	\item[\clopt{--neural-net}] Use the \emph{neural network} classifier (see Section \ref{sec:neural_net}).
+	\item[\clopt{decision-tree}] Use the \emph{decision tree} classifier (see Section \ref{sec:decision_tree}).
+	\item[\clopt{random-forest}] Use the \emph{random forest} classifier (see Section \ref{sec:random_forest}).
+	\item[\clopt{svm}] Use the \emph{support vector machine} classifier (see Section \ref{sec:svm}).
+	\item[\clopt{neural-net}] Use the \emph{neural network} classifier (see Section \ref{sec:neural_net}).
 	\end{itemize}
 
 \end{itemize}
@@ -627,9 +630,59 @@ From the options described below exactly one input (\texttt{extract} or \texttt{
 \subsection{Test interface}
 \label{sec:test_interface}
 
+The test interface provides a very limited functionality of extracting data from repositories and saving it. The format of extracted data is not compatible with the main interface -- it includes total numbers of fine-grained changes of all types (see Table \ref{tab:fine_grained_changes}) and three separate bug-proneness estimation columns: linear, geometric\textsubscript{0.5}, and weighted (for details see Section~\ref{sec:bug-proneness}).
+
+In order to use the test interface, the following command has to be run:
+
+\begin{verbatim}
+java -cp ChangeAnalyzer.jar pl.edu.mimuw.changeanalyzer.ExtractAndSave \
+    <path1> <path2> ...
+\end{verbatim}
+
+It will result in extracting data from repositories under the provided paths and storing it in ARFF files in the current working directory. Each file is named after the last part of the corresponding repository path (if name collisions occur, files will be overwritten).
+
 \section{Architecture}
 \label{sec:architecture}
-[\textit{In this section I will present the architecture of ChangeAnalyzer.}]
+This section gives a broad overview of the architecture of \ca by describing briefly every package and class. However, the following description is not intended to serve as a technical documentation. For more details, please visit the JavaDoc page: \url{http://wiezzel.github.io/changeanalyzer/}.
+
+\begin{figure}[h]
+\centering
+\input{figures/package_diagram.tex}
+\caption{ChangeAnalyzer package diagram}
+\label{fig:package_diagram}
+\end{figure}
+
+\subsection{Root package}
+\label{sec:root}
+Full package name: \texttt{pl.edu.mimuw.changeanalyzer}
+
+\subsection{Extraction package}
+\label{sec:extraction}
+Full package name: \texttt{pl.edu.mimuw.changeanalyzer.extraction}
+
+\subsection{Models package}
+\label{sec:models}
+Full package name: \texttt{pl.edu.mimuw.changeanalyzer.models}
+
+\subsection{Attributes package}
+\label{sec:attributes}
+Full package name: \texttt{pl.edu.mimuw.changeanalyzer.models.attributes}
+
+\subsection{Measures package}
+\label{sec:measures}
+Full package name: \texttt{pl.edu.mimuw.changeanalyzer.models.measures}
+
+\subsection{Standard implementations package}
+\label{sec:standard}
+Full package name: \texttt{pl.edu.mimuw.changeanalyzer.models.standard}
+
+\subsection{Utilities package}
+\label{sec:utilities}
+Full package name: \texttt{pl.edu.mimuw.changeanalyzer.utils}
+
+\subsection{Exceptions package}
+\label{sec:exceptions}
+Full package name: \texttt{pl.edu.mimuw.changeanalyzer.exceptions}
 
 \chapter{Experiments}
 \label{cha:experiments}
