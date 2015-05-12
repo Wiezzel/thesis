@@ -1,35 +1,66 @@
-\tikzumlset{fill package=gray!10,fill class=white,font=\footnotesize}
+\tikzumlset{fill class=white,font=\footnotesize}
 \begin{tikzpicture}
-\begin{umlpackage}{pl{.}edu{.}mimuw{.}changeanalyzer}
-\umlsimpleclass[x=1ex,y=1ex]{ChangeAnalyzer}
-\umlsimpleclass[right=0.35em of ChangeAnalyzer]{ChangeAnalyzerOptionParser}
-\umlsimpleclass[right=0.35em of ChangeAnalyzerOptionParser]{ExtractAndSave}
+\begin{umlpackage}[fill=gray!10,draw=gray!10]{pl{.}edu{.}mimuw{.}changeanalyzer}
+\umlsimpleclass[x=1ex,y=1ex,width=13em]{ChangeAnalyzer}
+\umlsimpleclass[right=0.35em of ChangeAnalyzer,width=13em]{ChangeAnalyzerOptionParser}
+\umlsimpleclass[right=0.35em of ChangeAnalyzerOptionParser,width=13em]{ExtractAndSave}
 
-\begin{umlpackage}{extraction}
-\umlsimpleclass[below right=25pt and 0.35em of ChangeAnalyzer.south west,anchor=north west]{RepoHistoryExtractor}
-\umlsimpleclass[right=0.35em of RepoHistoryExtractor]{CommitInfoExtractor}
-\umlsimpleclass[right=0.35em of CommitInfoExtractor]{CommitInfo}
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{extraction}
+\umlsimpleclass[below right=2.15em and 0.35em of ChangeAnalyzer.south west,anchor=north west,width=12.65em]{RepoHistoryExtractor}
+\umlsimpleclass[right=0.35em of RepoHistoryExtractor,width=13em]{CommitInfoExtractor}
+\umlsimpleclass[right=0.35em of CommitInfoExtractor,width=12.65em]{CommitInfo}
 
-\umlsimpleclass[below=0.35em of RepoHistoryExtractor.south west,anchor=north west]{ClassHistoryExtractor}
-\umlsimpleclass[right=0.35em of ClassHistoryExtractor]{AuthorInfoExtractor}
-\umlsimpleclass[right=0.35em of AuthorInfoExtractor]{AuthorInfo}
+\umlsimpleclass[below=0.35em of RepoHistoryExtractor.south west,anchor=north west,width=12.65em]{ClassHistoryExtractor}
+\umlsimpleclass[right=0.35em of ClassHistoryExtractor,width=13em]{AuthorInfoExtractor}
+\umlsimpleclass[right=0.35em of AuthorInfoExtractor,width=12.65em]{AuthorInfo}
 
-\umlsimpleclass[below=0.35em of ClassHistoryExtractor.south west,anchor=north west]{ClassHistoryWrapper}
-\umlsimpleclass[right=0.35em of ClassHistoryWrapper]{MethodHistoryIterator}
-\umlsimpleclass[right=0.35em of MethodHistoryIterator]{ExtractionUtils}
+\umlsimpleclass[below=0.35em of ClassHistoryExtractor.south west,anchor=north west,width=12.65em]{ClassHistoryWrapper}
+\umlsimpleclass[right=0.35em of ClassHistoryWrapper,width=13em]{MethodHistoryIterator}
+\umlsimpleclass[right=0.35em of MethodHistoryIterator,width=12.65em,font=\it\footnotesize]{ExtractionUtils}
 \end{umlpackage}
 
-\begin{umlpackage}{models}
-\umlsimpleclass[below=30pt of ClassHistoryWrapper.south west,anchor=north west]{DataSetBuilder}
-\umlsimpleclass[right=0.35em of DataSetBuilder]{ChunkDataSetBuilder}
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{models}
+\umlsimpleclass[below=2.50em of ClassHistoryWrapper.south west,anchor=north west,width=12.65em,font=\it\footnotesize]{DataSetBuilder}
+\umlsimpleclass[right=0.35em of DataSetBuilder,width=12.65em,font=\it\footnotesize]{ChunkDataSetBuilder}
 
-\umlsimpleclass[below=0.35em of DataSetBuilder.south west,anchor=north west]{DataSetProvider}
-\umlsimpleclass[right=0.35em of DataSetProvider]{ReadOnlyDataSetProvider}
+\umlsimpleclass[below=0.35em of DataSetBuilder.south west,anchor=north west,width=12.65em]{DataSetProvider}
+\umlsimpleclass[right=0.35em of DataSetProvider,width=12.65em]{ReadOnlyDataSetProvider}
 
-\umlsimpleclass[below=0.35em of DataSetProvider.south west,anchor=north west]{DataSetProcessor}
-\umlsimpleclass[right=0.35em of DataSetProcessor]{DefaultDataSetProcessor}
+\umlsimpleclass[below=0.35em of DataSetProvider.south west,anchor=north west,width=12.65em,font=\it\footnotesize]{DataSetProcessor}
+\umlsimpleclass[right=0.35em of DataSetProcessor,width=12.65em]{DefaultDataSetProcessor}
+
+\begin{umlpackage}[fill=gray!50,draw=gray!50]{measures}
+\umlsimpleclass[below right=2.15em and 0.35em of DataSetProcessor.south west,anchor=north west,width=11.95em,font=\it\footnotesize]{BugPronenessMeasure}
+\umlsimpleclass[below=0.35em of BugPronenessMeasure.south west,anchor=north west,width=11.95em]{LinearMeasure}
+\umlsimpleclass[below=0.35em of LinearMeasure.south west,anchor=north west,width=11.95em]{GeometricMeasure}
+\umlsimpleclass[below=0.35em of GeometricMeasure.south west,anchor=north west,width=11.95em]{WeightedMeasure}
 \end{umlpackage}
 
+\begin{umlpackage}[fill=gray!50,draw=gray!50]{attributes}
+\umlsimpleclass[right=1.05em of BugPronenessMeasure,width=11.95em,font=\it\footnotesize]{AttributeProcessor}
+\umlsimpleclass[below=0.35em of AttributeProcessor.south west,anchor=north west,width=11.95em]{SumAttributes}
+\umlsimpleclass[below=0.35em of SumAttributes.south west,anchor=north west,width=11.95em]{DeleteAttributes}
+\umlsimpleclass[below=0.35em of DeleteAttributes.south west,anchor=north west,width=11.95em]{ReorderClassAttribute}
+\end{umlpackage}
 \end{umlpackage}
 
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{exceptions}
+\umlsimpleclass[right=1.05em of ChunkDataSetBuilder,width=12.30em]{ChangeAnalyzerException}
+\umlsimpleclass[below=0.35em of ChangeAnalyzerException.south west,anchor=north west,width=12.30em]{ExtractionException}
+\umlsimpleclass[below=0.35em of ExtractionException.south west,anchor=north west,width=12.30em]{DataSetBuilderException}
+\umlsimpleclass[below=0.35em of DataSetBuilderException.south west,anchor=north west,width=12.30em]{ProcessingException}
+\umlsimpleclass[below=0.35em of ProcessingException.south west,anchor=north west,width=12.30em]{PredictionException}
+\end{umlpackage}
+
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{utils}
+\umlsimpleclass[below=2.50em of PredictionException.south west,anchor=north west,width=12.30em]{LazyList<T>}
+\umlsimpleclass[below=0.35em of LazyList<T>.south west,anchor=north west,width=12.30em]{LazyIterator}
+\end{umlpackage}
+
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{standard}
+\umlsimpleclass[below left=2.85em and 0.35em of WeightedMeasure.south west,anchor=north west,width=12.65em]{StandardDataSetBuilder}
+\umlsimpleclass[right=0.35em of StandardDataSetBuilder,width=13em]{StandardDataSetProcessor}
+\umlsimpleclass[right=0.35em of StandardDataSetProcessor,width=12.65em]{StandardDataSetProvider}
+\end{umlpackage}
+\end{umlpackage}
 \end{tikzpicture}
