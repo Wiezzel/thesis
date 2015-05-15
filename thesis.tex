@@ -90,6 +90,8 @@
 \newcommand{\clopt}[1]{\texttt{\textbf{-{}-#1}}}
 \newcommand{\ca}{\textsc{ChangeAnalyzer}\xspace}
 \newcommand{\pack}[3]{\subsection{#1 package} \label{sec:#2} \underline{\smash{Full package name}}: \texttt{#3}\medskip}
+\newcommand{\extends}[1]{\vspace{-0.5em}\hspace{\parindent}\texttt{\textbf{extends} #1}\vspace{0.5em}}
+\newcommand{\implements}[1]{\vspace{-0.5em}\hspace{\parindent}\texttt{\textbf{implements} #1}\vspace{0.5em}}
 
 \captionsetup{belowskip=12pt,aboveskip=8pt}
 
@@ -665,7 +667,7 @@ This section gives a broad overview of the architecture of \ca by describing bri
 
 Please note, that the following description is not intended to serve as a complete technical documentation. For more details, visit the JavaDoc page: \url{http://wiezzel.github.io/changeanalyzer/}.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \input{figures/package_diagram.tex}
 \caption{ChangeAnalyzer package diagram}
@@ -738,63 +740,140 @@ This is a utility class for repository information extraction (providing one sta
 
 \pack{Models}{models}{pl.edu.mimuw.changeanalyzer.models}
 
+\noindent This package contains classes responsible for defining the data model and creation of its instances by processing of data extracted from software repositories.
+
 \subsubsection*{DataSetBuilder (abstract)}
+This is the abstract base class for dataset builders -- classes transforming method histories into model instances. Each builder class defines a set of attributes and provides methods to produce instances with this attributes. Created instances may represent commits, chunks, method snapshots, etc. depending on the model used by a particular builder.
 
 \subsubsection*{ChunkDataSetBuilder (abstract)}
+\extends{DataSetBuilder}
+
+\noindent\texttt{ChunkDataSetBuilder} is a dataset builder that processes commits in chunks separated by bug-fixes. Defect-proneness scores are assigned by pluggable measures (strategies). Obtaining multiple scores for a single instance is possible by providing multiple bug-proneness measures to the builder.
 
 \subsubsection*{DataSetProcessor (interface)}
-
-\subsubsection*{DefaultDataSetProcessor}
+This is an interface for objects processing data sets (that means modifying and/or removing existing features as well as computing new ones). Typically, a dataset processor aggregates a few attribute processors (see description of attributes package on page \pageref{sec:attributes}).
 
 \subsubsection*{DataSetProvider}
+\texttt{DataSetProvider} is a top-level class responsible for retrieving datasets either by extracting them from repositories or by reading files with previously extracted data. A provider wraps functionalities provided by a \texttt{DataSetBuilder} and a \texttt{DataSetProcessor}, and additionally separates training instances from test instances.
 
 \subsubsection*{ReadOnlyDataSetProvider}
+\extends{DataSetProvider}
+
+\noindent\texttt{ReadOnlyDataSetProvider} is a simple dataset provider incapable of extracting or processing data. It expects processed data with the class (target) attribute on the last position. Any attempts to call methods responsible for the unsupported operations result in throwing an exception.
+
+\subsubsection*{DefaultDataSetProcessor}
+This is a static nested class of \texttt{ReadOnlyDataSetProvider}. The only operation performed by this processor is marking the last attribute of a dataset as the class attribute.
+
+\subsubsection*{ChangeCounter}
+This is a simple class for counting code changes of different types. It holds a separate, internal counter for each change type.
 
 \pack{Attributes}{attributes}{pl.edu.mimuw.changeanalyzer.models.attributes}
 
+\noindent This package contains classes representing attributes of data models and operations which could be performed on them.
+
+\subsubsection*{Attributes}
+This is a class representing a set of model attributes.
+
 \subsubsection*{AttributeProcessor (interface)}
+\texttt{AttributeProcessor} is an interface for classes manipulating attributes of dataset.
 
 \subsubsection*{SumAttributes}
+\implements{AttributeProcessor}
+
+\noindent This is an attribute processor class which adds to the given dataset a new attribute being the sum of the defined source attributes.
 
 \subsubsection*{DeleteAttributes}
+\implements{AttributeProcessor}
+
+\noindent This is an attribute processor class which removes a group of defined attributes from the given dataset.
 
 \subsubsection*{ReorderClassAttribute}
+\implements{AttributeProcessor}
+
+\noindent This is an attribute processor class which moves the class attribute to the last position.
 
 \pack{Measures}{measures}{pl.edu.mimuw.changeanalyzer.models.measures}
 
+\noindent This package contains bug-proneness measure classes representing estimation strategies defined in Section \ref{sec:bug-proneness}.
+
 \subsubsection*{BugPronenessMeasure (interface)}
+\texttt{BugPronenessMeasure} is an interface for classes assigning bug-proneness scores to model instances produced by a \texttt{ChunkDataSetBuilder}. A measure could be state-aware in a sense that each assigned score does not depend solely on properties of a single method version, but of a whole chunk.
 
 \subsubsection*{LinearMeasure}
+\implements{BugPronenessMeasure}
+
+\noindent This measure assigns bug-proneness score of 1.0 to the last commit of a chunk and linearly decreasing scores to the previous ones.
 
 \subsubsection*{GeometricMeasure}
+\implements{BugPronenessMeasure}
+
+\noindent This measure assigns bug-proneness score of 1.0 to the last commit of a chunk and geometrically decreasing scores to the previous ones.
 
 \subsubsection*{WeightedMeasure}
+\implements{BugPronenessMeasure}
+
+\noindent This measure computes bug-proneness scores proportionally to numbers of fine-grained changes since the last bug-fix. It assigns each group of commits a score equal to the ratio of number of changes in this group to the total number of changes in the whole chunk.
 
 \pack{Standard implementations}{standard}{pl.edu.mimuw.changeanalyzer.models.standard}
 
+\noindent This package contains standard implementations of abstract classes and interfaces defined in the models package.
+
 \subsubsection*{StandardDataSetBuilder}
+\extends{DataSetBuilder}
+
+\noindent This data set builder class uses commit group as a model. Each produced instance represents a group of subsequent commits starting with a commit directly succeeding a bug-fix. Groups contain from one commit up to a whole chunk.
 
 \subsubsection*{StandardDataSetProcessor}
+\implements{DataSetProcessor}
+
+\noindent This is the standard dataset processor used by \ca for processing raw data sets built by a \texttt{StandardDataSetBuilder}. It performs the following operations:
+\begin{itemize}[noitemsep,topsep=1pt]
+	\item Discard some unnecessary attributes,
+	\item Sum values of parameter change-related attributes into a new attribute,
+	\item Sums values of header change-related attributes a new attribute.
+\end{itemize}
 
 \subsubsection*{StandardDataSetProvider}
+\extends{DataSetProvider}
+
+\noindent A \texttt{StandardDataSetProvider} uses a \texttt{StandardDataSetBuilder} and a \texttt{StandardDataSetProcessor} to create and process datasets.
 
 \pack{Exceptions}{exceptions}{pl.edu.mimuw.changeanalyzer.exceptions}
 
+\noindent This package contains exceptions thrown by \ca.
+
 \subsubsection*{ChangeAnalyzerException}
+This is the base class for all \ca exceptions.
 
 \subsubsection*{ExtractionException}
+\extends{ChangeAnalyzerException}
+
+\noindent \texttt{ExtractionException} is an exception thrown when an error occurs during the extraction of information from a repository.
 
 \subsubsection*{DataSetBuilderException}
+\extends{ChangeAnalyzerException}
+
+\noindent This is an exception thrown by the \texttt{DataSetBuilder} class. It indicates an error during the creation of a dataset.
 
 \subsubsection*{ProcessingException}
+\extends{ChangeAnalyzerException}
+
+\noindent \texttt{ProcessingException} is an exception thrown when an error occurs during the processing of a dataset.
 
 \subsubsection*{PredictionException}
+\extends{ChangeAnalyzerException}
 
-\pack{Utilities}{utilities}{pl.edu.mimuw.changeanalyzer.utils}
+\noindent \texttt{PredictionException} is an exception thrown due to an error in performing the bug-proneness prediction.
+
+\pack{Utilities}{utilities}{pl.edu.mimuw.changeanalyzer.util}
+
+\noindent This package contains some universal, reusable utility classes.
 
 \subsubsection*{LazyList<T>}
+\texttt{LazyList} is a generic container class designed for storing sequences provided by disposable iterable objects. It wraps up an ordinary list which is extended on demand by advancing the source iterator.
 
 \subsubsection*{LazyIterator}
+\texttt{LazyIterator} is an inner class of \texttt{LazyList} enabling the iteration through its elements.
 
 \chapter{Experiments}
 \label{cha:experiments}
