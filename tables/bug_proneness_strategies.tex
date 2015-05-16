@@ -1,8 +1,6 @@
-\begin{longtable}{X C C C C}
-\caption{Bug-proneness estimation strategies} 
-\label{tab:bug_proneness_strategies}\\
+\begin{tabularx}{\textwidth}{l C C C C}
 \toprule
-\multicolumn{1}{C}{\multirow{2}{*}{\textbf{Commit}}} & \multirow{2}{*}{\textbf{Size}} & \multicolumn{3}{c}{\textbf{Bug-proneness}} \\
+\multirow{2}{*}{\textbf{Commit}} & \multirow{2}{*}{\textbf{Size}} & \multicolumn{3}{c}{\textbf{Bug-proneness}} \\
 \cline{3-5}
 & & \textbf{Linear} & \textbf{Geometric\textsubscript{0.5}} & \textbf{Weighted} \\
 \midrule
@@ -16,4 +14,4 @@ commit 7 & 28 & 0.67 & 0.50 & 0.74 \\
 commit 8 & 16 & 1.00 & 1.00 & 1.00 \\
 \textbf{bug-fix 2} & -- & 0.00 & 0.00 & 0.00 \\
 \bottomrule
-\end{longtable}
+\end{tabularx}

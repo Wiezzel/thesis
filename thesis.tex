@@ -79,6 +79,7 @@
 \addtocontents{lof}{\protect\noaddvspace}
 
 \newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
 \newcolumntype{D}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}
 \renewcommand{\arraystretch}{1.5}
 
@@ -476,9 +477,14 @@ After identifying the bug-fixes, defect-proneness has to be estimated for the ot
 
 Table \ref{tab:bug_proneness_strategies} and corresponding Figure \ref{fig:bug_proneness_strategies} present examples of using all of the above strategies.
 
-\LTXtable{\textwidth}{tables/bug_proneness_strategies.tex}
+\begin{table}[H]
+\centering
+\caption{Bug-proneness estimation strategies} 
+\label{tab:bug_proneness_strategies}
+\input{tables/bug_proneness_strategies.tex}
+\end{table}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \input{figures/bug_proneness_strategies.tex}
 \caption{Bug-proneness estimation strategies}
@@ -538,7 +544,7 @@ A neural net consists of several layers of neurons. Attribute values of classifi
 
 \chapter{Implementation}
 \label{cha:implementation}
-The defect prediction method described in Chapter \ref{cha:approach} has been implemented in form of an integrated tool -- \ca. It is an open source Java software, licensed under Apache License 2.0 \cite{apache}. The code repository can be found on \textsc{GitHub}: \url{https://github.com/Wiezzel/changeanalyzer}. The following sections describe the languages and tools used for the development (Section \ref{sec:languagess}), interface (Section \ref{sec:interface}), and architecture (Section \ref{sec:architecture}) of the program.
+The defect prediction method described in Chapter \ref{cha:approach} has been implemented in form of an integrated tool -- \ca. It is an open source Java software, licensed under Apache License 2.0 \cite{apache}. The code repository can be found on \textsc{GitHub}: \url{https://github.com/Wiezzel/changeanalyzer}. The following sections describe the \textbf{languages and tools} used for the development (Section \ref{sec:languagess}), \textbf{interface} (Section \ref{sec:interface}), and \textbf{architecture} (Section \ref{sec:architecture}) of the program.
 
 \section{Languages and tools}
 \label{sec:languagess}
@@ -877,7 +883,9 @@ This is the base class for all \ca exceptions.
 
 \chapter{Experiments}
 \label{cha:experiments}
-[\textit{This chapter will contain information about performed experiments which use ChangeAnalyzer and serve as a basis for the evaluation of the proposed approach.}]
+In order to evaluate the accuracy of different machine learning algorithms (presented in Section \ref{sec:machine_learning}) applied to the proposed data model (Section \ref{sec:model}), several experiments were performed. The data for analysis was obtained from 10 big, open source Java projects. Experiments were conducted using both the \ca tool and a special purpose R script.
+
+The following sections describe the general \textbf{methodology} (Section \ref{sec:methodology}), \textbf{software set-up} (Section \ref{sec:set-up}), \textbf{experimental data} (Section \ref{sec:data}), and \textbf{results} (Section \ref{sec:results}) followed by a short \textbf{commentary} (Section \ref{sec:commentary}).
 
 \section{Methodology}
 \label{sec:methodology}
@@ -887,25 +895,35 @@ This is the base class for all \ca exceptions.
 \label{sec:set-up}
 [\textit{In this section I will describe the configuration of ChangeAnalyzer used for performing experiments described in the next section.}]
 
+\section{Data}
+\label{sec:data}
+
+\begin{table}[h]
+\centering
+\caption{Test datasets}
+\label{tab:test_datasets}
+\input{tables/test_datasets.tex}
+\end{table}
+
 \section{Results}
 \label{sec:results}
 [\textit{This section will present the results of the experiments in form of tables and charts.}]
+
+\section{Commentary}
+\label{sec:commentary}
+[\textit{In this section I will comment the experimental results.}]
 
 \chapter{Conclusions}
 \label{cha:conclusions}
 [\textit{This chapter will contain the final conclusions of my thesis.}]
 
-\section{Commentary of experimental results}
-\label{sec:commentary}
-[\textit{In this section I will comment the experimental results.}]
+\section{Assessment of the approach}
+\label{sec:assessment}
+[\textit{In this section I will extend the commentary presented in the previous section into a more general judgement of the proposed approach.}]
 
 \section{Threats to validity}
 \label{sec:threats}
 [\textit{In this section I will describe possible threats to the validity of my experiments.}]
-
-\section{Assessment of the approach}
-\label{sec:assessment}
-[\textit{In this section I will extend the commentary presented in the previous section into a more general judgement of the proposed approach.}]
 
 \section{Possible further work}
 \label{sec:further_work}
