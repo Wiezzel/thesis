@@ -900,7 +900,9 @@ The following sections describe the general \textbf{methodology} (Section \ref{s
 
 \section{Methodology}
 \label{sec:methodology}
-[\textit{In this section I will describe the experimental methods used.}]
+In the intended ordinary use of \ca, all code changes followed by a bug-fix compose the training set, while the unfixed ones (lacking bug-proneness scores) make up the test set. However, predictions of defect-proneness made in such situation are not verifiable until new fixes appear. Therefore, in order to evaluate the proposed predictive models, part of the training set has to be used as the test set.
+
+A popular technique used for the above task is \emph{cross-validation}. According to \cite[p. 249]{encyclopedia}, cross validation starts with splitting the dataset into several subsets (also called \emph{folds}) $S_1 ... S_n$ of approximately equal size. Then the learning algorithm is applied $n$ times, using in every $i$-th step fold $S_i$ as the test set and the union of other folds as the training set. Evaluation scores from all steps are averaged. In order to reduce the variability, cross-validation is often applied multiple times with different dataset partitions, averaging the results.
 
 \section{Experimental set-up}
 \label{sec:set-up}
@@ -909,7 +911,7 @@ The following sections describe the general \textbf{methodology} (Section \ref{s
 \section{Data}
 \label{sec:data}
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \caption{Test datasets}
 \label{tab:test_datasets}
