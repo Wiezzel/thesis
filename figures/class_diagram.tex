@@ -1,0 +1,116 @@
+\tikzumlset{fill class=white,font=\footnotesize}
+\begin{tikzpicture}
+\begin{umlpackage}[fill=gray!10,draw=gray!10]{pl{.}edu{.}mimuw{.}changeanalyzer}
+
+\umlsimpleclass[x=1ex,y=1ex]{ChangeAnalyzerOptionParser}
+\umlsimpleclass[right=0.35em of ChangeAnalyzerOptionParser]{ChangeAnalyzer}
+\umlsimpleclass[right=0.35em of ChangeAnalyzer]{ExtractAndSave}
+
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{extraction}
+\umlsimpleclass[below right=2.15em and 0.35em of ChangeAnalyzerOptionParser.south west,anchor=north west,width=11em]{ClassHistoryWrapper}
+\umlsimpleclass[right=1em of ClassHistoryWrapper,width=11em]{ClassHistoryExtractor}
+\umlsimpleclass[right=0.35em of ClassHistoryExtractor,width=6.80em]{CommitInfo}
+\umlsimpleclass[right=0.35em of CommitInfo,width=8.05em]{ExtractionUtils}
+\umlsimpleclass[right=0.35em of ExtractionUtils,width=6.80em]{AuthorInfo}
+
+\umlsimpleclass[below=2em of ClassHistoryWrapper.south west,anchor=north west,width=11em]{MethodHistoryIterator}
+\umlsimpleclass[below=2em of ClassHistoryExtractor.south west,anchor=north west,width=11em]{RepoHistoryExtractor}
+\umlsimpleclass[below=2em of CommitInfo.south west,anchor=north west,width=11em]{CommitInfoExtractor}
+\umlsimpleclass[right=0.35em of CommitInfoExtractor,width=11em]{AuthorInfoExtractor}
+
+\umlcompo{RepoHistoryExtractor}{ClassHistoryExtractor}
+\umlcompo{ClassHistoryWrapper}{MethodHistoryIterator}
+\end{umlpackage}
+
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{models}
+\umlsimpleclass[below=2.50em of MethodHistoryIterator.south west,anchor=north west,font=\it\footnotesize,width=8em]{DataSetProcessor}
+\umlsimpleclass[right=2.50em of DataSetProcessor,width=8em]{DataSetProvider}
+\umlsimpleclass[right=2.50em of DataSetProvider,font=\it\footnotesize,width=8em]{DataSetBuilder}
+\umlsimpleclass[right=2.50em of DataSetBuilder,width=8em]{ChangeCounter}
+
+\umlsimpleclass[below=2em of DataSetProcessor.south west,anchor=north west,width=12em]{DefaultDataSetProcessor}
+\umlsimpleclass[right=2.50em of DefaultDataSetProcessor,width=12em]{ReadOnlyDataSetProvider}
+\umlsimpleclass[right=1em of ReadOnlyDataSetProvider,font=\it\footnotesize,width=12em]{ChunkDataSetBuilder}
+
+\node[draw=none] (ca-dsp) [below left=1.25em and 0.50em of RepoHistoryExtractor.south west,anchor=north] {};
+
+\umlVHVcompo[arm1=-1.25em,anchor1=south,anchor2=north]{ChangeAnalyzer}{ca-dsp}
+\umlassoc[geometry=-|,anchors=north and 140]{ca-dsp}{DataSetProvider}
+\umlVHVcompo[arm1=1.25em,anchors=40 and south]{DataSetProvider}{RepoHistoryExtractor}
+\umlcompo[]{DataSetProvider}{DataSetProcessor}
+\umlcompo[]{DataSetProvider}{DataSetBuilder}
+\umlVHVcompo[arm1=1.25em,anchors=160 and -155]{DataSetBuilder}{CommitInfoExtractor}
+\umlVHVcompo[arm1=1.25em,anchors=20 and south]{DataSetBuilder}{AuthorInfoExtractor}
+\umlcompo{DataSetBuilder}{ChangeCounter}
+\umlVHVimpl[arm1=1em,anchor2=-145]{DefaultDataSetProcessor}{DataSetProcessor}
+\umlcompo{ReadOnlyDataSetProvider}{DefaultDataSetProcessor}
+\umlVHVinherit[anchor2=-40]{ReadOnlyDataSetProvider}{DataSetProvider}
+\umlVHVinherit[anchor2=-20]{ChunkDataSetBuilder}{DataSetBuilder}
+
+\begin{umlpackage}[fill=gray!50,draw=gray!50]{standard}
+\umlsimpleclass[below right=2.15em and 0.35em of DefaultDataSetProcessor.south west,anchor=north west,width=11.65em]{StandardDataSetProcessor}
+\umlsimpleclass[below=2.15em of ReadOnlyDataSetProvider.south west,anchor=north west,width=12em]{StandardDataSetProvider}
+\umlsimpleclass[below=2.15em of ChunkDataSetBuilder.south west,anchor=north west,width=11.65em]{StandardDataSetBuilder}
+\end{umlpackage}
+
+\node[draw=none] (sdsp-dsp) [above right=1em and 0.50em of DefaultDataSetProcessor.north east, anchor=south] {};
+
+\umlVHVassoc[arm1=1em,anchor1=north,anchor2=south,style=dashed]{StandardDataSetProcessor}{sdsp-dsp}
+\umlimpl[geometry=-|,anchor1=south,anchor2=-35]{sdsp-dsp}{DataSetProcessor}
+\umlVHVinherit[arm1=1em,anchor1=north,anchor2=-140]{StandardDataSetProvider}{DataSetProvider}
+\umlVHVinherit[arm1=1em]{StandardDataSetBuilder}{ChunkDataSetBuilder}
+
+\begin{umlpackage}[fill=gray!50,draw=gray!50]{attributes}
+\umlsimpleclass[below=6.75em of StandardDataSetProcessor.south west,anchor=north west,width=10.50em]{SumAttributes}
+\umlsimpleclass[right=0.35em of SumAttributes,width=10.50em]{DeleteAttributes}
+\umlsimpleclass[right=0.35em of DeleteAttributes,width=10.50em]{ReorderClassAttribute}
+
+\umlsimpleclass[above=2em of DeleteAttributes,font=\it\footnotesize,width=10.50em]{AttributeProcessor}
+\umlsimpleclass[above=2em of ReorderClassAttribute.north east,anchor=south east]{Attributes}
+\end{umlpackage}
+
+\node[draw=none] (dsb-a) [below right=1.25em and 0.50em of StandardDataSetProvider.south east, anchor=south] {};
+
+\umlVHVimpl[arm1=1em,anchor1=north,anchor2=-155]{SumAttributes}{AttributeProcessor}
+\umlimpl{DeleteAttributes}{AttributeProcessor}
+\umlVHVimpl[arm1=1em,anchor1=north,anchor2=-25]{ReorderClassAttribute}{AttributeProcessor}
+\umlVHVcompo[arm1=-1em,anchor1=-160,anchor2=south]{DataSetBuilder}{dsb-a}
+\umlassoc[geometry=|-,anchor1=north,anchor2=south]{Attributes}{dsb-a}
+
+\begin{umlpackage}[fill=gray!50,draw=gray!50]{measures}
+\umlsimpleclass[below=6.75em of SumAttributes.south west,anchor=north west,width=10.50em]{LinearMeasure}
+\umlsimpleclass[right=0.35em of LinearMeasure,width=10.50em]{GeometricMeasure}
+\umlsimpleclass[right=0.35em of GeometricMeasure,width=10.50em]{WeightedMeasure}
+
+\umlsimpleclass[above=2em of GeometricMeasure,font=\it\footnotesize,width=10.50em]{BugPronenessMeasure}
+
+\umlVHVimpl[arm1=1em,anchor1=north,anchor2=-155]{LinearMeasure}{BugPronenessMeasure}
+\umlimpl{GeometricMeasure}{BugPronenessMeasure}
+\umlVHVimpl[arm1=1em,anchor1=north,anchor2=-25]{WeightedMeasure}{BugPronenessMeasure}
+\end{umlpackage}
+\end{umlpackage}
+
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{exceptions}
+\umlsimpleclass[below left=7.10em and 0.35em of LinearMeasure.south west,anchor=north west,width=11em]{ExtractionException}
+\umlsimpleclass[right=0.35em of ExtractionException,width=11em]{DataSetBuilderException}
+\umlsimpleclass[right=0.35em of DataSetBuilderException,width=11em]{ProcessingException}
+\umlsimpleclass[right=0.35em of ProcessingException,width=11em]{PredictionException}
+
+\umlsimpleclass[above right=2em and 0.175em of DataSetBuilderException.north east,anchor=south,width=11em]{ChangeAnalyzerException}
+
+%\umlinherit[geometry=|-,anchor2=west]{ExtractionException}{ChangeAnalyzerException}
+\umlVHVinherit[anchor2=-165]{ExtractionException}{ChangeAnalyzerException}
+\umlVHVinherit[arm1=1em,anchor2=-145]{DataSetBuilderException}{ChangeAnalyzerException}
+\umlVHVinherit[arm1=1em,anchor2=-35]{ProcessingException}{ChangeAnalyzerException}
+\umlVHVinherit[anchor2=-15]{PredictionException}{ChangeAnalyzerException}
+%\umlinherit[geometry=|-,anchor2=east]{PredictionException}{ChangeAnalyzerException}
+\end{umlpackage}
+
+\begin{umlpackage}[fill=gray!30,draw=gray!30]{util}
+\umlsimpleclass[below=2.50em of ExtractionException.south west,anchor=north west,width=8em]{LazyList<T>}
+\umlsimpleclass[right=2.50em of LazyList<T>,width=8em]{LazyIterator}
+
+\umlcompo{LazyList<T>}{LazyIterator}
+\end{umlpackage}
+\end{umlpackage}
+\end{tikzpicture}

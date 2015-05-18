@@ -11,7 +11,7 @@
 \usepackage{enumitem}
 \usepackage{fixltx2e}
 \usepackage{float}
-\usepackage[T1]{fontenc} 
+\usepackage[T1]{fontenc}
 \usepackage[hidelinks]{hyperref}
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
@@ -669,7 +669,7 @@ It will result in extracting data from repositories under the provided paths and
 
 \section{Architecture}
 \label{sec:architecture}
-This section gives a broad overview of the architecture of \ca by describing briefly all system components. Subsequent sections contain information about individual packages, while the full package diagram is presented in Figure \ref{fig:package_diagram} on page \pageref{fig:package_diagram}.
+This section gives a broad overview of the architecture of \ca by describing briefly all system components. Subsequent sections contain information about individual packages, which dependencies are presented in Figure \ref{fig:package_diagram}. The full class diagram is given in Figure~\ref{fig:class_diagram} on page \pageref{fig:class_diagram}.
 
 Please note, that the following description is not intended to serve as a complete technical documentation. For more details, visit the JavaDoc page: \url{http://wiezzel.github.io/changeanalyzer/}.
 
@@ -678,6 +678,15 @@ Please note, that the following description is not intended to serve as a comple
 \input{figures/package_diagram.tex}
 \caption{ChangeAnalyzer package diagram}
 \label{fig:package_diagram}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{adjustwidth}{-2.5cm}{-2.5cm}
+\centering
+\input{figures/class_diagram.tex}
+\caption{ChangeAnalyzer class diagram}
+\label{fig:class_diagram}
+\end{adjustwidth}
 \end{figure}
 
 \pack{Root}{root}{pl.edu.mimuw.changeanalyzer}
@@ -768,7 +777,9 @@ This is an interface for objects processing data sets (that means modifying and/
 \noindent\texttt{ReadOnlyDataSetProvider} is a simple dataset provider incapable of extracting or processing data. It expects processed data with the class (target) attribute on the last position. Any attempts to call methods responsible for the unsupported operations result in throwing an exception.
 
 \subsubsection*{DefaultDataSetProcessor}
-This is a static nested class of \texttt{ReadOnlyDataSetProvider}. The only operation performed by this processor is marking the last attribute of a dataset as the class attribute.
+\implements{DataSetProcessor}
+
+\noindent This is a static nested class of \texttt{ReadOnlyDataSetProvider}. The only operation performed by this processor is marking the last attribute of a dataset as the class attribute.
 
 \subsubsection*{ChangeCounter}
 This is a simple class for counting code changes of different types. It holds a separate, internal counter for each change type.
