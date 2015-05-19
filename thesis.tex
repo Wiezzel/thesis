@@ -902,7 +902,13 @@ The following sections describe the general \textbf{methodology} (Section \ref{s
 \label{sec:methodology}
 In the intended ordinary use of \ca, all code changes followed by a bug-fix compose the training set, while the unfixed ones (lacking bug-proneness scores) make up the test set. However, predictions of defect-proneness made in such situation are not verifiable until new fixes appear. Therefore, in order to evaluate the proposed predictive models, part of the training set has to be used as the test set.
 
-A popular technique used for the above task is \emph{cross-validation}. According to \cite[p. 249]{encyclopedia}, cross validation starts with splitting the dataset into several subsets (also called \emph{folds}) $S_1 ... S_n$ of approximately equal size. Then the learning algorithm is applied $n$ times, using in every $i$-th step fold $S_i$ as the test set and the union of other folds as the training set. Evaluation scores from all steps are averaged. In order to reduce the variability, cross-validation is often applied multiple times with different dataset partitions, averaging the results.
+A popular technique applied in such situations is called \emph{cross-validation}. As described in \cite[p. 249]{encyclopedia}, cross-validation starts with splitting the dataset into several subsets (also called \emph{folds}) $S_1 ... S_n$ of approximately equal size. Then the learning algorithm is applied $n$ times, in every $i$-th step using fold $S_i$ as the test set and the union of other folds as the training set. Evaluation scores from all steps are averaged. In order to reduce the variability, cross-validation is often applied multiple times with different dataset partitions, averaging the results. In my experiments I used 20-fold cross-validation repeated 10 times for each dataset.
+
+Another important issue is the choice of an appropriate accuracy measure. I decided to utilize the widely applied \emph{root mean squared error} (RMSE), which is defined in \cite{rmse} with following formula:
+\[
+RMSE = \sqrt{\frac{1}{n} \sum\limits_{i=1}^{n}\left(y_i - \hat{y}_i\right)^{2}}
+\]
+\noindent Where $n$ is the number of test observations, $y$ is the vector of \emph{gold standard} values and $\hat{y}$ is the vector of predicted values.
 
 \section{Experimental set-up}
 \label{sec:set-up}
