@@ -894,7 +894,7 @@ This is the base class for all \ca exceptions.
 
 \chapter{Experiments}
 \label{cha:experiments}
-In order to evaluate the accuracy of different machine learning algorithms (presented in Section \ref{sec:machine_learning}) applied to the proposed data model (Section \ref{sec:model}), several experiments were performed. The data for analysis was obtained from 10 big, open source Java projects. Experiments were conducted using both the \ca tool and a special purpose R script.
+In order to evaluate the accuracy of different machine learning algorithms (presented in Section \ref{sec:machine_learning}) applied to the proposed data model (Section \ref{sec:model}), as well as the efficiency of the implementation, several experiments were performed. The data for analysis was obtained from open source Java projects. Experiments were conducted using both the \ca tool and a special purpose R script.
 
 The following sections describe the general \textbf{methodology} (Section \ref{sec:methodology}), \textbf{software set-up} (Section \ref{sec:set-up}), \textbf{experimental data} (Section \ref{sec:data}), and \textbf{results} (Section \ref{sec:results}) followed by a short \textbf{commentary} (Section \ref{sec:commentary}).
 
@@ -904,7 +904,7 @@ In the intended ordinary use of \ca, all code changes followed by a bug-fix comp
 
 A popular technique applied in such situations is called \emph{cross-validation}. As described in \cite[p. 249]{encyclopedia}, cross-validation starts with splitting the dataset into several subsets (also called \emph{folds}) $S_1 ... S_n$ of approximately equal size. Then the learning algorithm is applied $n$ times, in every $i$-th step using fold $S_i$ as the test set and the union of other folds as the training set. Evaluation scores from all steps are averaged. In order to reduce the variability, cross-validation is often applied multiple times with different dataset partitions, averaging the results. In my experiments I used 20-fold cross-validation repeated 10 times for each dataset.
 
-Another important issue is the choice of an appropriate accuracy measure. I decided to utilize the widely applied \emph{root mean squared error} (RMSE), which is defined in \cite{rmse} with following formula:
+Another important issue is the choice of an appropriate accuracy measure. I decided to utilize the widely applied \emph{root mean squared error} (RMSE), which is defined in \cite{rmse} with the following formula:
 \[
 RMSE = \sqrt{\frac{1}{n} \sum\limits_{i=1}^{n}\left(y_i - \hat{y}_i\right)^{2}}
 \]
@@ -912,12 +912,27 @@ RMSE = \sqrt{\frac{1}{n} \sum\limits_{i=1}^{n}\left(y_i - \hat{y}_i\right)^{2}}
 
 \section{Experimental set-up}
 \label{sec:set-up}
-[\textit{In this section I will describe the configuration of ChangeAnalyzer used for performing experiments described in the next section.}]
+Repositories containing the test data were cloned from \textsc{GitHub} into local directories. Further, the test interface of \ca was used, providing the paths to the local clones as arguments. As described in Section \ref{sec:test_interface}, \ca loaded the contents from the input directories and outputted unprocessed data sets in ARFF format. Time of the extraction was measured using the system clock.
+
+The data was further processed by an R script, which performed the following operations:
+\begin{enumerate}[itemsep=0.5pt]
+	\item Read the data.
+	\item Pre-process the data.
+	\begin{enumerate}[label={\arabic{enumi}.\arabic*},topsep=0pt]
+		\item Remove unnecessary features.
+		\item Sum header changes\footnote{See note \ref{not:header_changes} on page \pageref{not:header_changes}.} into one attribute.
+		\item Sum parameter changes\footnote{See note \ref{not:parameter changes} on page \pageref{not:parameter changes}} into one attribute.
+	\end{enumerate}
+	\item Run 10 times a 20-fold cross-validation for all datasets, for all models, for all bug-proneness scores.
+	\item Average the cross-validation results by datasets.
+\end{enumerate}
+Full code listing of the script can be found in \nameref{cha:experimental_script}.
 
 \section{Data}
 \label{sec:data}
+Ten big open source Java projects were used as experimental data. They were cloned from their \textsc{GitHub} repositories on 23 February 2015. The list of projects with several size-related statistics is presented in Table~\ref{tab:test_datasets}.
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \caption{Test datasets}
 \label{tab:test_datasets}
@@ -926,7 +941,12 @@ RMSE = \sqrt{\frac{1}{n} \sum\limits_{i=1}^{n}\left(y_i - \hat{y}_i\right)^{2}}
 
 \section{Results}
 \label{sec:results}
-[\textit{This section will present the results of the experiments in form of tables and charts.}]
+
+\subsection{Accuracy}
+\label{sec:accuracy}
+
+\subsection{Performance}
+\label{sec:performance}
 
 \section{Commentary}
 \label{sec:commentary}
@@ -949,5 +969,11 @@ RMSE = \sqrt{\frac{1}{n} \sum\limits_{i=1}^{n}\left(y_i - \hat{y}_i\right)^{2}}
 [\textit{In this section I will outline the possibilities of continuing my work.}]
 
 \printbibliography[heading=bibintoc]
+
+\chapter*{Appendix: Experimental script}
+\label{cha:experimental_script}
+\addcontentsline{toc}{chapter}{\nameref{cha:experimental_script}}
+
+\lstinputlisting[language=R,basicstyle=\ttfamily\small,commentstyle=\ttfamily\small]{experimental_script.r}
 
 \end{document}
