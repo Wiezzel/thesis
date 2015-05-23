@@ -2,6 +2,7 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage[titletoc]{appendix}
 \usepackage[backend=biber,style=numeric]{biblatex}
 \usepackage{bold-extra}
 \usepackage{booktabs}
@@ -66,6 +67,7 @@
 \renewcommand{\tablename}{Table}
 \renewcommand{\figurename}{Figure}
 \renewcommand{\lstlistingname}{Snippet}
+\renewcommand{\appendixname}{Appendix}
 
 \counterwithout{table}{chapter}
 \counterwithout{figure}{chapter}
@@ -910,9 +912,20 @@ RMSE = \sqrt{\frac{1}{n} \sum\limits_{i=1}^{n}\left(y_i - \hat{y}_i\right)^{2}}
 \]
 \noindent Where $n$ is the number of test observations, $y$ is the vector of \emph{gold standard} values and $\hat{y}$ is the vector of predicted values.
 
+\section{Data}
+\label{sec:data}
+Ten big open source Java projects were used as experimental data. They were cloned from their \textsc{GitHub} repositories on 23 February 2015. The list of projects with several size-related statistics is presented in Table~\ref{tab:test_datasets}.
+
+\begin{table}[H]
+\centering
+\caption{Test datasets}
+\label{tab:test_datasets}
+\input{tables/test_datasets.tex}
+\end{table}
+
 \section{Experimental set-up}
 \label{sec:set-up}
-Repositories containing the test data were cloned from \textsc{GitHub} into local directories. Further, the test interface of \ca was used, providing the paths to the local clones as arguments. As described in Section \ref{sec:test_interface}, \ca loaded the contents from the input directories and outputted unprocessed data sets in ARFF format. Time of the extraction was measured using the system clock.
+Repositories containing the test data were cloned from \textsc{GitHub} into local directories. Further, the test interface of \ca was used (see Section \ref{sec:test_interface}), to extract data from the repositories into ARFF files.
 
 The data was further processed by an R script, which performed the following operations:
 \begin{enumerate}[itemsep=0.5pt]
@@ -926,18 +939,9 @@ The data was further processed by an R script, which performed the following ope
 	\item Run 10 times a 20-fold cross-validation for all datasets, for all models, for all bug-proneness scores.
 	\item Average the cross-validation results by datasets.
 \end{enumerate}
-Full code listing of the script can be found in \nameref{cha:experimental_script}.
+Full code listing of the script can be found in Appendix \ref{cha:experimental_script}.
 
-\section{Data}
-\label{sec:data}
-Ten big open source Java projects were used as experimental data. They were cloned from their \textsc{GitHub} repositories on 23 February 2015. The list of projects with several size-related statistics is presented in Table~\ref{tab:test_datasets}.
-
-\begin{table}[H]
-\centering
-\caption{Test datasets}
-\label{tab:test_datasets}
-\input{tables/test_datasets.tex}
-\end{table}
+All experiments were performed on a single machine with 4GB of RAM and \textsc{Intel}\textsuperscript{\textregistered} \textsc{Core}\textsuperscript{TM} 2 \textsc{Duo} T6570 CPU, running Windows XP 32-bit operating system. Time of the extraction was measured using the system clock.
 
 \section{Results}
 \label{sec:results}
@@ -945,8 +949,28 @@ Ten big open source Java projects were used as experimental data. They were clon
 \subsection{Accuracy}
 \label{sec:accuracy}
 
+\begin{table}[h]
+\caption{RMSE averaged by datasets}
+\label{tab:accuracy}
+\input{tables/accuracy.tex}
+\end{table}
+
 \subsection{Performance}
 \label{sec:performance}
+
+\begin{table}[h]
+\caption{Data extraction performance}
+\label{tab:performance}
+\centering
+\input{tables/performance.tex}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\input{figures/performance.tex}
+\caption{Data extraction performance}
+\label{fig:performance}
+\end{figure}
 
 \section{Commentary}
 \label{sec:commentary}
@@ -970,10 +994,13 @@ Ten big open source Java projects were used as experimental data. They were clon
 
 \printbibliography[heading=bibintoc]
 
-\chapter*{Appendix: Experimental script}
+\begin{appendices}
+
+\chapter{Experimental script}
 \label{cha:experimental_script}
-\addcontentsline{toc}{chapter}{\nameref{cha:experimental_script}}
+%\addcontentsline{toc}{chapter}{\nameref{cha:experimental_script}}
 
 \lstinputlisting[language=R,basicstyle=\ttfamily\small,commentstyle=\ttfamily\small]{experimental_script.r}
+\end{appendices}
 
 \end{document}

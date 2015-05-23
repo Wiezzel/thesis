@@ -154,42 +154,21 @@ performAllCV = function(trainData, K=20, R=10, seed=12345, ...) {
 
 # Read data extracted from repositories
 
-commonsLang = readTrainData("commons-lang.arff")
-guava = readTrainData("guava.arff")
-hibernate = readTrainData("hibernate.arff")
-jetty = readTrainData("jetty.arff")
-jgit = readTrainData("jgit.arff")
-junit = readTrainData("junit.arff")
-log4j = readTrainData("log4j.arff")
-maven = readTrainData("maven.arff")
-mockito = readTrainData("mockito.arff")
-spring = readTrainData("spring.arff")
-
-# Perform the experiments
-
-commonsLangCV = performAllCV(commonsLang)
-guavaCV = performAllCV(guava)
-hibernateCV = performAllCV(hibernate)
-jettyCV = performAllCV(jetty)
-jgitCV = performAllCV(jgit)
-junitCV = performAllCV(junit)
-log4jCV = performAllCV(log4j)
-mavenCV = performAllCV(maven)
-mockitoCV = performAllCV(mockito)
-springCV = performAllCV(spring)
-
-# Aggregate the results
-
-allResults = list(
-  commonsLang=commonsLangCV,
-  guava=guavaCV,
-  hibernate=hibernateCV,
-  jetty=jettyCV,
-  jgit=jgitCV,
-  junit=junitCV,
-  log4j=log4jCV,
-  maven=mavenCV,
-  mockito=mockitoCV,
-  spring=springCV
+dataSets = list(
+  commonsLang = readTrainData("commons-lang.arff"),
+  guava = readTrainData("guava.arff"),
+  hibernate = readTrainData("hibernate.arff"),
+  jetty = readTrainData("jetty.arff"),
+  jgit = readTrainData("jgit.arff"),
+  junit = readTrainData("junit.arff"),
+  log4j = readTrainData("log4j.arff"),
+  maven = readTrainData("maven.arff"),
+  mockito = readTrainData("mockito.arff"),
+  spring = readTrainData("spring.arff")
 )
-avgResults = apply(simplify2array(allResults), c(1,2), mean)
+sizes = sapply(dataSets, nrow)
+
+# Perform experiments and aggregate the results
+
+results = lapply(dataSets, performAllCV)
+avgResults = apply(simplify2array(results), c(1,2), mean)

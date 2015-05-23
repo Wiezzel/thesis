@@ -81,3 +81,16 @@ points(c(5,6), c(7,9), pch = 16, col = "white", cex = 1.3)
 points(c(5,6), c(7,9), pch = 1, cex = 1.3)
 points(5, 3, pch = 16, cex = 1.3)
 dev.off()
+
+## extraction performance
+
+sizes = c(279, 1738, 7037, 2351, 1133, 393, 309, 941, 917, 5943)
+times = c(475.80, 685.97, 3587.91, 1611.86, 502.42, 69.33, 60.34, 663.08, 191.03, 2731.47)
+trend = lm(times~sizes, data.frame(sizes = sizes, times = times))
+
+tikz("performance.tex", width = 6, height = 3)
+par(mar = c(4.2,4.2,1,1))
+plot(sizes, times, xlim = c(0,7200), ylim = c(0,3600), pch = 16, xlab = "number of classes",
+     ylab = "extraction time (s)")
+abline(trend)
+dev.off()
