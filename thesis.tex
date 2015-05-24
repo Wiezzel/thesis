@@ -168,9 +168,9 @@ Such programs include a broad range of approaches towards detecting bugs. Some o
 
 Identification of such fault-prone elements could be performed using many different methods. There are tools which rely on hard-coded patterns of so-called ``bad code smells'' (\textit{e.g.} \textsc{FindBugs} \cite{findbugs}). Other ones incorporate statistical analysis and machine learning, using various software metrics and properties (\textit{e.g.} HATARI \cite{hatari}). In this work I focus on the latter approach, because I find it more interesting and less frequently encountered. I decided to use historical metrics\footnote{Software metrics based on code change history. For details see Section \ref{sec:historical}.} which have proven to be well-suited for this task \cite{merits, comparative, how_and_why}. With my research I hope to extend the knowledge about methods of bug prediction, which is not only of theoretical but also of practical value. This thesis makes the following contributions:
 \begin{itemize}
-	\item Proposal of a novel method for bug prediction,
-	\item Prototype implementation of the proposed method,
-	\item Experimental evaluation of the implemented tool.
+	\item A proposal of a novel method for bug prediction,
+	\item A prototype implementation of the proposed method,
+	\item An experimental evaluation of the implemented tool.
 \end{itemize}
 
 \section{Document structure}
@@ -301,13 +301,13 @@ Micro-interaction metrics, proposed by Lee \textit{et al.} in \cite{micro_intera
 
 \LTXtable{\textwidth}{tables/micro_interaction_metrics.tex}
 
-\chapter{The proposed approach}
+\chapter{Proposed approach}
 \label{cha:approach}
 Having referred the general goals and issues connected with defect prediction, I would like to present my own approach towards this problem. I decided to perform the prediction on method level, which is the finest granularity reached by state-of-the-art algorithms. Similarly to \cite{method-level}, I chose to use historical metrics based on fine-grained source code changes. However, instead of relying on sparse software releases as time scope boundaries, I developed a model allowing for a more continuous prediction.
 
 Underlying assumptions and a general outline of the model is presented in Section \ref{sec:model}. Then, in Section \ref{sec:features}, a detailed summary of the model's observable variables is given. Section \ref{sec:bug-proneness}, on the other hand, describes the hidden (target) variable. Section \ref{sec:machine_learning} explains four different machine learning algorithms which can be applied to the model.
 
-\section{The model}
+\section{Model}
 \label{sec:model}
 
 \subsection{General assumptions}
@@ -949,6 +949,8 @@ All experiments were performed on a single machine with 4GB of RAM and \textsc{I
 \subsection{Accuracy}
 \label{sec:accuracy}
 
+Table \ref{tab:accuracy} and corresponding Figure \ref{fig:accuracy} present results of the cross-validation, for all classifiers and bug-proneness estimation strategies, averaged by datasets. The results were rounded up to three decimal places.
+
 \begin{table}[h]
 \caption{RMSE averaged by datasets}
 \label{tab:accuracy}
@@ -966,14 +968,19 @@ All experiments were performed on a single machine with 4GB of RAM and \textsc{I
 \subsection{Performance}
 \label{sec:performance}
 
-\begin{table}[h]
+A comparison of project sizes (in numbers of classes) and corresponding extraction times (in seconds) is presented in Table \ref{tab:performance} below. The extraction times were rounded up to two decimal places. Figure \ref{fig:performance} additionally includes a plot of the above function fitted to the data using \emph{linear regression}.
+\[
+time(size) = 0.49 \cdot size + 24.95
+\]
+
+\begin{table}[H]
 \caption{Data extraction performance}
 \label{tab:performance}
 \centering
 \input{tables/performance.tex}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \input{figures/performance.tex}
 \caption{Data extraction performance}
@@ -982,13 +989,19 @@ All experiments were performed on a single machine with 4GB of RAM and \textsc{I
 
 \section{Commentary}
 \label{sec:commentary}
-[\textit{In this section I will comment the experimental results.}]
+The experimental results presented in the previous section show clearly that random forest classifier achieves the best results from all proposed machine learning algorithms. Regardless of the bug-proneness estimation strategy, RMSE value for random forest was the lowest.
+
+For every strategy, the performance order of the classifiers was the same, which confirms that using different ways of defining the defect-proneness parameter does not establish multiple problems, but rather different aspects of a single one.
+
+Regarding the strategies, it is noticeable that using the geometric one (with $\alpha = 0.5$) results in significantly higher error values than the two others. This behaviour may be caused by the large difference (0.5) between bug-proneness scores assigned by this strategy to the last two commits in each chunk.
+
+Time measurements show that the extraction of data from repositories is a rather computationally heavy process, approximately linearly dependent on the size of the analysed project. The extraction time is ranging from about 1 minute for the smallest projects, up to nearly 1 hour for the biggest one. Such values exclude the possibility of integration of the proposed method into an interactive tool, leaving only the option of batch processing.
 
 \chapter{Conclusions}
 \label{cha:conclusions}
 [\textit{This chapter will contain the final conclusions of my thesis.}]
 
-\section{Assessment of the approach}
+\section{Assessment of approach}
 \label{sec:assessment}
 [\textit{In this section I will extend the commentary presented in the previous section into a more general judgement of the proposed approach.}]
 
