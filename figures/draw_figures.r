@@ -94,3 +94,15 @@ plot(sizes, times, xlim = c(0,7200), ylim = c(0,3600), pch = 16, xlab = "number 
      ylab = "extraction time (s)")
 abline(trend)
 dev.off()
+
+## accuracy
+
+load("results.RData")
+
+tikz("accuracy.tex", width = 6, height = 3)
+par(mar = c(4.2,4.2,1,8.8))
+barplot(avgResults, beside = T, ylab = "RMSE", xlab = "bug-proneness", axes = T,
+        names.arg = c("linear", "geometric$_{0.5}$", "weighted"),
+        legend.text = c("random forest", "decision tree", "SVM", "neural network"),
+        args.legend = list(x = "right", inset = -0.37, text.width = 4))
+dev.off()

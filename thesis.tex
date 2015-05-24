@@ -148,10 +148,10 @@ Detection of software defects has become one of the major challenges in the fiel
 
 \tableofcontents
 
-\clearpage
 \begingroup
   \let\cleardoublepage\relax
   \listoftables
+  \clearpage
   \listoffigures
   \lstlistoflistings
 \endgroup
@@ -955,6 +955,14 @@ All experiments were performed on a single machine with 4GB of RAM and \textsc{I
 \input{tables/accuracy.tex}
 \end{table}
 
+
+\begin{figure}[h]
+\centering
+\input{figures/accuracy.tex}
+\caption{Classification accuracy}
+\label{fig:accuracy}
+\end{figure}
+
 \subsection{Performance}
 \label{sec:performance}
 
@@ -998,9 +1006,8 @@ All experiments were performed on a single machine with 4GB of RAM and \textsc{I
 
 \chapter{Experimental script}
 \label{cha:experimental_script}
-%\addcontentsline{toc}{chapter}{\nameref{cha:experimental_script}}
 
-\lstinputlisting[language=R,basicstyle=\ttfamily\small,commentstyle=\ttfamily\small]{experimental_script.r}
+\lstinputlisting[language=R,basicstyle=\ttfamily\small,commentstyle=\ttfamily\small,nolol]{experimental_script.r}
 \end{appendices}
 
 \end{document}
