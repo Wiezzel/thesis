@@ -150,9 +150,10 @@ Detection of software defects has become one of the major challenges in the fiel
 
 \begingroup
   \let\cleardoublepage\relax
-  \listoftables
   \clearpage
+  \listoftables
   \listoffigures
+  \clearpage
   \lstlistoflistings
 \endgroup
 
@@ -305,7 +306,7 @@ Micro-interaction metrics, proposed by Lee \textit{et al.} in \cite{micro_intera
 \label{cha:approach}
 Having referred the general goals and issues connected with defect prediction, I would like to present my own approach towards this problem. I decided to perform the prediction on method level, which is the finest granularity reached by state-of-the-art algorithms. Similarly to \cite{method-level}, I chose to use historical metrics based on fine-grained source code changes. However, instead of relying on sparse software releases as time scope boundaries, I developed a model allowing for a more continuous prediction.
 
-Underlying assumptions and a general outline of the model is presented in Section \ref{sec:model}. Then, in Section \ref{sec:features}, a detailed summary of the model's observable variables is given. Section \ref{sec:bug-proneness}, on the other hand, describes the hidden (target) variable. Section \ref{sec:machine_learning} explains four different machine learning algorithms which can be applied to the model.
+Underlying assumptions and a general outline of the \textbf{model} is presented in Section \ref{sec:model}. Then, in Section \ref{sec:features}, a detailed summary of the model's \textbf{observable variables} is given. Section \ref{sec:bug-proneness}, on the other hand, describes the \textbf{target variable}. Section \ref{sec:machine_learning} explains four different \textbf{machine learning algorithms} which can be applied to the model.
 
 \section{Model}
 \label{sec:model}
@@ -898,7 +899,7 @@ This is the base class for all \ca exceptions.
 \label{cha:experiments}
 In order to evaluate the accuracy of different machine learning algorithms (presented in Section \ref{sec:machine_learning}) applied to the proposed data model (Section \ref{sec:model}), as well as the efficiency of the implementation, several experiments were performed. The data for analysis was obtained from open source Java projects. Experiments were conducted using both the \ca tool and a special purpose R script.
 
-The following sections describe the general \textbf{methodology} (Section \ref{sec:methodology}), \textbf{software set-up} (Section \ref{sec:set-up}), \textbf{experimental data} (Section \ref{sec:data}), and \textbf{results} (Section \ref{sec:results}) followed by a short \textbf{commentary} (Section \ref{sec:commentary}).
+The following sections describe the general \textbf{methodology} (Section \ref{sec:methodology}), \textbf{experimental data} (Section \ref{sec:data}), \textbf{software set-up} (Section \ref{sec:set-up}), and \textbf{results} (Section \ref{sec:results}) followed by a short \textbf{commentary} (Section \ref{sec:commentary}).
 
 \section{Methodology}
 \label{sec:methodology}
@@ -999,19 +1000,41 @@ Time measurements show that the extraction of data from repositories is a rather
 
 \chapter{Conclusions}
 \label{cha:conclusions}
-[\textit{This chapter will contain the final conclusions of my thesis.}]
+I have referred the topic of identification and prediction of defects in software. Further, I have presented my approach towards this problem and described an implementation of a software tool -- \textsc{ChangeAnalyzer} -- which realizes this approach. Finally, I have presented the results of experiments which were performed in order to provide a fair empirical basis for the assessment of the tool and its underlying methods. In this chapter I would like to conclude my work by issuing a judgement of the presented ideas, describing possible threats to the validity of my research and outlining the possibilities of its further extension.
 
 \section{Assessment of approach}
 \label{sec:assessment}
-[\textit{In this section I will extend the commentary presented in the previous section into a more general judgement of the proposed approach.}]
+The results of classifiers' evaluation may be described as promising, but still far from perfect. The unique character of the target variable makes them rather incomparable with other results presented in related work. Apart from this, an error rate reaching over 30\% of the target variable's range definitely calls for some more improvement.
 
 \section{Threats to validity}
 \label{sec:threats}
-[\textit{In this section I will describe possible threats to the validity of my experiments.}]
+
+\subsection{Abstract target variable}
+\label{sec:abstract_variable}
+
+\subsection{Usage of default parameters}
+\label{sec:default_parameters}
+
+\subsection{Choice of test data}
+\label{sech:choice_of_data}
+
+\subsection{Cost-agnostic evaluation}
+\label{sec:cost-agnostic}
 
 \section{Possible further work}
 \label{sec:further_work}
-[\textit{In this section I will outline the possibilities of continuing my work.}]
+
+\subsection{New features}
+\label{sec:new_features}
+
+\subsection{Advanced identification of bugs}
+\label{sec:advanced identification}
+
+\subsection{Parameter tuning}
+\label{sec:paramater_tuning}
+
+\subsection{On-line learning}
+\label{sec:online_learning}
 
 \printbibliography[heading=bibintoc]
 
