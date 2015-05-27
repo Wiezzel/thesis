@@ -62,7 +62,7 @@
 \renewcommand{\contentsname}{Table of contents}
 \renewcommand{\listtablename}{List of tables}
 \renewcommand{\listfigurename}{List of figures}
-\renewcommand{\lstlistlistingname}{List of snippets}
+\renewcommand{\lstlistlistingname}{List of code snippets}
 \renewcommand{\chaptername}{Chapter}
 \renewcommand{\tablename}{Table}
 \renewcommand{\figurename}{Figure}
@@ -1004,22 +1004,30 @@ I have referred the topic of identification and prediction of defects in softwar
 
 \section{Assessment of approach}
 \label{sec:assessment}
-The results of classifiers' evaluation may be described as promising, but still far from perfect. The unique character of the target variable makes them rather incomparable with other results presented in related work. Apart from this, an error rate reaching over 30\% of the target variable's range definitely calls for some more improvement.
+Due to the unique character of the target variable, the outcomes of classifiers' evaluation are incomparable with results presented in related work. I my opinion, they should be described as promising, but still far from perfect. An error rate reaching over 30\% of the target variable's range definitely calls for some more improvement.
 
 \section{Threats to validity}
 \label{sec:threats}
 
 \subsection{Abstract target variable}
 \label{sec:abstract_variable}
+The \emph{bug-proneness} parameter, defined in Section \ref{sec:general_assumptions}, contrary to most variables presented in Section \ref{sec:dependent_variable}, is not directly observable. In other words, such choice of dependent variable may be criticized as lacking clear empirical interpretation, which makes it scarcely employable for practical solutions.
+
+However, this charge can addressed by pointing to an observation, that \emph{bug-proneness} (by every computation strategy described in Section \ref{sec:bug-proneness}) can be interpreted as a measure of \emph{temporal proximity of the next commit}, which is definitely an information of practical value.
 
 \subsection{Usage of default parameters}
 \label{sec:default_parameters}
+Machine learning algorithms, evaluated in the experiments, were used mostly with default parameter values defined by the authors of appropriate libraries. These values may not be well-suited for the specific character of the data processed by \ca. Therefore, the presented results may be an underestimation of the possible performance of the used classifiers.
 
 \subsection{Choice of test data}
 \label{sech:choice_of_data}
+The test data used for the experimental evaluation of the proposed approach was obtained exclusively from publicly available, open source projects. Such projects may have some distinct characteristics arising from their unrestrained organizational structure. Obtaining more representative results would also require analysing of commercial software, developed using different methodologies.
 
-\subsection{Cost-agnostic evaluation}
-\label{sec:cost-agnostic}
+Moreover, no cross-project prediction was performed. Numerous studies show that it is a significantly more challenging task than building a within-project model \cite{recalling, towards, cross-project}. As Zimmmermann \textit{et al.} point out in \cite{cross-project}, universal models are of high value for new software projects, from which no sufficient amount of data to train a classifier could be extracted.
+
+\subsection{Cost-insensitive evaluation}
+\label{sec:cost-insensitive}
+
 
 \section{Possible further work}
 \label{sec:further_work}
