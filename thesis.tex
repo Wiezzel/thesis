@@ -1015,6 +1015,10 @@ The \emph{bug-proneness} parameter, defined in Section \ref{sec:general_assumpti
 
 However, this charge can addressed by pointing to an observation, that \emph{bug-proneness} (by every computation strategy described in Section \ref{sec:bug-proneness}) can be interpreted as a measure of \emph{temporal proximity of the next commit}, which is definitely an information of practical value.
 
+\subsection{Simple identification of bugs}
+\label{sec:simple_identification}
+\ca uses the simplest possible defect identification method, which drawbacks have been already described in Section \ref{sec:identification}. Due to its inaccuracy, the intended golden standard, which serves as a basis for prediction, may highly diverge from \emph{the true golden standard}.
+
 \subsection{Usage of default parameters}
 \label{sec:default_parameters}
 Machine learning algorithms, evaluated in the experiments, were used mostly with default parameter values defined by the authors of appropriate libraries. These values may not be well-suited for the specific character of the data processed by \ca. Therefore, the presented results may be an underestimation of the possible performance of the used classifiers.
@@ -1027,16 +1031,22 @@ Moreover, no cross-project prediction was performed. Numerous studies show that 
 
 \subsection{Cost-insensitive evaluation}
 \label{sec:cost-insensitive}
-
+The evaluation of models was performed using RMSE measure, which does not take into account the amount of effort which would be wasted in case of a misclassification.  Estimation of the cost of potential corrective actions would provide a basis for  a more robust assessment. However, the construction of an error measure which addresses this issue requires a deeper insight into the software development process. It also has to be mentioned, that the possible consequences of the two different kids of errors\footnote{Namely: \emph{false positives} and \emph{false negatives}. False positive (also called \emph{type I error}) is an indication of the presence of the predicted condition (in our case, a software defect) in the absence of this condition. On the other hand, false negative (called \emph{type II error}) is a situation where the condition has not been discovered despite its occurrence.} may vary a lot. Arisholm \textit{et al.} in \cite{systematic} propose the \emph{cost-effectiveness} measure, which tries to embrace all the mentioned restrictions.
 
 \section{Possible further work}
 \label{sec:further_work}
 
 \subsection{New features}
 \label{sec:new_features}
+Expansion of the feature set used by \ca may lead to the improvement of its performance. Possible new attributes, which could be introduced into the tool include:
+\begin{itemize}
+	\item \textbf{Static code metrics}, such as number of method parameters or statements, cyclomatic complexity, or Halstead effort (for more examples, see Table \ref{tab:static_metrics}),
+	\item \textbf{Delta metrics}, used by Arisholm \textit{et al.} in \cite{systematic}, which are representing the changes in static metrics over time,
+	\item \textbf{More historical metrics}, including all listed in Table \ref{tab:historical_metrics}.
+\end{itemize}
 
-\subsection{Advanced identification of bugs}
-\label{sec:advanced identification}
+\subsection{Advanced bug identification}
+\label{sec:advanced_identification}
 
 \subsection{Parameter tuning}
 \label{sec:paramater_tuning}
