@@ -185,9 +185,9 @@ Identification of such fault-prone elements could be performed using many differ
 
 \bpar{Chapter \ref{cha:implementation}} describes the \ca tool -- an implementation of the approach proposed in Chapter \ref{cha:approach}. I present all used technologies (languages and libraries), software architecture and the interface.
 
-\bpar{Chapter \ref{cha:experiments}} contains a description of experiments which were performed to evaluate the proposed approach and compare the performance of different algorithms listed in Section \ref{sec:machine_learning}. I explain the methodology of these experiments and software configuration necessary to conduct them. Then I give an overview of the experimental data and finally present the results in form of tables and plots.
+\bpar{Chapter \ref{cha:experiments}} contains a description of the experiments which were performed to evaluate the proposed approach and compare the performance of different algorithms listed in Section \ref{sec:machine_learning}. I explain the methodology of these experiments and the software configuration used to conduct them. I give an overview of the experimental data and finally present the results with a short commentary.
 
-\bpar{Chapter \ref{cha:conclusions}} includes a commentary of the experimental results and possible threats to the validity of my research. After these, I try to fairly asses in general my approach towards the problem of bug prediction. In the last section I propose possible ways of continuation of my work on this topic.
+\bpar{Chapter \ref{cha:conclusions}} includes a general assessment of my approach towards the problem of bug prediction. Further, I describe several threats to the validity of my research, and in the last section, I present the possible ways of continuation of my work on this topic.
 
 \chapter{Problem overview}
 \label{cha:overview}
@@ -1017,7 +1017,7 @@ However, this charge can addressed by pointing to an observation, that \emph{bug
 
 \subsection{Simple identification of bugs}
 \label{sec:simple_identification}
-\ca uses the simplest possible defect identification method, which drawbacks have been already described in Section \ref{sec:identification}. Due to its inaccuracy, the intended golden standard, which serves as a basis for prediction, may highly diverge from \emph{the true golden standard}.
+\ca uses the simplest possible defect identification method, which drawbacks have been already described in Section \ref{sec:identification}. Due to its inaccuracy, the intended golden standard, which serves as a basis for prediction, may significantly diverge from the \emph{true golden standard}.
 
 \subsection{Usage of default parameters}
 \label{sec:default_parameters}
@@ -1045,14 +1045,19 @@ Expansion of the feature set used by \ca may lead to the improvement of its perf
 	\item \textbf{More historical metrics}, including all listed in Table \ref{tab:historical_metrics}.
 \end{itemize}
 
-\subsection{Advanced bug identification}
+\subsection{Advanced bug identification methods}
 \label{sec:advanced_identification}
+In order to address the issue risen in Section \ref{sec:simple_identification}, some improvements can be made in the defect identification procedure. It is possible to extend \ca to utilize information from a bug-tracking system, which is a more reliable data source than commit messages. Another possibility is the integration with an external bug identification tool, such as \textsc{ReLink} \cite{ReLink}.
+
+Independently of the above enhancements, which concern the bug-fix identification, there is a possibility of improvement in the field of tracking bug-introducing changes. By the incorporation of a tailored version of the SZZ algorithm (described in \cite{SZZ}), a new defect-proneness computation method could be implemented. Basing on matches provided by SZZ, increases of bug-proneness could be ascribed exclusively to commits affecting these parts of code which are later modified by a bug-fix.
 
 \subsection{Parameter tuning}
 \label{sec:paramater_tuning}
+Accuracy of the machine learning algorithms used by \ca can be augmented by \emph{parameter tuning}. Cross-validation method, used for the evaluation (see Section \ref{sec:methodology}), can be also employed for this purpose. In order for the tuning to be  successful, it has to be performed for each analysed project individually. This however, would largely impair the performance of the tool, so the scope of the tuning has to be limited by a prior analysis of a possibly broad range of software projects.
 
 \subsection{On-line learning}
 \label{sec:online_learning}
+In its current shape, \ca does not support any form of incremental development of prediction models. After obtaining new training data (which emerges after every bug-fix), the extraction of method histories and training of a model needs to be reiterated. Such design was chosen for the simplicity and brevity of the implementation, but it could be abolished in the further development. The possibility of limiting the scope of computation to the latest code changes would provide a great performance boost for \ca.
 
 \printbibliography[heading=bibintoc]
 
