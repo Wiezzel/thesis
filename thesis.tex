@@ -47,7 +47,7 @@
 	prof. dr. hab. Krzysztofa Stencla\\
 	Instytut Informatyki
 }
-\date{Marzec 2015}
+\date{Czerwiec 2015}
 \dziedzina{11.3 Informatyka}
 \klasyfikacja{
 	D. Software\\
@@ -59,84 +59,9 @@
 
 \bibliography{bibliography}
 
-\renewcommand{\contentsname}{Table of contents}
-\renewcommand{\listtablename}{List of tables}
-\renewcommand{\listfigurename}{List of figures}
-\renewcommand{\lstlistlistingname}{List of code snippets}
-\renewcommand{\chaptername}{Chapter}
-\renewcommand{\tablename}{Table}
-\renewcommand{\figurename}{Figure}
-\renewcommand{\lstlistingname}{Snippet}
-\renewcommand{\appendixname}{Appendix}
-
-\counterwithout{table}{chapter}
-\counterwithout{figure}{chapter}
-\lstset{numberbychapter=false}
-\captionsetup[table]{labelfont=bf}
-\captionsetup[figure]{labelfont=bf}
-\captionsetup[lstlisting]{labelfont=bf}
-
-\newcommand*{\noaddvspace}{\renewcommand*{\addvspace}[1]{}}
-\addtocontents{lot}{\protect\noaddvspace}
-\addtocontents{lof}{\protect\noaddvspace}
-
-\newcolumntype{C}{>{\centering\arraybackslash}X}
-\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
-\newcolumntype{D}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}
-\renewcommand{\arraystretch}{1.5}
-
-\newcommand{\cpbox}[2]{\pbox{#1}{\relax\ifvmode\centering\fi #2}}
-\newcommand{\adjbl}[1]{\raisebox{0pt}[\height][0pt]{#1}}
-\newcommand{\bpar}[1]{\medskip\noindent\textbf{#1}}
-\newcommand{\bparsc}[1]{\medskip\noindent\textbf{\textsc{#1}}}
-\newcommand{\bpartt}[1]{\medskip\noindent\textbf{\texttt{#1}}}
-\newcommand{\clopt}[1]{\texttt{\textbf{-{}-#1}}}
-\newcommand{\ca}{\textsc{ChangeAnalyzer}\xspace}
-\newcommand{\pack}[3]{\subsection{#1 package} \label{sec:#2} \underline{\smash{Full package name}}: \texttt{#3}\medskip}
-\newcommand{\extends}[1]{\vspace{-0.5em}\hspace{\parindent}\texttt{\textbf{extends} #1}\vspace{0.5em}}
-\newcommand{\implements}[1]{\vspace{-0.5em}\hspace{\parindent}\texttt{\textbf{implements} #1}\vspace{0.5em}}
-
-\captionsetup{belowskip=12pt,aboveskip=8pt}
-
-\newenvironment{definition}[1]%
-	{
-		\medskip
-		\begin{adjustwidth}{\parindent}{}
-		\rlap{\textbf{#1}}\par\nobreak
-	}
-	{
-		\end{adjustwidth}
-	}
-	
-\lstnewenvironment{lstdiff}[1]
-	{\lstset{multicols=2,tabsize=4,escapechar=|,language=Java,basicstyle=\ttfamily,linebackgroundcolor={\btLstHL{#1}}}}
-	{}
-	
-\newenvironment{diff}[2]
-	{
-		\hspace*{-\parindent}
-		\begin{minipage}{\textwidth}
-		\captionsetup{width=\linewidth}
-		\captionof{lstlisting}{#1}
-		\label{#2}
-	}
-	{
-		\end{minipage}
-	}
-
+\input{utils/preamble.tex}
 \input{utils/highlight.tex}
 \input{utils/rectangle.tex}
-
-\makeatletter
-\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
-\makeatother
-
-\makeatletter
-\DeclareRobustCommand\ttfamily
-        {\not@math@alphabet\ttfamily\mathtt
-         \fontfamily\ttdefault\selectfont\hyphenchar\font=-1\relax}
-\makeatother
-\DeclareTextFontCommand{\loosett}{\ttfamily\hyphenchar\font=45\relax}
 
 \begin{document}
 
@@ -1000,7 +925,7 @@ Time measurements show that the extraction of data from repositories is a rather
 
 \chapter{Conclusions}
 \label{cha:conclusions}
-I have referred the topic of identification and prediction of defects in software. Further, I have presented my approach towards this problem and described an implementation of a software tool -- \textsc{ChangeAnalyzer} -- which realizes this approach. Finally, I have presented the results of experiments which were performed in order to provide a fair empirical basis for the assessment of the tool and its underlying methods. In this chapter I would like to conclude my work by issuing a judgement of the presented ideas, describing possible threats to the validity of my research and outlining the possibilities of its further extension.
+In this thesis I have referred the topic of identification and prediction of defects in software. Further, I have presented my approach towards this problem and described an implementation of a software tool -- \textsc{ChangeAnalyzer} -- which realizes this approach. Finally, I have presented the results of experiments which were performed in order to provide a fair empirical basis for the assessment of the tool and its underlying methods. In this chapter I would like to conclude my work by issuing a judgement of the presented ideas, describing possible threats to the validity of my research and outlining the possibilities of its further extension.
 
 \section{Assessment of approach}
 \label{sec:assessment}
